@@ -1,0 +1,51 @@
+{
+  "author": {
+    "name": "Joyent",
+    "url": "http://www.joyent.com"
+  },
+  "name": "path",
+  "description": "Node.JS path module",
+  "keywords": [
+    "ender",
+    "path"
+  ],
+  "version": "0.4.9",
+  "homepage": "http://nodejs.org/docs/v0.4.9/api/path.html",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/coolaj86/nodejs-libs-4-browser.git"
+  },
+  "main": "./path.js",
+  "directories": {
+    "lib": "."
+  },
+  "engines": {
+    "node": ">= 0.2.0",
+    "ender": ">= 0.5.0"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "_npmJsonOpts": {
+    "file": "/Users/coolaj86/.npm/path/0.4.9/package/package.json",
+    "wscript": false,
+    "contributors": false,
+    "serverjs": false
+  },
+  "_id": "path@0.4.9",
+  "_engineSupported": true,
+  "_npmVersion": "1.0.15",
+  "_nodeVersion": "v0.4.8",
+  "_defaultsLoaded": true,
+  "dist": {
+    "shasum": "380c68d01273e43f9368d7ad50fee5e3e8d477f0",
+    "tarball": "http://registry.npmjs.org/path/-/path-0.4.9.tgz"
+  },
+  "scripts": {},
+  "_shasum": "380c68d01273e43f9368d7ad50fee5e3e8d477f0",
+  "_from": "path@0.x",
+  "_resolved": "https://registry.npmjs.org/path/-/path-0.4.9.tgz",
+  "bugs": {
+    "url": "https://github.com/coolaj86/nodejs-libs-4-browser/issues"
+  },
+  "readme": "ERROR: No README data found!"
+}

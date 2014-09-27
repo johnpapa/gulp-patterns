@@ -1,0 +1,55 @@
+{
+  "name": "estraverse",
+  "description": "ECMAScript JS AST traversal functions",
+  "homepage": "http://github.com/Constellation/estraverse.html",
+  "main": "estraverse.js",
+  "version": "1.2.0",
+  "engines": {
+    "node": ">=0.4.0"
+  },
+  "maintainers": [
+    {
+      "name": "constellation",
+      "email": "utatane.tea@gmail.com"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/Constellation/estraverse.git"
+  },
+  "devDependencies": {
+    "mocha": "~1.12.0",
+    "chai": "~1.7.2",
+    "jshint": "~2.1.4",
+    "coffee-script": "~1.6.3"
+  },
+  "licenses": [
+    {
+      "type": "BSD",
+      "url": "http://github.com/Constellation/estraverse/raw/master/LICENSE.BSD"
+    }
+  ],
+  "scripts": {
+    "test": "npm run-script lint && npm run-script unit-test",
+    "lint": "jshint estraverse.js",
+    "unit-test": "mocha --compilers coffee:coffee-script"
+  },
+  "bugs": {
+    "url": "https://github.com/Constellation/estraverse/issues"
+  },
+  "_id": "estraverse@1.2.0",
+  "dist": {
+    "shasum": "6a3dc8a46a5d6766e5668639fc782976ce5660fd",
+    "tarball": "http://registry.npmjs.org/estraverse/-/estraverse-1.2.0.tgz"
+  },
+  "_from": "estraverse@~ 1.2.0",
+  "_npmVersion": "1.2.32",
+  "_npmUser": {
+    "name": "constellation",
+    "email": "utatane.tea@gmail.com"
+  },
+  "directories": {},
+  "_shasum": "6a3dc8a46a5d6766e5668639fc782976ce5660fd",
+  "_resolved": "https://registry.npmjs.org/estraverse/-/estraverse-1.2.0.tgz",
+  "readme": "ERROR: No README data found!"
+}

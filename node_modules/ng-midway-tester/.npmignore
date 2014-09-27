@@ -1,0 +1,7 @@
+bower_components/
+node_modules/
+.DS_Store
+libpeerconnection.log
+npm-debug.log
+.agignore
+/coverage

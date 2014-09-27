@@ -1,0 +1,58 @@
+{
+  "name": "karma-chai-sinon",
+  "description": "Chai + Sinon-Chai + Sinon for Karma",
+  "keywords": [
+    "karma",
+    "karma-plugin",
+    "chai",
+    "sinon",
+    "sinon-chai",
+    "mocha"
+  ],
+  "version": "0.1.3",
+  "author": {
+    "name": "Túbal Martín",
+    "email": "tubalmartin@gmail.com",
+    "url": "http://tubalmartin.me"
+  },
+  "main": "./index.js",
+  "license": "MIT",
+  "homepage": "https://github.com/tubalmartin/karma-chai-sinon",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tubalmartin/karma-chai-sinon.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tubalmartin/karma-chai-sinon/issues"
+  },
+  "peerDependencies": {
+    "karma": "~0.6 || ~0.8 || ~0.10 || ~0.12",
+    "chai": "*",
+    "sinon-chai": "*",
+    "sinon": "*"
+  },
+  "engines": {
+    "node": "~0.8 || ~0.10"
+  },
+  "_id": "karma-chai-sinon@0.1.3",
+  "dist": {
+    "shasum": "6bed1e935a2e0e9c6bc78b80caef0d997d4d2fba",
+    "tarball": "http://registry.npmjs.org/karma-chai-sinon/-/karma-chai-sinon-0.1.3.tgz"
+  },
+  "_from": "karma-chai-sinon@^0.1.3",
+  "_npmVersion": "1.2.30",
+  "_npmUser": {
+    "name": "tubalmartin",
+    "email": "tubalmartin@gmail.com"
+  },
+  "maintainers": [
+    {
+      "name": "tubalmartin",
+      "email": "tubalmartin@gmail.com"
+    }
+  ],
+  "directories": {},
+  "_shasum": "6bed1e935a2e0e9c6bc78b80caef0d997d4d2fba",
+  "_resolved": "https://registry.npmjs.org/karma-chai-sinon/-/karma-chai-sinon-0.1.3.tgz",
+  "readme": "ERROR: No README data found!"
+}

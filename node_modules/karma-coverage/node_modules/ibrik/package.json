@@ -1,0 +1,71 @@
+{
+  "name": "ibrik",
+  "description": "CoffeeScript coverage tool",
+  "homepage": "https://github.com/Constellation/ibrik",
+  "main": "./lib/ibrik",
+  "directories": {
+    "lib": "./lib",
+    "tools": "./tools"
+  },
+  "bin": {
+    "ibrik": "./bin/ibrik"
+  },
+  "version": "1.1.1",
+  "engines": {
+    "node": ">=0.4.0"
+  },
+  "maintainers": [
+    {
+      "name": "constellation",
+      "email": "utatane.tea@gmail.com"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Constellation/ibrik.git"
+  },
+  "dependencies": {
+    "lodash": "~2.4.1",
+    "coffee-script-redux": "=2.0.0-beta8",
+    "istanbul": "~0.2.4",
+    "estraverse": "~1.5.0",
+    "escodegen": "~1.1.0",
+    "which": "~1.0.5",
+    "mkdirp": "~0.3.5",
+    "optimist": "~0.6.1"
+  },
+  "devDependencies": {
+    "chai": "~1.9.0",
+    "mocha": "~1.17.1",
+    "promised-io": "~0.3.4",
+    "bluebird": "~1.0.3"
+  },
+  "licenses": [
+    {
+      "type": "BSD",
+      "url": "https://github.com/Constellation/ibrik/raw/master/LICENSE.BSD"
+    }
+  ],
+  "scripts": {
+    "test": "mocha --compilers coffee:coffee-script-redux/register",
+    "build": "make build",
+    "watch": "make watch"
+  },
+  "bugs": {
+    "url": "https://github.com/Constellation/ibrik/issues"
+  },
+  "_id": "ibrik@1.1.1",
+  "dist": {
+    "shasum": "c9bd04c5137e967a2f0dbc9e4eb31dbfa04801b5",
+    "tarball": "http://registry.npmjs.org/ibrik/-/ibrik-1.1.1.tgz"
+  },
+  "_from": "ibrik@~1.1.1",
+  "_npmVersion": "1.3.21",
+  "_npmUser": {
+    "name": "constellation",
+    "email": "utatane.tea@gmail.com"
+  },
+  "_shasum": "c9bd04c5137e967a2f0dbc9e4eb31dbfa04801b5",
+  "_resolved": "https://registry.npmjs.org/ibrik/-/ibrik-1.1.1.tgz",
+  "readme": "ERROR: No README data found!"
+}

@@ -1,0 +1,64 @@
+{
+  "name": "gulp-ng-annotate",
+  "version": "0.3.3",
+  "description": "Add angularjs dependency injection annotations with ng-annotate",
+  "main": "index.js",
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Kagami/gulp-ng-annotate.git"
+  },
+  "keywords": [
+    "gulpplugin",
+    "angular",
+    "angularjs",
+    "annotate",
+    "ng-annotate"
+  ],
+  "author": {
+    "name": "Kagami Hiiragi"
+  },
+  "license": "CC0",
+  "bugs": {
+    "url": "https://github.com/Kagami/gulp-ng-annotate/issues"
+  },
+  "homepage": "https://github.com/Kagami/gulp-ng-annotate",
+  "dependencies": {
+    "gulp-util": "^2.2.14",
+    "merge": "^1.1.3",
+    "ng-annotate": "~0.10.0",
+    "through2": "~0.4.1",
+    "vinyl-sourcemaps-apply": "~0.1.1"
+  },
+  "devDependencies": {
+    "gulp-sourcemaps": "*",
+    "mocha": "*"
+  },
+  "gitHead": "d6b425af2cd62ee62af9a27ef8b21ad3bde9b75e",
+  "_id": "gulp-ng-annotate@0.3.3",
+  "_shasum": "dc64e0313b54c08c72a21c51b1962f8d843082ca",
+  "_from": "gulp-ng-annotate@^0.3.2",
+  "_npmVersion": "1.4.14",
+  "_npmUser": {
+    "name": "kagami",
+    "email": "kagami@genshiken.org"
+  },
+  "maintainers": [
+    {
+      "name": "kagami",
+      "email": "kagami@genshiken.org"
+    }
+  ],
+  "dist": {
+    "shasum": "dc64e0313b54c08c72a21c51b1962f8d843082ca",
+    "tarball": "http://registry.npmjs.org/gulp-ng-annotate/-/gulp-ng-annotate-0.3.3.tgz"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/gulp-ng-annotate/-/gulp-ng-annotate-0.3.3.tgz",
+  "readme": "ERROR: No README data found!"
+}

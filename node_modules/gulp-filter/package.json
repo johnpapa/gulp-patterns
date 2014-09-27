@@ -1,0 +1,68 @@
+{
+  "name": "gulp-filter",
+  "version": "1.0.2",
+  "description": "Filter files in a vinyl stream",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/sindresorhus/gulp-filter"
+  },
+  "author": {
+    "name": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "http://sindresorhus.com"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "gulpplugin",
+    "filter",
+    "ignore",
+    "file",
+    "files",
+    "match",
+    "minimatch",
+    "glob",
+    "globbing"
+  ],
+  "dependencies": {
+    "gulp-util": "^3.0.0",
+    "multimatch": "^0.3.0",
+    "through2": "^0.6.1"
+  },
+  "devDependencies": {
+    "mocha": "*"
+  },
+  "bugs": {
+    "url": "https://github.com/sindresorhus/gulp-filter/issues"
+  },
+  "homepage": "https://github.com/sindresorhus/gulp-filter",
+  "_id": "gulp-filter@1.0.2",
+  "_shasum": "f7d8c6f58fb5e200f11540fe0758d92c48b06bd7",
+  "_from": "gulp-filter@^1.0.2",
+  "_npmVersion": "1.4.9",
+  "_npmUser": {
+    "name": "sindresorhus",
+    "email": "sindresorhus@gmail.com"
+  },
+  "maintainers": [
+    {
+      "name": "sindresorhus",
+      "email": "sindresorhus@gmail.com"
+    }
+  ],
+  "dist": {
+    "shasum": "f7d8c6f58fb5e200f11540fe0758d92c48b06bd7",
+    "tarball": "http://registry.npmjs.org/gulp-filter/-/gulp-filter-1.0.2.tgz"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/gulp-filter/-/gulp-filter-1.0.2.tgz",
+  "readme": "ERROR: No README data found!"
+}

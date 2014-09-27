@@ -1,0 +1,78 @@
+{
+  "name": "nodemon",
+  "homepage": "http://nodemon.io",
+  "author": {
+    "name": "Remy Sharp",
+    "url": "http://github.com/remy"
+  },
+  "bin": {
+    "nodemon": "./bin/nodemon.js"
+  },
+  "engines": {
+    "node": ">=0.8"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/remy/nodemon.git"
+  },
+  "description": "Simple monitor script for use during development of a node.js app.",
+  "keywords": [
+    "monitor",
+    "development",
+    "restart",
+    "autoload",
+    "reload",
+    "terminal"
+  ],
+  "version": "1.2.1",
+  "preferGlobal": "true",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://rem.mit-license.org"
+    }
+  ],
+  "main": "./lib/nodemon",
+  "scripts": {
+    "coverage": "istanbul cover _mocha -- --timeout 30000 --ui bdd --reporter list test/**/*.test.js",
+    "test": "node_modules/mocha/bin/_mocha --timeout 30000 --ui bdd test/**/*.test.js",
+    "web": "node web"
+  },
+  "devDependencies": {
+    "connect": "~2.19.1",
+    "mocha": "~1.20.0",
+    "should": "~4.0.0",
+    "istanbul": "~0.2.10",
+    "touch": "~0.0.3",
+    "coffee-script": "~1.7.1"
+  },
+  "dependencies": {
+    "update-notifier": "~0.1.8",
+    "minimatch": "~0.3.0",
+    "ps-tree": "~0.0.3"
+  },
+  "bugs": {
+    "url": "https://github.com/remy/nodemon/issues"
+  },
+  "_id": "nodemon@1.2.1",
+  "dist": {
+    "shasum": "02a288045652e92350e7d752a8054472ed2c4824",
+    "tarball": "http://registry.npmjs.org/nodemon/-/nodemon-1.2.1.tgz"
+  },
+  "_from": "nodemon@^1.2.0",
+  "_npmVersion": "1.3.24",
+  "_npmUser": {
+    "name": "remy",
+    "email": "remy@remysharp.com"
+  },
+  "maintainers": [
+    {
+      "name": "remy",
+      "email": "remy@remysharp.com"
+    }
+  ],
+  "directories": {},
+  "_shasum": "02a288045652e92350e7d752a8054472ed2c4824",
+  "_resolved": "https://registry.npmjs.org/nodemon/-/nodemon-1.2.1.tgz",
+  "readme": "ERROR: No README data found!"
+}

@@ -1,0 +1,54 @@
+{
+  "name": "stat-mode",
+  "version": "0.2.0",
+  "description": "Offers convenient getters and setters for the stat `mode`",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/TooTallNate/stat-mode.git"
+  },
+  "keywords": [
+    "stat",
+    "mode",
+    "owner",
+    "group",
+    "others"
+  ],
+  "author": {
+    "name": "Nathan Rajlich",
+    "email": "nathan@tootallnate.net",
+    "url": "http://n8.io/"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TooTallNate/stat-mode/issues"
+  },
+  "homepage": "https://github.com/TooTallNate/stat-mode",
+  "devDependencies": {
+    "mocha": "^1.17.1"
+  },
+  "scripts": {
+    "test": "mocha --reporter spec"
+  },
+  "_id": "stat-mode@0.2.0",
+  "dist": {
+    "shasum": "eb0bf1e36eed1a0f57223ce2ab345920af66502d",
+    "tarball": "http://registry.npmjs.org/stat-mode/-/stat-mode-0.2.0.tgz"
+  },
+  "_from": "stat-mode@^0.2.0",
+  "_npmVersion": "1.4.3",
+  "_npmUser": {
+    "name": "tootallnate",
+    "email": "nathan@tootallnate.net"
+  },
+  "maintainers": [
+    {
+      "name": "tootallnate",
+      "email": "nathan@tootallnate.net"
+    }
+  ],
+  "directories": {},
+  "_shasum": "eb0bf1e36eed1a0f57223ce2ab345920af66502d",
+  "_resolved": "https://registry.npmjs.org/stat-mode/-/stat-mode-0.2.0.tgz",
+  "readme": "ERROR: No README data found!"
+}

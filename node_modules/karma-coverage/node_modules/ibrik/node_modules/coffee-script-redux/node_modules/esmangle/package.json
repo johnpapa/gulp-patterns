@@ -1,0 +1,79 @@
+{
+  "name": "esmangle",
+  "description": "ECMAScript code mangler / minifier",
+  "homepage": "http://github.com/Constellation/esmangle.html",
+  "main": "lib/esmangle.js",
+  "bin": {
+    "esmangle": "./bin/esmangle.js"
+  },
+  "version": "0.0.17",
+  "engines": {
+    "node": ">=0.6.0"
+  },
+  "directories": {
+    "lib": "./lib"
+  },
+  "maintainers": [
+    {
+      "name": "constellation",
+      "email": "utatane.tea@gmail.com"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/Constellation/esmangle.git"
+  },
+  "dependencies": {
+    "esprima": "~ 1.0.2",
+    "escope": "~ 1.0.0",
+    "escodegen": "~ 0.0.28",
+    "estraverse": "~ 1.3.2",
+    "source-map": "~ 0.1.8",
+    "esshorten": "~ 0.0.2",
+    "optimist": "*"
+  },
+  "devDependencies": {
+    "chai": "*",
+    "commonjs-everywhere": "0.8.x",
+    "grunt": "~0.4.1",
+    "grunt-cli": "~0.1.7",
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-mocha-test": "~0.5.0",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-update-submodules": "~0.2.0",
+    "grunt-contrib-clean": "~0.4.1",
+    "grunt-shell": "~0.2.2",
+    "async": "~0.2.8",
+    "q": "~0.9.3"
+  },
+  "licenses": [
+    {
+      "type": "BSD",
+      "url": "http://github.com/Constellation/esmangle/raw/master/LICENSE.BSD"
+    }
+  ],
+  "scripts": {
+    "test": "grunt travis",
+    "lint": "grunt lint",
+    "regression-test": "grunt test:regression",
+    "unit-test": "grunt test",
+    "build": "grunt build"
+  },
+  "bugs": {
+    "url": "https://github.com/Constellation/esmangle/issues"
+  },
+  "_id": "esmangle@0.0.17",
+  "dist": {
+    "shasum": "4c5c93607cde5d1276bad396e836229dba68d90c",
+    "tarball": "http://registry.npmjs.org/esmangle/-/esmangle-0.0.17.tgz"
+  },
+  "_from": "esmangle@~0.0.8",
+  "_npmVersion": "1.3.11",
+  "_npmUser": {
+    "name": "constellation",
+    "email": "utatane.tea@gmail.com"
+  },
+  "_shasum": "4c5c93607cde5d1276bad396e836229dba68d90c",
+  "_resolved": "https://registry.npmjs.org/esmangle/-/esmangle-0.0.17.tgz",
+  "readme": "ERROR: No README data found!"
+}

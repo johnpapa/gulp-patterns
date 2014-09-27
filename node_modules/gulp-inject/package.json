@@ -1,0 +1,68 @@
+{
+  "name": "gulp-inject",
+  "version": "1.0.2",
+  "description": "A javascript, stylesheet and webcomponent injection plugin for Gulp, i.e. inject file references into your index.html",
+  "keywords": [
+    "gulpplugin",
+    "inject",
+    "stylesheets",
+    "webcomponents",
+    "scripts",
+    "index"
+  ],
+  "homepage": "https://github.com/klei/gulp-inject",
+  "bugs": {
+    "url": "https://github.com/klei/gulp-inject/issues"
+  },
+  "author": {
+    "name": "Joakim Bengtson",
+    "email": "joakim@klei.se",
+    "url": "http://joakim.beng.se"
+  },
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/klei/gulp-inject.git"
+  },
+  "scripts": {
+    "test": "mocha -R spec src/**/*_test.js"
+  },
+  "dependencies": {
+    "gulp-util": "^3.0.0",
+    "event-stream": "^3.1.0"
+  },
+  "devDependencies": {
+    "mocha": "^1.20.1",
+    "should": "^4.0.4"
+  },
+  "engines": {
+    "node": ">=0.10.0",
+    "npm": ">=1.2.10"
+  },
+  "licenses": [
+    {
+      "type": "MIT"
+    }
+  ],
+  "_id": "gulp-inject@1.0.2",
+  "_shasum": "f6bf3c62f25ccf30fbc91dc1c086e24b2e5619d6",
+  "_from": "gulp-inject@^1.0.1",
+  "_npmVersion": "1.4.10",
+  "_npmUser": {
+    "name": "joakimbeng",
+    "email": "joakim@klei.se"
+  },
+  "maintainers": [
+    {
+      "name": "joakimbeng",
+      "email": "joakim@klei.se"
+    }
+  ],
+  "dist": {
+    "shasum": "f6bf3c62f25ccf30fbc91dc1c086e24b2e5619d6",
+    "tarball": "http://registry.npmjs.org/gulp-inject/-/gulp-inject-1.0.2.tgz"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/gulp-inject/-/gulp-inject-1.0.2.tgz",
+  "readme": "ERROR: No README data found!"
+}

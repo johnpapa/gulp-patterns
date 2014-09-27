@@ -1,0 +1,65 @@
+{
+  "name": "gulp-task-listing",
+  "description": "Adds the ability to provide a task listing for your gulpfile",
+  "version": "0.3.0",
+  "homepage": "https://github.com/OverZealous/gulp-task-listing",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/OverZealous/gulp-task-listing.git"
+  },
+  "author": {
+    "name": "Phil DeJarnett",
+    "url": "http://overzealous.com/"
+  },
+  "main": "./index.js",
+  "keywords": [
+    "gulpfriendly"
+  ],
+  "dependencies": {
+    "chalk": "*"
+  },
+  "devDependencies": {
+    "gulp": "^3.6.2",
+    "istanbul": "^0.2.8",
+    "mocha": "^1.18.2",
+    "mocha-lcov-reporter": "0.0.1",
+    "mock": "^0.1.1",
+    "should": "^3.3.1"
+  },
+  "scripts": {
+    "test": "istanbul test _mocha --report html -- test/*.js --reporter spec"
+  },
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://github.com/OverZealous/gulp-task-listing/raw/master/LICENSE"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/OverZealous/gulp-task-listing/issues"
+  },
+  "_id": "gulp-task-listing@0.3.0",
+  "_from": "gulp-task-listing@^0.3.0",
+  "_shasum": "2465eb02d1b0d9d9749d59da557e097126f00887",
+  "_npmVersion": "1.4.9",
+  "_npmUser": {
+    "name": "overzealous",
+    "email": "phil@overzealous.com"
+  },
+  "maintainers": [
+    {
+      "name": "overzealous",
+      "email": "phil@overzealous.com"
+    }
+  ],
+  "dist": {
+    "shasum": "2465eb02d1b0d9d9749d59da557e097126f00887",
+    "tarball": "http://registry.npmjs.org/gulp-task-listing/-/gulp-task-listing-0.3.0.tgz"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/gulp-task-listing/-/gulp-task-listing-0.3.0.tgz",
+  "readme": "ERROR: No README data found!"
+}

@@ -1,0 +1,58 @@
+{
+  "name": "karma-sinon",
+  "description": "Sinon for Karma",
+  "keywords": [
+    "karma",
+    "karma-plugin",
+    "sinon",
+    "mock"
+  ],
+  "version": "1.0.3",
+  "main": "./index.js",
+  "author": {
+    "name": "Janusz Jablonski",
+    "email": "janusz.jablonski+karma-sinon@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/yanoosh/karma-sinon.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yanoosh/karma-sinon/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://raw.github.com/yanoosh/karma-sinon/master/LICENSE"
+    }
+  ],
+  "peerDependencies": {
+    "karma": ">=0.10",
+    "sinon": "*"
+  },
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "_id": "karma-sinon@1.0.3",
+  "_from": "karma-sinon@^1.0.3",
+  "dist": {
+    "shasum": "e74686bfee0c768b826ed3a61208554e2221d226",
+    "tarball": "http://registry.npmjs.org/karma-sinon/-/karma-sinon-1.0.3.tgz"
+  },
+  "_npmVersion": "1.3.11",
+  "_npmUser": {
+    "name": "yanoosh",
+    "email": "janusz.jablonski@gmail.com"
+  },
+  "maintainers": [
+    {
+      "name": "yanoosh",
+      "email": "januszjablonski.pl+npm@gmail.com"
+    }
+  ],
+  "directories": {},
+  "_shasum": "e74686bfee0c768b826ed3a61208554e2221d226",
+  "_resolved": "https://registry.npmjs.org/karma-sinon/-/karma-sinon-1.0.3.tgz",
+  "readme": "ERROR: No README data found!",
+  "homepage": "https://github.com/yanoosh/karma-sinon"
+}

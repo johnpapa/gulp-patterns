@@ -1,0 +1,66 @@
+{
+  "name": "imagemin-svgo",
+  "version": "1.0.2",
+  "description": "svgo image-min plugin",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/imagemin/imagemin-svgo"
+  },
+  "author": {
+    "name": "Kevin Mårtensson",
+    "email": "kevinmartensson@gmail.com",
+    "url": "https://github.com/kevva"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "node test/test.js"
+  },
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "compress",
+    "image",
+    "imageminplugin",
+    "img",
+    "minify",
+    "optimize",
+    "svg"
+  ],
+  "dependencies": {
+    "is-svg": "^1.0.0",
+    "svgo": "^0.4.5"
+  },
+  "devDependencies": {
+    "ava": "0.0.4",
+    "imagemin": "^1.0.2"
+  },
+  "bugs": {
+    "url": "https://github.com/imagemin/imagemin-svgo/issues"
+  },
+  "homepage": "https://github.com/imagemin/imagemin-svgo",
+  "_id": "imagemin-svgo@1.0.2",
+  "_shasum": "509405f5ab8241091eff7f90697b83164c5d9860",
+  "_from": "imagemin-svgo@^1.0.2",
+  "_npmVersion": "1.4.9",
+  "_npmUser": {
+    "name": "kevva",
+    "email": "kevinmartensson@gmail.com"
+  },
+  "maintainers": [
+    {
+      "name": "kevva",
+      "email": "kevinmartensson@gmail.com"
+    }
+  ],
+  "dist": {
+    "shasum": "509405f5ab8241091eff7f90697b83164c5d9860",
+    "tarball": "http://registry.npmjs.org/imagemin-svgo/-/imagemin-svgo-1.0.2.tgz"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/imagemin-svgo/-/imagemin-svgo-1.0.2.tgz",
+  "readme": "ERROR: No README data found!"
+}

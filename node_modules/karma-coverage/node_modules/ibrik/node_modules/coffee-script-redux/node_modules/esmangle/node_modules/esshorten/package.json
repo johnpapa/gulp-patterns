@@ -1,0 +1,63 @@
+{
+  "name": "esshorten",
+  "description": "Shorten (mangle) names in JavaScript code",
+  "main": "lib/esshorten.js",
+  "version": "0.0.2",
+  "engines": {
+    "node": ">=0.6.0"
+  },
+  "directories": {
+    "lib": "./lib"
+  },
+  "maintainers": [
+    {
+      "name": "constellation",
+      "email": "utatane.tea@gmail.com"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/Constellation/esshorten.git"
+  },
+  "dependencies": {
+    "escope": "~ 1.0.0",
+    "estraverse": "~ 1.2.0"
+  },
+  "devDependencies": {
+    "chai": "*",
+    "commonjs-everywhere": "0.8.x",
+    "grunt": "~0.4.1",
+    "grunt-cli": "~0.1.7",
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-mocha-test": "~0.5.0"
+  },
+  "licenses": [
+    {
+      "type": "BSD",
+      "url": "http://github.com/Constellation/esshorten/raw/master/LICENSE.BSD"
+    }
+  ],
+  "scripts": {
+    "test": "grunt travis",
+    "lint": "grunt lint",
+    "unit-test": "grunt test"
+  },
+  "bugs": {
+    "url": "https://github.com/Constellation/esshorten/issues"
+  },
+  "_id": "esshorten@0.0.2",
+  "dist": {
+    "shasum": "28a652f1efd40c8e227f8c6de7dbe6b560ee8129",
+    "tarball": "http://registry.npmjs.org/esshorten/-/esshorten-0.0.2.tgz"
+  },
+  "_from": "esshorten@~ 0.0.2",
+  "_npmVersion": "1.2.32",
+  "_npmUser": {
+    "name": "constellation",
+    "email": "utatane.tea@gmail.com"
+  },
+  "_shasum": "28a652f1efd40c8e227f8c6de7dbe6b560ee8129",
+  "_resolved": "https://registry.npmjs.org/esshorten/-/esshorten-0.0.2.tgz",
+  "readme": "ERROR: No README data found!",
+  "homepage": "https://github.com/Constellation/esshorten"
+}

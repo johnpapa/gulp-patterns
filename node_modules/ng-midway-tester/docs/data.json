@@ -1,0 +1,332 @@
+{
+    "project": {},
+    "files": {
+        "src/ngMidwayTester.js": {
+            "name": "src/ngMidwayTester.js",
+            "modules": {},
+            "classes": {
+                "ngMidwayTester": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {
+        "ngMidwayTester": {
+            "name": "ngMidwayTester",
+            "shortname": "ngMidwayTester",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/ngMidwayTester.js",
+            "line": 1,
+            "description": "Creates an instance of the midway tester on the specified module.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "moduleName",
+                    "description": "the AngularJS module that you wish to test"
+                },
+                {
+                    "name": "config",
+                    "description": "",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "window",
+                            "description": "The window node of the page",
+                            "type": "Object",
+                            "optional": true,
+                            "optdefault": "window"
+                        },
+                        {
+                            "name": "document",
+                            "description": "The document node of the page",
+                            "type": "Object",
+                            "optional": true,
+                            "optdefault": "document"
+                        },
+                        {
+                            "name": "templateUrl",
+                            "description": "The template file for the HTML layout of the tester",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "template",
+                            "description": "The template string for the HTML layout of the tester",
+                            "type": "Object",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "return": {
+                "description": "An instance of the midway tester",
+                "type": "Object"
+            }
+        }
+    },
+    "classitems": [
+        {
+            "file": "src/ngMidwayTester.js",
+            "line": 63,
+            "itemtype": "method",
+            "name": "module",
+            "return": {
+                "description": "Returns the module container object acquired from angular.module(moduleName)",
+                "type": "Object"
+            },
+            "class": "ngMidwayTester"
+        },
+        {
+            "file": "src/ngMidwayTester.js",
+            "line": 71,
+            "description": "Attaches the $rootElement module to the provided body element",
+            "params": [
+                {
+                    "name": "body",
+                    "description": "The element that will be used as the parent (defaults to document.body)",
+                    "type": "Element",
+                    "optional": true,
+                    "optdefault": "document.body"
+                }
+            ],
+            "itemtype": "method",
+            "name": "attach",
+            "class": "ngMidwayTester"
+        },
+        {
+            "file": "src/ngMidwayTester.js",
+            "line": 80,
+            "description": "Attaches the $rootElement module to the provided body element",
+            "itemtype": "method",
+            "name": "controller",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "The name of the controller",
+                    "type": "String"
+                },
+                {
+                    "name": "locals",
+                    "description": "A key/value map of all the injectable services for when the controller is instantiated",
+                    "type": "Object",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "The instance of the controller",
+                "type": "Object"
+            },
+            "class": "ngMidwayTester"
+        },
+        {
+            "file": "src/ngMidwayTester.js",
+            "line": 91,
+            "itemtype": "method",
+            "name": "rootScope",
+            "return": {
+                "description": "The $rootScope object of the module",
+                "type": "Object"
+            },
+            "class": "ngMidwayTester"
+        },
+        {
+            "file": "src/ngMidwayTester.js",
+            "line": 99,
+            "itemtype": "method",
+            "name": "rootElement",
+            "return": {
+                "description": "The $rootElement object of the module",
+                "type": "Object"
+            },
+            "class": "ngMidwayTester"
+        },
+        {
+            "file": "src/ngMidwayTester.js",
+            "line": 107,
+            "itemtype": "method",
+            "name": "viewElement",
+            "return": {
+                "description": "The current element that has ng-view attached to it",
+                "type": "Element"
+            },
+            "class": "ngMidwayTester"
+        },
+        {
+            "file": "src/ngMidwayTester.js",
+            "line": 115,
+            "itemtype": "method",
+            "name": "viewElement",
+            "return": {
+                "description": "The scope of the current view element",
+                "type": "Object"
+            },
+            "class": "ngMidwayTester"
+        },
+        {
+            "file": "src/ngMidwayTester.js",
+            "line": 123,
+            "description": "Runs $scope.$evalAsync() on the provided scope",
+            "params": [
+                {
+                    "name": "fn",
+                    "description": "The function to be provided to evalAsync",
+                    "type": "Function"
+                },
+                {
+                    "name": "scope",
+                    "description": "The scope object which will be used for the eval call",
+                    "type": "Object",
+                    "optional": true,
+                    "optdefault": "$rootScope"
+                }
+            ],
+            "itemtype": "method",
+            "name": "evalAsync",
+            "class": "ngMidwayTester"
+        },
+        {
+            "file": "src/ngMidwayTester.js",
+            "line": 133,
+            "description": "Compiles and links the given HTML",
+            "itemtype": "method",
+            "name": "compile",
+            "params": [
+                {
+                    "name": "html",
+                    "description": "the html or element node which will be compiled",
+                    "type": "String|Element"
+                },
+                {
+                    "name": "scope",
+                    "description": "The scope object which will be linked to the compile",
+                    "type": "Object",
+                    "optional": true,
+                    "optdefault": "$rootScope"
+                }
+            ],
+            "return": {
+                "description": "The element node which which is the result of the compilation",
+                "type": "Element"
+            },
+            "class": "ngMidwayTester"
+        },
+        {
+            "file": "src/ngMidwayTester.js",
+            "line": 145,
+            "description": "Performs a digest operation on the given scope",
+            "itemtype": "method",
+            "name": "digest",
+            "params": [
+                {
+                    "name": "scope",
+                    "description": "The scope object which will be used for the compilation",
+                    "type": "Object",
+                    "optional": true,
+                    "optdefault": "$rootScope"
+                }
+            ],
+            "class": "ngMidwayTester"
+        },
+        {
+            "file": "src/ngMidwayTester.js",
+            "line": 155,
+            "description": "Performs an apply operation on the given scope",
+            "itemtype": "method",
+            "name": "apply",
+            "params": [
+                {
+                    "name": "fn",
+                    "description": "The callback function which will be used in the apply digest",
+                    "type": "Function"
+                },
+                {
+                    "name": "scope",
+                    "description": "scope The scope object which the apply process will be run on",
+                    "type": "Object",
+                    "optional": true,
+                    "optdefault": "$rootScope"
+                }
+            ],
+            "class": "ngMidwayTester"
+        },
+        {
+            "file": "src/ngMidwayTester.js",
+            "line": 176,
+            "itemtype": "method",
+            "name": "injector",
+            "return": {
+                "description": "Returns the AngularJS $injector service",
+                "type": "Object"
+            },
+            "class": "ngMidwayTester"
+        },
+        {
+            "file": "src/ngMidwayTester.js",
+            "line": 184,
+            "itemtype": "method",
+            "name": "path",
+            "return": {
+                "description": "Returns the path of the current route",
+                "type": "String"
+            },
+            "class": "ngMidwayTester"
+        },
+        {
+            "file": "src/ngMidwayTester.js",
+            "line": 192,
+            "description": "Changes the current route of the page and then fires the callback when the page has loaded",
+            "params": [
+                {
+                    "name": "path",
+                    "description": "The given path that the current route will be changed to",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "The given callback to fire once the view has been fully loaded",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "itemtype": "method",
+            "name": "visit",
+            "class": "ngMidwayTester"
+        },
+        {
+            "file": "src/ngMidwayTester.js",
+            "line": 211,
+            "description": "Keeps checking an expression until it returns a truthy value and then runs the provided callback",
+            "params": [
+                {
+                    "name": "exp",
+                    "description": "The given function to poll",
+                    "type": "Function"
+                },
+                {
+                    "name": "callback",
+                    "description": "The given callback to fire once the exp function returns a truthy value",
+                    "type": "Function"
+                }
+            ],
+            "itemtype": "method",
+            "name": "until",
+            "class": "ngMidwayTester"
+        },
+        {
+            "file": "src/ngMidwayTester.js",
+            "line": 229,
+            "description": "Removes the $rootElement and clears the module from the page",
+            "itemtype": "method",
+            "name": "destroy",
+            "class": "ngMidwayTester"
+        }
+    ],
+    "warnings": []
+}
