@@ -1,4 +1,3 @@
-/* global dataservice, */
 describe('Dashbaord', function() {
     var controller;
 

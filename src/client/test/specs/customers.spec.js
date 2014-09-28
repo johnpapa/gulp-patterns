@@ -1,4 +1,3 @@
-/* global dataservice, */
 describe('app.customers', function() {
     var controller;
 
