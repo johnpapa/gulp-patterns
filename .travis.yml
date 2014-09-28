@@ -11,8 +11,6 @@ before_install:
   - npm install gulp -g
 
 script:
-  - npm install phantomjs -g
-  - npm karma-phantomjs-launcher -g
   - npm install
   - bower install
   - gulp test
