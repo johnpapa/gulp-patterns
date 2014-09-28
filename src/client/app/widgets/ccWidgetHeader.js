@@ -11,7 +11,7 @@
         //<div data-cc-widget-header title="vm.map.title"></div>
         // Creates:
         // <div data-cc-widget-header=""
-        //      title="Avengers Movie"
+        //      title="Movie"
         //      allow-collapse="true" </div>
         var directive = {
 //            link: link,

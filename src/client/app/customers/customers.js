@@ -2,25 +2,21 @@
     'use strict';
 
     angular
-        .module('app.dashboard')
-        .controller('Dashboard', Dashboard);
+        .module('app.customers')
+        .controller('Customers', Customers);
 
-    function Dashboard($q, dataservice, logger) {
+    /* @ngInject */
+    function Customers(dataservice, logger) {
         /*jshint validthis: true */
         var vm = this;
-
-        vm.news = {
-            title: 'Customers',
-            description: 'Customer news'
-        };
         vm.customers = [];
-        vm.title = 'Dashboard';
+        vm.title = 'Customers';
 
         activate();
 
         function activate() {
-            return $q.all([getCustomers()]).then(function() {
-                logger.info('Activated Dashboard View');
+            return getCustomers().then(function() {
+                logger.info('Activated Customers View');
             });
         }
 

@@ -77,7 +77,6 @@
     "method-override": "^1.0.2",
     "minimist": "^1.1.0",
     "mocha": "^1.20.1",
-    "ng-midway-tester": "^2.0.5",
     "phantomjs": "^1.9.7-14",
     "q": "^1.0.1",
     "sinon": "^1.10.3",
@@ -113,8 +112,7 @@
     ],
     "js": [
       "./src/client/app/**/*module*.js",
-      "./src/client/app/**/*.js",
-      "!./src/client/app/**/{,/*-spaghetti.js}"
+      "./src/client/app/**/*.js"
     ],
     "nodejs": [
       "./src/server/**/*.js"

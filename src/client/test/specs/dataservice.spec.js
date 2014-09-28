@@ -11,11 +11,11 @@ describe('dataservice', function () {
         specHelper.injector(function($httpBackend, $rootScope, dataservice) {});            
         
         mocks.maaData = [{ 
-            data: {results: mockData.getMockAvengers()}
+            data: {results: mockData.getMockCustomers()}
         }];
-        // sinon.stub(dataservice, 'getAvengers', function () {
+        // sinon.stub(dataservice, 'getCustomers', function () {
         //     var deferred = $q.defer();
-        //     deferred.resolve(mockData.getMockAvengers());
+        //     deferred.resolve(mockData.getMockCustomers());
         //     return deferred.promise;
         // });
     });
@@ -24,14 +24,14 @@ describe('dataservice', function () {
         expect(dataservice).not.to.equal(null);
     });
 
-    describe('getAvengers function', function () {
+    describe('getCustomers function', function () {
         it('should exist', function () {
-            expect(dataservice.getAvengers).not.to.equal(null);
+            expect(dataservice.getCustomers).not.to.equal(null);
         });
         
-        it('should return 5 Avengers', function (done) {
-            $httpBackend.when('GET', '/api/maa').respond(200, mocks.maaData);
-            dataservice.getAvengers().then(function(data) {
+        it('should return 5 Customers', function (done) {
+            $httpBackend.when('GET', '/api/customers').respond(200, mocks.maaData);
+            dataservice.getCustomers().then(function(data) {
                 expect(data.length).to.equal(5);
                 done();
             });
@@ -40,8 +40,8 @@ describe('dataservice', function () {
         });
 
         it('should contain Black Widow', function (done) {
-            $httpBackend.when('GET', '/api/maa').respond(200, mocks.maaData);
-            dataservice.getAvengers().then(function(data) {
+            $httpBackend.when('GET', '/api/customers').respond(200, mocks.maaData);
+            dataservice.getCustomers().then(function(data) {
                 var hasBlackWidow = data.some(function isPrime(element, index, array) {
                     return element.name.indexOf('Black Widow') >= 0;
                 });
@@ -50,46 +50,6 @@ describe('dataservice', function () {
             });
             $rootScope.$apply();
             $httpBackend.flush();
-        });
-    });
-
-    describe('getAvengerCount function', function () {
-        it('should exist', function () {
-            expect(dataservice.getAvengerCount).not.to.equal(null);
-        });
-
-        it('should return 11 Avengers', function (done) {
-            dataservice.getAvengerCount().then(function(count) {
-                expect(count).to.equal(11);
-                done();
-            });
-            $rootScope.$apply();
-        });
-    });
-
-    describe('getAvengersCast function', function () {
-        it('should exist', function () {
-            expect(dataservice.getAvengersCast).not.to.equal(null);
-        });
-
-        it('should return 11 Avengers', function (done) {
-            dataservice.getAvengersCast().then(function(data) {
-                expect(data.length).to.equal(11);
-                done();
-            });
-            $rootScope.$apply();
-        });
-
-        it('should contain Natasha', function (done) {
-            dataservice.getAvengersCast()
-                .then(function(data) {
-                    var hasBlackWidow = data.some(function isPrime(element, index, array) {
-                        return element.character.indexOf('Natasha') >= 0;
-                    });
-                    expect(hasBlackWidow).to.be.true;
-                    done();
-                });
-            $rootScope.$apply();
         });
     });
 

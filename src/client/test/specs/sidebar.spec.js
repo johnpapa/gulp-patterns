@@ -19,9 +19,9 @@ describe('layout', function () {
             expect(controller.isCurrent($route.current)).to.equal('current');
         });
 
-        it('should have isCurrent() for /avengers to return `current`', function () {
-            $httpBackend.when('GET', 'app/avengers/avengers.html').respond(200);
-            $location.path('/avengers');
+        it('should have isCurrent() for /customers to return `current`', function () {
+            $httpBackend.when('GET', 'app/customers/customers.html').respond(200);
+            $location.path('/customers');
             $httpBackend.flush();
             $rootScope.$apply();
             expect(controller.isCurrent($route.current)).to.equal('current');

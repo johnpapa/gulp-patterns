@@ -1,5 +1,5 @@
 /* global dataservice, */
-describe('app.dashboard', function() {
+describe('Dashbaord', function() {
     var controller;
 
     beforeEach(function() {
@@ -11,9 +11,9 @@ describe('app.dashboard', function() {
     });
 
     beforeEach(function () {
-        sinon.stub(dataservice, 'getAvengerCount', function () {
+        sinon.stub(dataservice, 'getCustomers', function () {
             var deferred = $q.defer();
-            deferred.resolve(mockData.getMockAvengers().length);
+            deferred.resolve(mockData.getMockCustomers());
             return deferred.promise;
         });
 
@@ -41,12 +41,12 @@ describe('app.dashboard', function() {
                 expect(controller.news).to.not.be.empty;
             });
 
-            it('should have at least 1 avenger', function () {
-                expect(controller.avengers).to.have.length.above(0);
+            it('should have at least 1 customer', function () {
+               expect(controller.customers).to.have.length.above(0);
             });
 
-            it('should have Avenger Count of 5', function () {
-                expect(controller.avengerCount).to.equal(5);
+            it('should have customer Count of 5', function () {
+                expect(controller.customers).to.have.length(5);
             });
         });
     });

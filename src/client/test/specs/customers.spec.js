@@ -1,5 +1,5 @@
 /* global dataservice, */
-describe('app.avengers', function() {
+describe('app.customers', function() {
     var controller;
 
     beforeEach(function() {
@@ -11,9 +11,9 @@ describe('app.avengers', function() {
     });
 
     beforeEach(function () {
-        sinon.stub(dataservice, 'getAvengers', function() {
+        sinon.stub(dataservice, 'getCustomers', function() {
             var deferred = $q.defer();
-            deferred.resolve(mockData.getMockAvengers());
+            deferred.resolve(mockData.getMockCustomers());
             return deferred.promise;
         });
 
@@ -23,22 +23,22 @@ describe('app.avengers', function() {
             return deferred.promise;
         });
 
-        controller = $controller('Avengers');
+        controller = $controller('Customers');
         $rootScope.$apply();
     });
 
-    describe('Avengers controller', function() {
+    describe('Customers controller', function() {
         it('should be created successfully', function () {
             expect(controller).to.be.defined;
         });
 
         describe('after activate', function() {
-            it('should have title of Avengers', function() {
-                expect(controller.title).to.equal('Avengers');
+            it('should have title of Customers', function() {
+                expect(controller.title).to.equal('Customers');
             });
 
-            it('should have 5 Avengers', function() {
-                expect(controller.avengers).to.have.length(5);
+            it('should have 5 Customers', function() {
+                expect(controller.customers).to.have.length(5);
             });
         });
     });

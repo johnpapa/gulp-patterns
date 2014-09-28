@@ -2,10 +2,10 @@
 /*jshint -W079 */
 var mockData = (function() {
     return {
-        getMockAvengers: getMockAvengers
+        getMockCustomers: getMockCustomers
     };
 
-    function getMockAvengers() {
+    function getMockCustomers() {
         return [
             {
                 'id': 1017109,

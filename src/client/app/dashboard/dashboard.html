@@ -7,15 +7,15 @@
                         <li class="blightblue">
                             <div class="pull-left"><i class="fa fa-plane"></i></div>
                             <div class="datas-text pull-right">
-                                <span class="bold">Stark Tower</span> New York, New York
+                                <a href="http://www.gulpjs.com"><span class="bold">Gulp</span></a>
                             </div>
                             <div class="clearfix"></div>
                         </li>
 
                         <li class="bblue">
-                            <div class="pull-left avenger-logo"></div>
+                            <div class="pull-left"><i class="fa fa-users"></i></div>
                             <div class="datas-text pull-right">
-                                <span class="bold">{{vm.avengerCount}}</span> Cast
+                                <span class="bold">{{vm.customers.length}}</span> Customers
                             </div>
                             <div class="clearfix"></div>
                         </li>
@@ -26,20 +26,18 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="widget wblue">
-                        <div data-cc-widget-header title="Avengers Movie Cast"
+                        <div data-cc-widget-header title="Customers"
                              allow-collapse="true"></div>
                         <div class="widget-content text-center text-info">
                             <table class="table table-condensed table-striped">
                                 <thead>
                                     <tr>
                                         <th>Name</th>
-                                        <th>Character</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr data-ng-repeat="a in vm.avengers">
+                                    <tr data-ng-repeat="a in vm.customers">
                                         <td>{{a.name}}</td>
-                                        <td>{{a.character}}</td>
                                     </tr>
                                 </tbody>
                             </table>

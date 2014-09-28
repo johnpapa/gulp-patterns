@@ -15,8 +15,6 @@ module.exports = function (config) {
         files: [
             './src/client/test/lib/bindPolyfill.js',
 
-            './node_modules/ng-midway-tester/src/ngMidwayTester.js',
-
             './bower_components/jquery/dist/jquery.js',
             './bower_components/angular/angular.js',
             './bower_components/angular-mocks/angular-mocks.js',
@@ -36,9 +34,6 @@ module.exports = function (config) {
             './src/client/test/lib/specHelper.js',
             './src/client/test/lib/mockData.js',
 
-            './src/client/test/basics/**/*.src.js',
-            './src/client/test/basics/**/*.spec.js',
-
             // all specs ... comment out during early test training
             './src/client/test/**/*.spec.js'
 
@@ -46,9 +41,6 @@ module.exports = function (config) {
 
         // list of files to exclude
         exclude: [
-            // Excluding midway tests for now; comment this line out when you want to run them
-            './src/client/test/midway/**/*.spec.js',
-            './src/client/app/**/*spaghetti.js'
         ],
 
         proxies: {

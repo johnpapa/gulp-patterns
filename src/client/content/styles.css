@@ -380,21 +380,13 @@ a {
 
 
 
-.avenger-name {
+.customer-name {
     font-size: 1.2em;
 }
-.avenger-thumb {
+.customer-thumb {
     margin: 0.1em !important;
     padding: 0.1em;
 }
-
-.avenger-logo {
-    height: 75px;
-    width:80px;
-    background: url(images/avengersicon-xs.png) no-repeat left top !important;
-}
-
-
 
 /*#region wrapper for angular ng-include and ng-view animations*/
 .view-container {
