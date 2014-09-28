@@ -5,11 +5,7 @@ module.exports = function(app) {
     app.get(pkg.paths.api + '/customers', getCustomers);
 
     function getCustomers(req, res, next) {
-        var json = jsonfileservice.getJsonFromFile(pkg.paths.data + 'maa.json');
-        json[0].data.results.forEach(function(character) {
-            var pos = character.name.indexOf('(MAA)');
-            character.name = character.name.substr(0, pos - 1);
-        });
+        var json = jsonfileservice.getJsonFromFile(pkg.paths.data + 'customers.json');
         res.send(json);
     }
 };

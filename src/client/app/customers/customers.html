@@ -10,8 +10,9 @@
                             <thead>
                             <tr>
                                 <th></th>
-                                <th>Character</th>
-                                <th>Description</th>
+                                <th>Customer</th>
+                                <th>City</th>
+                                <th>State</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -20,7 +21,8 @@
                                         ng-src="{{c.thumbnail.path}}.{{c.thumbnail.extension}}"
                                         class="customer-thumb img-rounded"/></td>
                                 <td><span class="customer-name">{{c.name}}</span></td>
-                                <td>{{c.description | limitTo: 2000 }} ...</td>
+                                <td>{{c.city}}</td>
+                                <td>{{c.state}}</td>
                             </tr>
                             </tbody>
                         </table>
