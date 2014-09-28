@@ -11,7 +11,7 @@ before_install:
   - npm install gulp -g
 
 script:
-  - sudo apt-get install libfontconfig
+  - npm install phantomjs -g
   - npm install
   - bower install
   - gulp test
