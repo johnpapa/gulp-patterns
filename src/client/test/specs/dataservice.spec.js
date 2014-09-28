@@ -8,16 +8,13 @@ describe('dataservice', function () {
             specHelper.fakeRouteProvider($provide);
             specHelper.fakeLogger($provide);
         });
-        specHelper.injector(function($httpBackend, $rootScope, dataservice) {});            
+        specHelper.injector(function($httpBackend, $q, $rootScope, dataservice) {});            
         
-        mocks.maaData = [{ 
-            data: {results: mockData.getMockCustomers()}
-        }];
-        // sinon.stub(dataservice, 'getCustomers', function () {
-        //     var deferred = $q.defer();
-        //     deferred.resolve(mockData.getMockCustomers());
-        //     return deferred.promise;
-        // });
+        sinon.stub(dataservice, 'getCustomers', function () {
+            var deferred = $q.defer();
+            deferred.resolve(mockData.getMockCustomers());
+            return deferred.promise;
+        });
     });
 
     it('should be registered', function() {
@@ -30,17 +27,15 @@ describe('dataservice', function () {
         });
         
         it('should return 5 Customers', function (done) {
-            $httpBackend.when('GET', '/api/customers').respond(200, mocks.maaData);
             dataservice.getCustomers().then(function(data) {
                 expect(data.length).to.equal(5);
                 done();
             });
             $rootScope.$apply();
-            $httpBackend.flush();
         });
 
         it('should contain Black Widow', function (done) {
-            $httpBackend.when('GET', '/api/customers').respond(200, mocks.maaData);
+            // $httpBackend.when('GET', '/api/customers').respond(200, mocks.customers);
             dataservice.getCustomers().then(function(data) {
                 var hasBlackWidow = data.some(function isPrime(element, index, array) {
                     return element.name.indexOf('Black Widow') >= 0;
@@ -49,7 +44,6 @@ describe('dataservice', function () {
                 done();
             });
             $rootScope.$apply();
-            $httpBackend.flush();
         });
     });
 
