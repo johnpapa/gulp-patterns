@@ -1,8 +1,4 @@
-/* global dataservice, */
 describe('dataservice', function () {
-    var scope;
-    var mocks = {};
-
     beforeEach(function () {
         module('app', function($provide) {
             specHelper.fakeRouteProvider($provide);
