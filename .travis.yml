@@ -11,7 +11,6 @@ before_install:
   - npm install gulp -g
 
 script:
-  - cd modular  
   - npm install
   - bower install
   - gulp test
