@@ -1,0 +1,27 @@
+language: node_js
+node_js:
+  - "0.10"
+
+branches:
+  only:
+    - master
+
+before_install:
+  - npm install bower -g
+  - npm install gulp -g
+
+script:
+  - cd modular  
+  - npm install
+  - bower install
+  - gulp test
+
+cache:
+  directories:
+  - bower_components
+  - node_modules
+
+notifications:
+  email:
+    - wardbell@hotmail.com
+
