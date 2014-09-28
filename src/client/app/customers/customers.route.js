@@ -21,8 +21,17 @@
                     title: 'Customers',
                     settings: {
                         nav: 2,
-                        content: '<i class="fa fa-lock"></i> Customers'
+                        content: '<i class="fa fa-group"></i> Customers'
                     }
+                }
+            },
+            {
+                url: '/customer/:id',
+                config: {
+                    templateUrl: 'app/customers/customer-detail.html',
+                    controller: 'CustomerDetail',
+                    controllerAs: 'vm',
+                    title: 'Customer Detail'
                 }
             }
         ];

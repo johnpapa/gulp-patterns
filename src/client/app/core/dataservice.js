@@ -11,11 +11,25 @@
         var primePromise;
 
         var service = {
+            getCustomer: getCustomer,
             getCustomers: getCustomers,
             ready: ready
         };
 
         return service;
+
+        function getCustomer(id) {
+            return $http.get('/api/customer/' + id)
+                .then(getCustomerComplete)
+                .catch(function(message) {
+                    exception.catcher('XHR Failed for getCustomer')(message);
+                    $location.url('/');
+                });
+
+            function getCustomerComplete(data, status, headers, config) {
+                return data.data;
+            }
+        }
 
         function getCustomers() {
             return $http.get('/api/customers')

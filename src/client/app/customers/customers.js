@@ -6,10 +6,11 @@
         .controller('Customers', Customers);
 
     /* @ngInject */
-    function Customers(dataservice, logger) {
+    function Customers($location, dataservice, logger) {
         /*jshint validthis: true */
         var vm = this;
         vm.customers = [];
+        vm.gotoCustomer = gotoCustomer;
         vm.title = 'Customers';
 
         activate();
@@ -25,6 +26,10 @@
                 vm.customers = data;
                 return vm.customers;
             });
+        }
+
+        function gotoCustomer(c) {
+            $location.path('/customer/' + c.id);
         }
     }
 })();

@@ -1,0 +1,224 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'install', 'node-inspector', '-g' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.32
+4 verbose cache add [ 'node-inspector', null ]
+5 verbose cache add name=undefined spec="node-inspector" args=["node-inspector",null]
+6 verbose parsed url { protocol: null,
+6 verbose parsed url   slashes: null,
+6 verbose parsed url   auth: null,
+6 verbose parsed url   host: null,
+6 verbose parsed url   port: null,
+6 verbose parsed url   hostname: null,
+6 verbose parsed url   hash: null,
+6 verbose parsed url   search: null,
+6 verbose parsed url   query: null,
+6 verbose parsed url   pathname: 'node-inspector',
+6 verbose parsed url   path: 'node-inspector',
+6 verbose parsed url   href: 'node-inspector' }
+7 silly lockFile 4198ef9e-node-inspector node-inspector
+8 verbose lock node-inspector /Users/john/.npm/4198ef9e-node-inspector.lock
+9 silly lockFile 4198ef9e-node-inspector node-inspector
+10 silly lockFile 4198ef9e-node-inspector node-inspector
+11 verbose addNamed [ 'node-inspector', '' ]
+12 verbose addNamed [ null, '*' ]
+13 silly lockFile e68b88da-node-inspector node-inspector@
+14 verbose lock node-inspector@ /Users/john/.npm/e68b88da-node-inspector.lock
+15 silly addNameRange { name: 'node-inspector', range: '*', hasData: false }
+16 verbose request where is /node-inspector
+17 verbose request registry https://registry.npmjs.org/
+18 verbose request id 3dedf2c47914ad8b
+19 verbose url raw /node-inspector
+20 verbose url resolving [ 'https://registry.npmjs.org/', './node-inspector' ]
+21 verbose url resolved https://registry.npmjs.org/node-inspector
+22 verbose request where is https://registry.npmjs.org/node-inspector
+23 info trying registry request attempt 1 at 22:32:23
+24 http GET https://registry.npmjs.org/node-inspector
+25 http 200 https://registry.npmjs.org/node-inspector
+26 silly registry.get cb [ 200,
+26 silly registry.get   { date: 'Sun, 28 Sep 2014 02:32:23 GMT',
+26 silly registry.get     server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+26 silly registry.get     etag: '"9B04ZSTG0B43C7VHJ4S7TMVL2"',
+26 silly registry.get     'content-type': 'application/json',
+26 silly registry.get     'cache-control': 'max-age=60',
+26 silly registry.get     'content-length': '74896',
+26 silly registry.get     'accept-ranges': 'bytes',
+26 silly registry.get     via: '1.1 varnish',
+26 silly registry.get     age: '11520',
+26 silly registry.get     'x-served-by': 'cache-jfk1030-JFK',
+26 silly registry.get     'x-cache': 'HIT',
+26 silly registry.get     'x-cache-hits': '1',
+26 silly registry.get     'x-timer': 'S1411871543.960565,VS0,VE0',
+26 silly registry.get     vary: 'Accept',
+26 silly registry.get     'keep-alive': 'timeout=10, max=50',
+26 silly registry.get     connection: 'Keep-Alive' } ]
+27 silly addNameRange number 2 { name: 'node-inspector', range: '*', hasData: true }
+28 silly addNameRange versions [ 'node-inspector',
+28 silly addNameRange   [ '0.0.1',
+28 silly addNameRange     '0.0.2',
+28 silly addNameRange     '0.0.3',
+28 silly addNameRange     '0.0.4',
+28 silly addNameRange     '0.1.0',
+28 silly addNameRange     '0.1.1',
+28 silly addNameRange     '0.1.2',
+28 silly addNameRange     '0.1.3',
+28 silly addNameRange     '0.1.4',
+28 silly addNameRange     '0.1.5',
+28 silly addNameRange     '0.1.6',
+28 silly addNameRange     '0.1.7',
+28 silly addNameRange     '0.1.8',
+28 silly addNameRange     '0.1.9',
+28 silly addNameRange     '0.1.10',
+28 silly addNameRange     '0.3.0',
+28 silly addNameRange     '0.3.1',
+28 silly addNameRange     '0.3.2',
+28 silly addNameRange     '0.3.3',
+28 silly addNameRange     '0.3.4',
+28 silly addNameRange     '0.4.0',
+28 silly addNameRange     '0.5.0',
+28 silly addNameRange     '0.6.0',
+28 silly addNameRange     '0.6.1',
+28 silly addNameRange     '0.6.2',
+28 silly addNameRange     '0.7.0-1',
+28 silly addNameRange     '0.2.0-beta1',
+28 silly addNameRange     '0.2.0-beta2',
+28 silly addNameRange     '0.2.0-beta3',
+28 silly addNameRange     '0.2.0-beta4',
+28 silly addNameRange     '0.3.0-preview1',
+28 silly addNameRange     '0.7.0-2',
+28 silly addNameRange     '0.7.0',
+28 silly addNameRange     '0.7.1',
+28 silly addNameRange     '0.7.2',
+28 silly addNameRange     '0.7.3',
+28 silly addNameRange     '0.7.4' ] ]
+29 verbose addNamed [ 'node-inspector', '0.7.4' ]
+30 verbose addNamed [ '0.7.4', '0.7.4' ]
+31 silly lockFile aae362fc-node-inspector-0-7-4 node-inspector@0.7.4
+32 verbose lock node-inspector@0.7.4 /Users/john/.npm/aae362fc-node-inspector-0-7-4.lock
+33 silly lockFile ff689745-spector-node-inspector-0-7-4-tgz https://registry.npmjs.org/node-inspector/-/node-inspector-0.7.4.tgz
+34 verbose lock https://registry.npmjs.org/node-inspector/-/node-inspector-0.7.4.tgz /Users/john/.npm/ff689745-spector-node-inspector-0-7-4-tgz.lock
+35 verbose addRemoteTarball [ 'https://registry.npmjs.org/node-inspector/-/node-inspector-0.7.4.tgz',
+35 verbose addRemoteTarball   '3d07234f0834e7f1e21a1669eceaa224a7be43f2' ]
+36 info retry fetch attempt 1 at 22:32:24
+37 verbose fetch to= /var/folders/c1/tm8l1v9j4x7118k47mlcvx380000gn/T/npm-94921-QBYheYK8/registry.npmjs.org/node-inspector/-/node-inspector-0.7.4.tgz
+38 http GET https://registry.npmjs.org/node-inspector/-/node-inspector-0.7.4.tgz
+39 http 200 https://registry.npmjs.org/node-inspector/-/node-inspector-0.7.4.tgz
+40 silly lockFile ff689745-spector-node-inspector-0-7-4-tgz https://registry.npmjs.org/node-inspector/-/node-inspector-0.7.4.tgz
+41 silly lockFile ff689745-spector-node-inspector-0-7-4-tgz https://registry.npmjs.org/node-inspector/-/node-inspector-0.7.4.tgz
+42 silly lockFile aae362fc-node-inspector-0-7-4 node-inspector@0.7.4
+43 silly lockFile aae362fc-node-inspector-0-7-4 node-inspector@0.7.4
+44 silly lockFile e68b88da-node-inspector node-inspector@
+45 silly lockFile e68b88da-node-inspector node-inspector@
+46 silly resolved [ { name: 'node-inspector',
+46 silly resolved     version: '0.7.4',
+46 silly resolved     description: 'Web Inspector based nodeJS debugger',
+46 silly resolved     homepage: 'http://github.com/node-inspector/node-inspector',
+46 silly resolved     author: { name: 'Danny Coates', email: 'dannycoates@gmail.com' },
+46 silly resolved     keywords: [ 'debug', 'debugger', 'inspector', 'profiler' ],
+46 silly resolved     repository:
+46 silly resolved      { type: 'git',
+46 silly resolved        url: 'http://github.com/node-inspector/node-inspector.git' },
+46 silly resolved     engines: { node: '>=0.8.0' },
+46 silly resolved     bin:
+46 silly resolved      { 'node-inspector': './bin/inspector.js',
+46 silly resolved        'node-debug': './bin/node-debug.js' },
+46 silly resolved     dependencies:
+46 silly resolved      { express: '~4.0',
+46 silly resolved        async: '~0.8',
+46 silly resolved        glob: '~3.2.1',
+46 silly resolved        rc: '~0.3.0',
+46 silly resolved        'strong-data-uri': '~0.1.0',
+46 silly resolved        debug: '~0.8',
+46 silly resolved        ws: '~0.4.31',
+46 silly resolved        opener: '~1.3.0',
+46 silly resolved        yargs: '~1.2.1',
+46 silly resolved        which: '~1.0.5' },
+46 silly resolved     devDependencies:
+46 silly resolved      { mocha: 'latest',
+46 silly resolved        chai: 'latest',
+46 silly resolved        jshint: '^2.4.4',
+46 silly resolved        'fs-extra': '~0.8.1' },
+46 silly resolved     preferGlobal: true,
+46 silly resolved     scripts: { pretest: 'jshint .', test: 'mocha' },
+46 silly resolved     contributors:
+46 silly resolved      [ [Object],
+46 silly resolved        [Object],
+46 silly resolved        [Object],
+46 silly resolved        [Object],
+46 silly resolved        [Object],
+46 silly resolved        [Object],
+46 silly resolved        [Object],
+46 silly resolved        [Object],
+46 silly resolved        [Object],
+46 silly resolved        [Object],
+46 silly resolved        [Object],
+46 silly resolved        [Object],
+46 silly resolved        [Object],
+46 silly resolved        [Object],
+46 silly resolved        [Object],
+46 silly resolved        [Object],
+46 silly resolved        [Object],
+46 silly resolved        [Object],
+46 silly resolved        [Object],
+46 silly resolved        [Object],
+46 silly resolved        [Object],
+46 silly resolved        [Object],
+46 silly resolved        [Object],
+46 silly resolved        [Object],
+46 silly resolved        [Object],
+46 silly resolved        [Object],
+46 silly resolved        [Object],
+46 silly resolved        [Object],
+46 silly resolved        [Object],
+46 silly resolved        [Object],
+46 silly resolved        [Object] ],
+46 silly resolved     bugs: { url: 'https://github.com/node-inspector/node-inspector/issues' },
+46 silly resolved     _id: 'node-inspector@0.7.4',
+46 silly resolved     dist:
+46 silly resolved      { shasum: '3d07234f0834e7f1e21a1669eceaa224a7be43f2',
+46 silly resolved        tarball: 'http://registry.npmjs.org/node-inspector/-/node-inspector-0.7.4.tgz' },
+46 silly resolved     _from: 'node-inspector@',
+46 silly resolved     _npmVersion: '1.4.3',
+46 silly resolved     _npmUser: { name: 'bajtos', email: 'miro.bajtos@gmail.com' },
+46 silly resolved     maintainers: [ [Object], [Object], [Object], [Object] ],
+46 silly resolved     directories: {},
+46 silly resolved     _shasum: '3d07234f0834e7f1e21a1669eceaa224a7be43f2',
+46 silly resolved     _resolved: 'https://registry.npmjs.org/node-inspector/-/node-inspector-0.7.4.tgz' } ]
+47 info install node-inspector@0.7.4 into /usr/local/lib
+48 info installOne node-inspector@0.7.4
+49 verbose lib/node_modules/node-inspector unbuild
+50 verbose tar unpack /Users/john/.npm/node-inspector/0.7.4/package.tgz
+51 silly lockFile 6e6fbd08--lib-node-modules-node-inspector tar:///usr/local/lib/node_modules/node-inspector
+52 verbose lock tar:///usr/local/lib/node_modules/node-inspector /Users/john/.npm/6e6fbd08--lib-node-modules-node-inspector.lock
+53 silly lockFile 817c31fe-node-inspector-0-7-4-package-tgz tar:///Users/john/.npm/node-inspector/0.7.4/package.tgz
+54 verbose lock tar:///Users/john/.npm/node-inspector/0.7.4/package.tgz /Users/john/.npm/817c31fe-node-inspector-0-7-4-package-tgz.lock
+55 silly gunzTarPerm modes [ '755', '644' ]
+56 error Error: EACCES, mkdir '/usr/local/lib/node_modules/node-inspector'
+56 error  { [Error: EACCES, mkdir '/usr/local/lib/node_modules/node-inspector']
+56 error   errno: 3,
+56 error   code: 'EACCES',
+56 error   path: '/usr/local/lib/node_modules/node-inspector',
+56 error   fstream_type: 'Directory',
+56 error   fstream_path: '/usr/local/lib/node_modules/node-inspector',
+56 error   fstream_class: 'DirWriter',
+56 error   fstream_stack:
+56 error    [ '/usr/local/lib/node_modules/npm/node_modules/fstream/lib/dir-writer.js:36:23',
+56 error      '/usr/local/lib/node_modules/npm/node_modules/mkdirp/index.js:46:53',
+56 error      'Object.oncomplete (fs.js:107:15)' ] }
+57 error Please try running this command again as root/Administrator.
+58 error System Darwin 13.4.0
+59 error command "node" "/usr/local/bin/npm" "install" "node-inspector" "-g"
+60 error cwd /Users/john/_git/gulp-patterns
+61 error node -v v0.10.32
+62 error npm -v 1.4.28
+63 error path /usr/local/lib/node_modules/node-inspector
+64 error fstream_path /usr/local/lib/node_modules/node-inspector
+65 error fstream_type Directory
+66 error fstream_class DirWriter
+67 error code EACCES
+68 error errno 3
+69 error stack Error: EACCES, mkdir '/usr/local/lib/node_modules/node-inspector'
+70 error fstream_stack /usr/local/lib/node_modules/npm/node_modules/fstream/lib/dir-writer.js:36:23
+70 error fstream_stack /usr/local/lib/node_modules/npm/node_modules/mkdirp/index.js:46:53
+70 error fstream_stack Object.oncomplete (fs.js:107:15)
+71 verbose exit [ 3, true ]
