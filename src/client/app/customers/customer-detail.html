@@ -22,16 +22,39 @@
                     <i class="fa fa-asterisk fa fa-asterisk-large" rel="tooltip" title="You have changes"></i>
                 </span>
             </div>
-            <div class="widget wviolet">
+            <div class="widget wblue">
                 <div data-cc-widget-header title="Edit {{vm.customer.name || 'New Customer'}}"></div>
                 <div class="widget-content user">
                     <div class="form-group">
-                        <label class="control-label">Name</label>
-
+                      <label class="control-label">Name</label>
+                      <div>
+                          <input class="form-control"
+                                 ng-model="vm.customer.name"
+                                 placeholder="Name"/>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">City</label>
                         <div>
                             <input class="form-control"
-                                   ng-model="vm.customer.name"
-                                   placeholder="Name"/>
+                                   ng-model="vm.customer.city"
+                                   placeholder="City"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">State</label>
+                        <div>
+                            <input class="form-control"
+                                   ng-model="vm.customer.state"
+                                   placeholder="State"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Postal Code</label>
+                        <div>
+                            <input class="form-control"
+                                   ng-model="vm.customer.zip"
+                                   placeholder="Postal Code"/>
                         </div>
                     </div>
                     <div class="form-group">
