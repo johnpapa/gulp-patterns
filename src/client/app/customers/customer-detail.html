@@ -18,7 +18,7 @@
                 </button>
 
                 <!--Need ng-hide for show/hide animations-->
-                <span ng-show="vm.hasChanges" class="dissolve-animation ng-hide flag-haschanges">
+                <span ng-hide="vm.isUnchanged()" class="dissolve-animation ng-hide flag-haschanges">
                     <i class="fa fa-asterisk fa fa-asterisk-large" rel="tooltip" title="You have changes"></i>
                 </span>
             </div>
