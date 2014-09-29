@@ -24,35 +24,26 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6">
                     <div class="widget wblue">
-                        <div data-cc-widget-header title="Customers"
+                        <div data-cc-widget-header title="Recent Customers"
                              allow-collapse="true"></div>
                         <div class="widget-content text-center text-info">
-                            <table class="table table-condensed table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr data-ng-repeat="a in vm.customers">
-                                        <td>{{a.name}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="widget-foot">
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="widget wlightblue">
-                        <div data-cc-widget-header title="{{vm.news.title}}"
-                             allow-collapse="true"></div>
-                        <div class="widget-content text-center text-info">
-                            <small>{{vm.news.description}}</small>
+
+                            <div class="container">
+                                 <ul class="row image-group">
+                                      <li ng-repeat="c in vm.customers | limitTo:12" 
+                                        class="col-lg-2 col-md-2 col-sm-3 col-xs-4">
+                                        <div class="user" title="Go to speaker details">
+                                            <img cc-img-person="{{c.thumbnail}}" 
+                                                class="img-thumbnail stacked">
+                                            <div>
+                                                <small>{{c.name}}</small>
+                                            </div>
+                                        </div>
+
+                                      </li>
+                                 </ul>
+                            </div>
                         </div>
                         <div class="widget-foot">
                             <div class="clearfix"></div>

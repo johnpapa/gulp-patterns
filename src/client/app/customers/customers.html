@@ -6,10 +6,10 @@
                     <div cc-widget-header title="{{vm.title}}"></div>
                     <div class="widget-content user">
                         <input ng-model="vm.filter.name" placeholder="Find customers by name" type="search"/>
-                        <table class="table table-condensed table-striped">
+                        <table class="table table-condensed table-hover">
                             <thead>
                             <tr>
-                                <th></th>
+<!--                                 <th></th> -->
                                 <th>Customer</th>
                                 <th>City</th>
                                 <th>State</th>
@@ -18,10 +18,10 @@
                             <tbody>
                             <tr ng-repeat="c in vm.customers | filter:vm.filter track by c.id" 
                                 ng-click="vm.gotoCustomer(c)">
-                                <td><img
+<!--                                 <td><img
                                         ng-src="{{c.thumbnail.path}}.{{c.thumbnail.extension}}"
-                                        class="customer-thumb img-rounded"/></td>
-                                <td><span class="customer-name">{{c.name}}</span></td>
+                                        class="customer-thumb img-rounded"/></td> -->
+                                <td>{{c.name}}</td>
                                 <td>{{c.city}}</td>
                                 <td>{{c.state}}</td>
                             </tr>

@@ -62,6 +62,15 @@ body {
 
 /* #region Main Styles */
 
+ul.image-group {         
+  padding:0 0 0 0;
+  margin:0 0 0 0;
+}
+ul.image-group li {
+  list-style:none;
+  margin-bottom:25px;           
+}
+
 .ng-cloak {
     display: none !important;
  }

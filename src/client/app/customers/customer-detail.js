@@ -10,7 +10,7 @@
         /*jshint validthis: true */
         var vm = this;
         vm.customer = undefined;
-        vm.title = 'CustomerDetail';
+        vm.title = 'Customer Detail';
 
         activate();
 
