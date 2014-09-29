@@ -8,53 +8,48 @@ var mockData = (function() {
         return [
             {
                 'id': 1017109,
-                'name': 'Black Widow',
+                'firstName': 'Black',
+                'lastName': 'Widow',
                 'city': 'Albany',
                 'state': 'NY',
-                'thumbnail': {
-                    'path': 'http://i.annihil.us/u/prod/marvel/i/mg/a/03/523219743a99b',
-                    'extension': 'jpg'
-                }
+                'zip': '12205',
+                'thumbnail': 'colleen_papa.jpg'
             },
             {
                 'id': 1017105,
-                'name': 'Captain America',
+                'firstName': 'Tony',
+                'lastName': 'Stark',
                 'city': 'Loudonville',
                 'state': 'NY',
-                'thumbnail': {
-                    'path': 'http://i.annihil.us/u/prod/marvel/i/mg/3/10/52321928eaa72',
-                    'extension': 'jpg'
-                }
+                'zip': '12211',
+                'thumbnail': 'john_papa.jpg'
             },
             {
                 'id': 1017108,
-                'name': 'Hawkeye',
+                'firstName': 'Clint',
+                'lastName': 'Barton',
                 'city': 'Bothell',
                 'state': 'WA',
-                'thumbnail': {
-                    'path': 'http://i.annihil.us/u/prod/marvel/i/mg/4/03/5232198a81c17',
-                    'extension': 'jpg'
-                }
+                'zip': '98012',
+                'thumbnail': 'ward_bell.jpg'
             },
             {
                 'id': 1017104,
-                'name': 'Iron Man',
+                'firstName': 'Steve',
+                'lastName': 'Rogers',
                 'city': 'Orlando',
                 'state': 'FL',
-                'thumbnail': {
-                    'path': 'http://i.annihil.us/u/prod/marvel/i/mg/2/d0/5232190d42df2',
-                    'extension': 'jpg'
-                }
+                'zip': '33746',
+                'thumbnail': 'jesse_liberty.jpg'
             },
             {
                 'id': 1017106,
-                'name': 'Thor',
+                'firstName': 'Thor',
+                'lastName': 'of Asgard',
                 'city': 'Raleigh',
                 'state': 'NC',
-                'thumbnail': {
-                    'path': 'http://i.annihil.us/u/prod/marvel/i/mg/2/03/52321948a51f2',
-                    'extension': 'jpg'
-                }
+                'zip': '27601',
+                'thumbnail': 'jason_salmond.jpg'
             }
         ];
     }

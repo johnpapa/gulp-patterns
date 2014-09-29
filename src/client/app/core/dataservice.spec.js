@@ -34,7 +34,7 @@ describe('dataservice', function () {
             // $httpBackend.when('GET', '/api/customers').respond(200, mocks.customers);
             dataservice.getCustomers().then(function(data) {
                 var hasBlackWidow = data.some(function isPrime(element, index, array) {
-                    return element.name.indexOf('Black Widow') >= 0;
+                    return element.firstName.indexOf('Black') >= 0;
                 });
                 expect(hasBlackWidow).to.be.true;
                 done();
