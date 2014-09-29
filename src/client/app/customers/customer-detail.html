@@ -1,40 +1,39 @@
 <section class="mainbar">
     <section class="matter">
         <div class="container">
-            <div class="row">
-                <div class="widget wblue">
-                    <div data-cc-widget-header title="{{vm.title}}"></div>
-                    <div class="widget-content user">
-                    <form class="form-horizontal" role="form">
-                      <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
-                        <div class="col-sm-10">
-                          <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+            <div>
+                <button class="btn btn-info btn-form-md"
+                        data-ng-click="vm.goBack()">
+                    <i class="fa fa-hand-o-left"></i>Back
+                </button>
+                <button class="btn btn-info btn-form-md"
+                        data-ng-click="vm.cancel()" data-ng-disabled="!vm.canSave">
+                    <i class="fa fa-undo"></i>Cancel
+                </button>
+                <button class="btn btn-info btn-form-md"
+                        data-ng-click="vm.save()" data-ng-disabled="!vm.canSave">
+                    <i class="fa fa-save"></i>Save
+                </button>
+
+                <!--Need ng-hide for show/hide animations-->
+                <span data-ng-show="vm.hasChanges" class="dissolve-animation ng-hide flag-haschanges">
+                    <i class="fa fa-asterisk fa fa-asterisk-large" rel="tooltip" title="You have changes"></i>
+                </span>
+            </div>
+            <div class="widget wviolet">
+                <div data-cc-widget-header title="Edit {{vm.customer.name || 'New Customer'}}"></div>
+                <div class="widget-content user">
+                    <div class="form-group">
+                        <label class="control-label">Name</label>
+
+                        <div>
+                            <input class="form-control"
+                                   data-ng-model="vm.customer.name"
+                                   placeholder="Name"/>
                         </div>
-                      </div>
-                      <div class="form-group">
-                        <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
-                        <div class="col-sm-10">
-                          <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-                          <div class="checkbox">
-                            <label>
-                              <input type="checkbox"> Remember me
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-                          <button type="submit" class="btn btn-default">Sign in</button>
-                        </div>
-                      </div>
-                    </form>                    </div>
-                    <div class="widget-foot">
-                        <div class="clearfix"></div>
+                    </div>
+                    <div class="form-group">
+                        <img cc-img-person="{{vm.customer.thumbnail}}" class="img-thumbnail"/>
                     </div>
                 </div>
             </div>

@@ -6,10 +6,11 @@
         .controller('CustomerDetail', CustomerDetail);
 
     /* @ngInject */
-    function CustomerDetail($routeParams, dataservice, logger) {
+    function CustomerDetail($routeParams, $window, dataservice, logger) {
         /*jshint validthis: true */
         var vm = this;
         vm.customer = undefined;
+        vm.goBack = goBack;
         vm.title = 'Customer Detail';
 
         activate();
@@ -26,5 +27,10 @@
                 return vm.customer;
             });
         }
+
+        function goBack() {
+            $window.history.back();
+        }
+
     }
 })();
