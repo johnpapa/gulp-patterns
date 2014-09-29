@@ -1,7 +1,8 @@
 [
     {
         "id": 1017109,
-        "name": "Black Widow",
+        "firstName": "Black",
+        "lastName": "Widow",
         "city": "Albany",
         "state": "NY",
         "zip": "12205",
@@ -9,7 +10,8 @@
     },
     {
         "id": 1017105,
-        "name": "Captain America",
+        "firstName": "Tony",
+        "lastName": "Stark",
         "city": "Loudonville",
         "state": "NY",
         "zip": "12211",
@@ -17,7 +19,8 @@
     },
     {
         "id": 1017108,
-        "name": "Hawkeye",
+        "firstName": "Clint",
+        "lastName": "Barton",
         "city": "Bothell",
         "state": "WA",
         "zip": "98012",
@@ -25,7 +28,8 @@
     },
     {
         "id": 1017104,
-        "name": "Iron Man",
+        "firstName": "Steve",
+        "lastName": "Rogers",
         "city": "Orlando",
         "state": "FL",
         "zip": "33746",
@@ -33,7 +37,8 @@
     },
     {
         "id": 1017106,
-        "name": "Thor",
+        "firstName": "Thor",
+        "lastName": "of Asgard",
         "city": "Raleigh",
         "state": "NC",
         "zip": "27601",
@@ -41,7 +46,8 @@
     },
     {
         "id": 4444441,
-        "name": "Hulk",
+        "firstName": "Bruce",
+        "lastName": "Banner",
         "city": "Grand Rapids",
         "state": "MI",
         "zip": "49503",
@@ -49,7 +55,8 @@
     },
     {
         "id": 4444442,
-        "name": "Harry Potter",
+        "firstName": "Harry",
+        "lastName": "Potter",
         "city": "Seattle",
         "state": "WA",
         "zip": "98101",
@@ -57,7 +64,8 @@
     },
     {
         "id": 4444443,
-        "name": "Bilbo Baggins",
+        "firstName": "Bilbo",
+        "lastName": "Baggins",
         "city": "Phoenix",
         "state": "AZ",
         "zip": "85007",
@@ -65,7 +73,8 @@
     },
     {
         "id": 4444444,
-        "name": "Aragorn",
+        "firstName": "Elessar",
+        "lastName": "Telcontar",
         "city": "Nome",
         "state": "AK",
         "zip": "99762",
@@ -73,7 +82,8 @@
     },
     {
         "id": 4444445,
-        "name": "Percy Jackson",
+        "firstName": "Percy",
+        "lastName": "Jackson",
         "city": "Baltimore",
         "state": "MD",
         "zip": "21117",
@@ -81,7 +91,8 @@
     },
     {
         "id": 4444446,
-        "name": "Allanon",
+        "firstName": "Jerle",
+        "lastName": "Shannara",
         "city": "Dallas",
         "state": "TX",
         "zip": "75212",
@@ -89,7 +100,8 @@
     },
     {
         "id": 4444447,
-        "name": "Menion Leah",
+        "firstName": "Menion",
+        "lastName": "Leah",
         "city": "Highlands",
         "state": "TX",
         "zip": "77562",
@@ -97,7 +109,8 @@
     },
     {
         "id": 4444448,
-        "name": "Severus Snape",
+        "firstName": "Severus",
+        "lastName": "Snape",
         "city": "San Francisco",
         "state": "CA",
         "zip": "94111",
@@ -105,7 +118,8 @@
     },
     {
         "id": 4444449,
-        "name": "Sirius Black",
+        "firstName": "Sirius",
+        "lastName": "Black",
         "city": "New York City",
         "state": "NY",
         "zip": "10001",
@@ -113,7 +127,8 @@
     },
     {
         "id": 4444450,
-        "name": "Gandalf",
+        "firstName": "Gandalf",
+        "lastName": "the White",
         "city": "New Haven",
         "state": "CN",
         "zip": "06501",
@@ -121,7 +136,8 @@
     },
     {
         "id": 4444451,
-        "name": "Arwen",
+        "firstName": "Arwen",
+        "lastName": "Undómiel",
         "city": "Portland",
         "state": "OR",
         "zip": "97211",

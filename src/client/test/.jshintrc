@@ -71,6 +71,7 @@
 		"$q": false, 
 		"$rootScope": false, 
 		"$route": false,
+        "$timeout": false,
         "$": false,
 
         "dataservice": false

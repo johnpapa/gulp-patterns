@@ -13,6 +13,7 @@
         vm.customer = undefined;
         vm.goBack = goBack;
         vm.isUnchanged = isUnchanged;
+        vm.getFullName = getFullName;
         vm.save = save;
         vm.title = 'Customer Detail';
 
@@ -42,6 +43,10 @@
 
         function isUnchanged() {
             return angular.equals(vm.customer, vm.original);
+        }
+
+        function getFullName() {
+            return vm.firstName + ' ' + vm.lastName;
         }
 
         function save() {
