@@ -1257,6 +1257,7 @@ form {
     .user img {
         max-width: 70px;
         margin-top: 10px;
+        cursor: pointer;
     }
 
     .user .user-pic {

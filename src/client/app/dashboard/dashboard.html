@@ -32,6 +32,7 @@
                             <div class="container">
                                  <ul class="row image-group">
                                       <li ng-repeat="c in vm.customers | limitTo:12 | orderBy:'name'" 
+                                        ng-click="vm.gotoCustomer(c)"
                                         class="col-lg-2 col-md-2 col-sm-3 col-xs-4">
                                         <div class="user" title="Go to speaker details">
                                             <img cc-img-person="{{c.thumbnail}}" 

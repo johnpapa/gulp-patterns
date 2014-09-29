@@ -5,21 +5,21 @@
         .module('app.dashboard')
         .controller('Dashboard', Dashboard);
 
-    function Dashboard($q, dataservice, logger) {
+    function Dashboard($location, dataservice, logger) {
         /*jshint validthis: true */
         var vm = this;
-
+        vm.customers = [];
+        vm.gotoCustomer = gotoCustomer;
         vm.news = {
             title: 'Customers',
             description: 'Customer news'
         };
-        vm.customers = [];
         vm.title = 'Dashboard';
 
         activate();
 
         function activate() {
-            return $q.all([getCustomers()]).then(function() {
+            return getCustomers().then(function() {
                 logger.info('Activated Dashboard View');
             });
         }
@@ -29,6 +29,10 @@
                 vm.customers = data;
                 return vm.customers;
             });
+        }
+
+        function gotoCustomer(c) {
+            $location.path('/customer/' + c.id);
         }
     }
 })();
