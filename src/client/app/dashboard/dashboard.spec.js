@@ -1,4 +1,4 @@
-describe('Dashbaord', function() {
+describe('Dashboard', function() {
     var controller;
 
     beforeEach(function() {
