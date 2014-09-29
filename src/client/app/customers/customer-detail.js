@@ -9,8 +9,11 @@
     function CustomerDetail($routeParams, $window, dataservice, logger) {
         /*jshint validthis: true */
         var vm = this;
+        vm.cancel = cancel;
         vm.customer = undefined;
         vm.goBack = goBack;
+        vm.isUnchanged = isUnchanged;
+        vm.save = save;
         vm.title = 'Customer Detail';
 
         activate();
@@ -21,9 +24,14 @@
             });
         }
 
+        function cancel() {
+            vm.customer = angular.copy(vm.original);
+        }
+
         function getCustomer(id) {
             return dataservice.getCustomer(id).then(function(data) {
                 vm.customer = data;
+                vm.original = angular.copy(vm.customer);
                 return vm.customer;
             });
         }
@@ -32,5 +40,13 @@
             $window.history.back();
         }
 
+        function isUnchanged() {
+            return angular.equals(vm.customer, vm.original);
+        }
+
+        function save() {
+            vm.original = angular.copy(vm.customer);
+            logger.success('Saving Customer (not really)');
+        }
     }
 })();

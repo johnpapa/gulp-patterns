@@ -3,20 +3,22 @@
         <div class="container">
             <div>
                 <button class="btn btn-info btn-form-md"
-                        data-ng-click="vm.goBack()">
+                        ng-click="vm.goBack()">
                     <i class="fa fa-hand-o-left"></i>Back
                 </button>
                 <button class="btn btn-info btn-form-md"
-                        data-ng-click="vm.cancel()" data-ng-disabled="!vm.canSave">
+                        ng-click="vm.cancel()" 
+                        ng-disabled="vm.isUnchanged()">
                     <i class="fa fa-undo"></i>Cancel
                 </button>
                 <button class="btn btn-info btn-form-md"
-                        data-ng-click="vm.save()" data-ng-disabled="!vm.canSave">
+                        ng-click="vm.save()" 
+                        ng-disabled="form.$invalid || vm.isUnchanged()">
                     <i class="fa fa-save"></i>Save
                 </button>
 
                 <!--Need ng-hide for show/hide animations-->
-                <span data-ng-show="vm.hasChanges" class="dissolve-animation ng-hide flag-haschanges">
+                <span ng-show="vm.hasChanges" class="dissolve-animation ng-hide flag-haschanges">
                     <i class="fa fa-asterisk fa fa-asterisk-large" rel="tooltip" title="You have changes"></i>
                 </span>
             </div>
@@ -28,7 +30,7 @@
 
                         <div>
                             <input class="form-control"
-                                   data-ng-model="vm.customer.name"
+                                   ng-model="vm.customer.name"
                                    placeholder="Name"/>
                         </div>
                     </div>
