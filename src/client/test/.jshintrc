@@ -55,13 +55,13 @@
     "node": true,
 
     "globals": {
-        "angular": false,
-        "describe": false, 
-        "it": false, 
-        "beforeEach": false, 
         "afterEach": false, 
+        "angular": false,
+        "beforeEach": false, 
+        "describe": false, 
         "expect": false, 
         "inject": false, 
+        "it": false, 
         "mockData": false,
         "sinon": false, 
         "specHelper": false, 

@@ -66,6 +66,5 @@ describe('blocks.exception', function() {
         throw new Error(mocks.errorMessage);
     }
 
-
     specHelper.verifyNoOutstandingHttpRequests();
 });

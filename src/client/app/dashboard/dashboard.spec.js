@@ -41,7 +41,7 @@ describe('Dashbaord', function() {
             });
 
             it('should have at least 1 customer', function () {
-               expect(controller.customers).to.have.length.above(0);
+                expect(controller.customers).to.have.length.above(0);
             });
 
             it('should have customer Count of 5', function () {

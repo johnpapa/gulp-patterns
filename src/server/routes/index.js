@@ -8,7 +8,7 @@ module.exports = function(app) {
     function getCustomer(req, res, next) {
         var json = jsonfileservice.getJsonFromFile(pkg.paths.data + 'customers.json');
         var customer = json.filter(function(c) {
-            return c.id == req.params.id; // num and string
+            return c.id === parseInt(req.params.id);
         });
         res.send(customer[0]);
     }
