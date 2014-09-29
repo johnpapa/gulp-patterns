@@ -9,6 +9,7 @@ branches:
 before_install:
   - npm install bower -g
   - npm install gulp -g
+  - sudo yum install fontconfig freetype libfreetype.so.6 libfontconfig.so.1 libstdc++.so.6
 
 script:
   - npm install
