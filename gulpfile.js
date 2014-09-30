@@ -21,8 +21,8 @@ gulp.task('help', plug.taskListing);
 gulp.task('analyze', function() {
     log('Analyzing source with JSHint and JSCS');
 
-    var jshintTests = analyzejshint(['./src/client/**/*.spec.js']);
-    var jshint = analyzejshint([].concat(pkg.paths.js, pkg.paths.nodejs, '!./src/client/**/*.spec.js'));
+    var jshintTests = analyzejshint(pkg.paths.specs);
+    var jshint = analyzejshint([].concat(pkg.paths.js, pkg.paths.nodejs));
     var jscs = analyzejscs([].concat(pkg.paths.js, pkg.paths.nodejs));
     return merge(jshintTests, jshint, jscs);
 });
@@ -307,7 +307,7 @@ gulp.task('serve-stage', function() {
  */
 function analyzejshint(sources, overrideRcFile) {
     var jshintrcFile = overrideRcFile || './.jshintrc';
-    log('Running JSHint on [' + sources.join(',') + '] with rule file ' + jshintrcFile);
+    log('Running JSHint on [' + sources.join(',') + ']');
     return gulp
         .src(sources)
         .pipe(plug.jshint(jshintrcFile))
