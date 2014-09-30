@@ -1,14 +1,17 @@
 /* jshint camelcase:false */
 var gulp = require('gulp');
+var browserSync = require('browser-sync');
 var common = require('./gulp/common.js');
 var del = require('del');
 var karma = require('karma').server;
 var merge = require('merge-stream');
 var pkg = require('./package.json');
 var plug = require('gulp-load-plugins')();
+var reload = browserSync.reload;
 
 var env = plug.util.env;
 var log = plug.util.log;
+var port = process.env.PORT || 7203;
 
 /**
  * List the available gulp tasks
@@ -265,7 +268,6 @@ gulp.task('autotest', function (done) {
  */
 gulp.task('serve-dev-debug', function() {
     serve({mode: 'dev', debug: '--debug'});
-    startLivereload('development');
 });
 
 /**
@@ -275,7 +277,6 @@ gulp.task('serve-dev-debug', function() {
  */
 gulp.task('serve-dev-debug-brk', function() {
     serve({mode: 'dev', debug: '--debug-brk'});
-    startLivereload('development');
 });
 
 /**
@@ -284,7 +285,6 @@ gulp.task('serve-dev-debug-brk', function() {
  */
 gulp.task('serve-dev', function() {
     serve({mode: 'dev'});
-    startLivereload('development');
 });
 
 /**
@@ -293,7 +293,6 @@ gulp.task('serve-dev', function() {
  */
 gulp.task('serve-stage', function() {
     serve({mode: 'stage'});
-    startLivereload('stage');
 });
 
 ////////////////
@@ -349,15 +348,14 @@ function serve(args) {
     if (args.debug) {
         log('Running node-inspector. Browse to http://localhost:8080/debug?port=5858');
         exec = require('child_process').exec;
-        exec('node-inspector', function (err, stdout, stderr) {
-            log(stdout);
-            log(stderr);
-        //    cb(err);
-        });
+        exec('node-inspector');
         options.nodeArgs = [args.debug + '=5858'];
     }
 
     return plug.nodemon(options)
+        .on('start', function() {
+            startBrowserSync();
+        })
         //.on('change', tasks)
         .on('restart', function() {
             log('restarted!');
@@ -365,19 +363,18 @@ function serve(args) {
 }
 
 /**
- * Start Live Reload for a specific environment.
- * @param  {string} mode
- * @return {Steram}
+ * Start BrowserSync
+ * @return {Stream}
  */
-function startLivereload(mode) {
-    if (!env.liveReload) { return; }
+function startBrowserSync() {
+    if (!env.browserSync) { return; }
 
-    log('Starting LiveReload for ' + mode);
-    var path = (env === 'stage' ? [pkg.paths.stage, pkg.paths.client + '/**'] : [pkg.paths.client + '/**']);
-    var options = {auto: true};
-    plug.livereload.listen(options);
-    return gulp.watch(path)
-        .on('change', plug.livereload.changed);
+    log('Starting BrowserSync');
+
+    browserSync({
+        proxy: 'localhost:' + port,
+        files: [pkg.paths.client + '/**/*.*']
+    });
 }
 
 /**
