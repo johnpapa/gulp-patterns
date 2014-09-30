@@ -345,9 +345,15 @@ function serve(args) {
         ]
     };
 
+    var exec;
     if (args.debug) {
-        gulp.src('', {read: false})
-            .pipe(plug.shell(['node-inspector']));
+        log('Running node-inspector. Browse to http://localhost:8080/debug?port=5858');
+        exec = require('child_process').exec;
+        exec('node-inspector', function (err, stdout, stderr) {
+            log(stdout);
+            log(stderr);
+        //    cb(err);
+        });
         options.nodeArgs = [args.debug + '=5858'];
     }
 
