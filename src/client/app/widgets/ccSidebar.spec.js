@@ -1,3 +1,5 @@
+/* jshint -W117, -W030 */
+/* jshint multistr:true */
 describe('ccSidebar directive: ', function () {
     var dropdownElement;
     var el;

@@ -1,3 +1,4 @@
+/* jshint -W117, -W030 */
 describe('app.customers', function() {
     var controller;
 
@@ -12,7 +13,7 @@ describe('app.customers', function() {
     beforeEach(function () {
         sinon.stub(dataservice, 'getCustomer', function() {
             var deferred = $q.defer();
-            deferred.resolve(mockData.getMockCustomers()[0]);
+            deferred.resolve(mockData.blackWidow);
             return deferred.promise;
         }).withArgs('1017109');
 
