@@ -11,17 +11,8 @@ describe('app.customers', function() {
     });
 
     beforeEach(function () {
-        sinon.stub(dataservice, 'getCustomer', function() {
-            var deferred = $q.defer();
-            deferred.resolve(mockData.blackWidow);
-            return deferred.promise;
-        }).withArgs('1017109');
-
-        sinon.stub(dataservice, 'ready', function() {
-            var deferred = $q.defer();
-            deferred.resolve({test: 123});
-            return deferred.promise;
-        });
+        stubs.dataservice.getCustomer($q, dataservice);
+        stubs.dataservice.ready($q, dataservice);
 
         controller = $controller('CustomerDetail');
         $rootScope.$apply();

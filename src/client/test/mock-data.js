@@ -1,4 +1,4 @@
-/*jshint -W079 */
+/* jshint -W079 */
 var mockData = (function() {
     return {
         getMockCustomers: getMockCustomers,
