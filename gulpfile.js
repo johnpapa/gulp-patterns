@@ -1,6 +1,7 @@
 /* jshint camelcase:false */
 var gulp = require('gulp');
 var common = require('./gulp/common.js');
+var del = require('del');
 var karma = require('karma').server;
 var merge = require('merge-stream');
 var pkg = require('./package.json');
@@ -201,13 +202,11 @@ gulp.task('stage',
  * from the cmd line: gulp clean && gulp stage
  * @return {Stream}
  */
-gulp.task('clean', function() {
+gulp.task('clean', function(cb) {
     var paths = pkg.paths.build;
     log('Cleaning: ' + plug.util.colors.blue(paths));
 
-    return gulp
-        .src(paths, {read: false})
-        .pipe(plug.rimraf({force: true}));
+    del(paths, cb);
 });
 
 /**
