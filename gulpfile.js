@@ -21,7 +21,7 @@ gulp.task('help', plug.taskListing);
 gulp.task('analyze', function() {
     log('Analyzing source with JSHint and JSCS');
 
-    var jshintTests = analyzejshint(['./src/client/**/*.spec.js'], './src/client/test/.jshintrc');
+    var jshintTests = analyzejshint(['./src/client/**/*.spec.js']);
     var jshint = analyzejshint([].concat(pkg.paths.js, pkg.paths.nodejs, '!./src/client/**/*.spec.js'));
     var jscs = analyzejscs([].concat(pkg.paths.js, pkg.paths.nodejs));
     return merge(jshintTests, jshint, jscs);
