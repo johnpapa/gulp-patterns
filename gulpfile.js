@@ -367,7 +367,7 @@ function serve(args) {
 function startLivereload(mode) {
     if (!env.liveReload) { return; }
 
-    log('Serving from ' + mode);
+    log('Starting LiveReload for ' + mode);
     var path = (env === 'stage' ? [pkg.paths.stage, pkg.paths.client + '/**'] : [pkg.paths.client + '/**']);
     var options = {auto: true};
     plug.livereload.listen(options);
