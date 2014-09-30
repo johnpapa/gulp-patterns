@@ -372,9 +372,7 @@ function startLivereload(mode) {
     var options = {auto: true};
     plug.livereload.listen(options);
     return gulp.watch(path)
-        .on('change', function(file) {
-            plug.livereload.changed; //(file.path);
-        });
+        .on('change', plug.livereload.changed);
 }
 
 /**
