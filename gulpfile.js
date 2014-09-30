@@ -21,9 +21,9 @@ gulp.task('help', plug.taskListing);
 gulp.task('analyze', function() {
     log('Analyzing source with JSHint and JSCS');
 
-    var jshintTests = analyzejshint('./src/client/**/*.spec.js', './src/client/test/.jshintrc');
-    var jshint = analyzejshint([].concat(pkg.paths.js, pkg.paths.nodejs, '!./src/client/**/*.spec.js'), './.jshintrc');
-    var jscs = analyzejscs([].concat(pkg.paths.js, pkg.paths.nodejs), './.jshintrc');
+    var jshintTests = analyzejshint(['./src/client/**/*.spec.js'], './src/client/test/.jshintrc');
+    var jshint = analyzejshint([].concat(pkg.paths.js, pkg.paths.nodejs, '!./src/client/**/*.spec.js'));
+    var jscs = analyzejscs([].concat(pkg.paths.js, pkg.paths.nodejs));
     return merge(jshintTests, jshint, jscs);
 });
 
@@ -302,13 +302,15 @@ gulp.task('serve-stage', function() {
 /**
  * Execute JSHint on given source files
  * @param  {Array} sources
- * @param  {string} jshintrc - file
+ * @param  {String} overrideRcFile 
  * @return {Stream}
  */
-function analyzejshint(sources, jshintrc) {
+function analyzejshint(sources, overrideRcFile) {
+    var jshintrcFile = overrideRcFile || './.jshintrc';
+    log('Running JSHint on [' + sources.join(',') + '] with rule file ' + jshintrcFile);
     return gulp
         .src(sources)
-        .pipe(plug.jshint(jshintrc))
+        .pipe(plug.jshint(jshintrcFile))
         .pipe(plug.jshint.reporter('jshint-stylish'));
 }
 
@@ -318,6 +320,7 @@ function analyzejshint(sources, jshintrc) {
  * @return {Stream}
  */
 function analyzejscs(sources) {
+    log('Running JSCS on [' + sources.join(',') + ']');
     return gulp
         .src(sources)
         .pipe(plug.jscs('./.jscsrc'));
@@ -370,7 +373,7 @@ function startLivereload(mode) {
     plug.livereload.listen(options);
     return gulp.watch(path)
         .on('change', function(file) {
-            plug.livereload.changed(file.path);
+            plug.livereload.changed; //(file.path);
         });
 }
 

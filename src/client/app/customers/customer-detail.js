@@ -46,7 +46,7 @@
         }
 
         function getFullName() {
-            return vm.firstName + ' ' + vm.lastName;
+            return vm.customer && vm.customer.firstName + ' ' + vm.customer.lastName;
         }
 
         function save() {

@@ -1,7 +1,8 @@
 /*jshint -W079 */
 var mockData = (function() {
     return {
-        getMockCustomers: getMockCustomers
+        getMockCustomers: getMockCustomers,
+        blackWidow: getMockCustomers()[0]
     };
 
     function getMockCustomers() {
