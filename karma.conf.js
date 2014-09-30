@@ -29,6 +29,7 @@ module.exports = function (config) {
             /* MOCHA */
             './src/client/test/spec-helper.js',
             './src/client/test/mock-data.js',
+            './src/client/test/stubs.js',
 //            './src/client/**/*.spec.js',
 
             './src/client/app/app.module.js',
