@@ -15,18 +15,26 @@
     "tests"
   ],
   "devDependencies": {
-    "angular-mocks": "~1.2.24"
+    "angular-mocks": "~1.2.26"
   },
   "dependencies": {
-    "angular": "~1.2.24",
-    "toastr": "~2.0.1",
-    "bootstrap": "~3.1.1",
-    "moment": "~2.6.0",
     "jquery": "~2.1.0",
-    "angular-route": "~1.2.24",
-    "angular-animate": "~1.2.24",
-    "angular-sanitize": "~1.2.24",
-    "font-awesome": "~4.0.3",
-    "extras.angular.plus": "~0.9.0"
-  }
+    "angular": "~1.2.26",
+    "angular-route": "~1.2.26",
+    "angular-animate": "~1.2.26",
+    "angular-sanitize": "~1.2.26",
+    "bootstrap": "~3.2.0",
+    "extras.angular.plus": "~0.9.0",
+    "font-awesome": "~4.2.0",
+    "moment": "~2.6.0",
+    "toastr": "~2.0.1"
+  },
+  "overrides": {
+      "bootstrap": {
+          "main": [
+              "dist/css/bootstrap.min.css",
+              "dist/js/bootstrap.js"
+          ]
+      }
+  }  
 }
