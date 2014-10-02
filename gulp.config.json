@@ -2,7 +2,7 @@
   "client": "./src/client/",
   "server": "./src/server/",
   "htmltemplates": "./src/client/app/**/*.html",
-  "vendorjs": [
+  "Xvendorjs": [
     "./bower_components/jquery/dist/jquery.min.js",
     "./bower_components/angular/angular.min.js",
     "./bower_components/angular-animate/angular-animate.min.js",
@@ -13,7 +13,7 @@
     "./bower_components/moment/min/moment.min.js",
     "./bower_components/extras.angular.plus/ngplus-overlay.js"
   ],
-  "vendorcss": [
+  "Xvendorcss": [
     "./bower_components/bootstrap/dist/css/bootstrap.min.css",
     "./bower_components/font-awesome/css/font-awesome.min.css",
     "./bower_components/toastr/toastr.css"

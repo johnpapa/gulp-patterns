@@ -3,6 +3,7 @@ var gulp = require('gulp');
 var browserSync = require('browser-sync');
 var del = require('del');
 var karma = require('karma').server;
+var mainBowerFiles = require('main-bower-files');
 var merge = require('merge-stream');
 var paths = require('./gulp.config.json');
 var plug = require('gulp-load-plugins')();
@@ -62,7 +63,7 @@ gulp.task('js', ['analyze', 'templatecache'], function() {
         .pipe(plug.concat('all.min.js'))
         .pipe(plug.ngAnnotate({add: true, single_quotes: true}))
         .pipe(plug.bytediff.start())
-        .pipe(plug.uglify({mangle: true}))
+//        .pipe(plug.uglify({mangle: true}))
         .pipe(plug.bytediff.stop(bytediffFormatter))
         // .pipe(plug.sourcemaps.write('./'))
         .pipe(gulp.dest(paths.build));
@@ -74,7 +75,11 @@ gulp.task('js', ['analyze', 'templatecache'], function() {
  */
 gulp.task('vendorjs', function() {
     log('Bundling, minifying, and copying the Vendor JavaScript');
-    return gulp.src(paths.vendorjs)
+
+    var vendorFilter = plug.filter(['**/*.js']);
+
+    return gulp.src(mainBowerFiles())
+        .pipe(vendorFilter)
         .pipe(plug.concat('vendor.min.js'))
         .pipe(plug.bytediff.start())
         .pipe(plug.uglify())
@@ -88,6 +93,7 @@ gulp.task('vendorjs', function() {
  */
 gulp.task('css', function() {
     log('Bundling, minifying, and copying the app\'s CSS');
+    
     return gulp.src(paths.css)
         .pipe(plug.concat('all.min.css')) // Before bytediff or after
         .pipe(plug.autoprefixer('last 2 version', '> 5%'))
@@ -104,7 +110,11 @@ gulp.task('css', function() {
  */
 gulp.task('vendorcss', function() {
     log('Compressing, bundling, copying vendor CSS');
-    return gulp.src(paths.vendorcss)
+
+    var vendorFilter = plug.filter(['**/*.css']);
+
+    return gulp.src(mainBowerFiles())
+        .pipe(vendorFilter)
         .pipe(plug.concat('vendor.min.css'))
         .pipe(plug.bytediff.start())
         .pipe(plug.minifyCss({}))
