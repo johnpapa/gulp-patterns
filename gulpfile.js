@@ -13,8 +13,6 @@ var env = plug.util.env;
 var log = plug.util.log;
 var port = process.env.PORT || 7203;
 
-log(colors.blue('********** RUNNING IN ' + env + ' ENVIRONMENT **********'));
-
 /**
  * List the available gulp tasks
  */
@@ -215,7 +213,6 @@ gulp.task('clean', function(cb) {
 
 /**
  * Watch files and build
- * @return {Stream}
  */
 gulp.task('watch', function() {
     log('Watching all files');
@@ -256,7 +253,6 @@ gulp.task('test', function (done) {
  * Watch for file changes and re-run tests on each change
  * To start servers and run midway specs as well:
  *    gulp autotest --startServers  
- * @return {Stream}
  */
 gulp.task('autotest', function (done) {
     startTests(false /*singleRun*/, done);
@@ -265,7 +261,6 @@ gulp.task('autotest', function (done) {
 /**
  * serve the dev environment, with debug,
  * and with node inspector
- * @return {Stream}
  */
 gulp.task('serve-dev-debug', function() {
     serve({mode: 'dev', debug: '--debug'});
@@ -274,7 +269,6 @@ gulp.task('serve-dev-debug', function() {
 /**
  * serve the dev environment, with debug-brk,
  * and with node inspector
- * @return {Stream}
  */
 gulp.task('serve-dev-debug-brk', function() {
     serve({mode: 'dev', debug: '--debug-brk'});
@@ -282,7 +276,6 @@ gulp.task('serve-dev-debug-brk', function() {
 
 /**
  * serve the dev environment
- * @return {Stream}
  */
 gulp.task('serve-dev', function() {
     serve({mode: 'dev'});
@@ -290,7 +283,6 @@ gulp.task('serve-dev', function() {
 
 /**
  * serve the build environment
- * @return {Stream}
  */
 gulp.task('serve-build', function() {
     serve({mode: 'build'});
@@ -340,6 +332,7 @@ function serve(args) {
         watch: [
             'gulpfile.js',
             'package.json',
+            'gulp.config.json',
             paths.server,
             paths.client
         ]
