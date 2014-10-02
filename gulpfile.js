@@ -5,7 +5,7 @@ var common = require('./gulp/common.js');
 var del = require('del');
 var karma = require('karma').server;
 var merge = require('merge-stream');
-var pkg = require('./package.json');
+var paths = require('./gulp.config.json');
 var plug = require('gulp-load-plugins')();
 var reload = browserSync.reload;
 
@@ -25,9 +25,9 @@ gulp.task('help', plug.taskListing);
 gulp.task('analyze', function() {
     log('Analyzing source with JSHint and JSCS');
 
-    var jshintTests = analyzejshint(pkg.paths.specs);
-    var jshint = analyzejshint([].concat(pkg.paths.js, pkg.paths.nodejs));
-    var jscs = analyzejscs([].concat(pkg.paths.js, pkg.paths.nodejs));
+    var jshintTests = analyzejshint(paths.specs);
+    var jshint = analyzejshint([].concat(paths.js, paths.nodejs));
+    var jscs = analyzejscs([].concat(paths.js, paths.nodejs));
     return merge(jshintTests, jshint, jscs);
 });
 
@@ -39,13 +39,13 @@ gulp.task('templatecache', function() {
     log('Creating an AngularJS $templateCache');
 
     return gulp
-        .src(pkg.paths.htmltemplates)
+        .src(paths.htmltemplates)
         .pipe(plug.angularTemplatecache('templates.js', {
             module: 'app.core',
             standalone: false,
             root: 'app/'
         }))
-        .pipe(gulp.dest(pkg.paths.stage));
+        .pipe(gulp.dest(paths.stage));
 });
 
 /**
@@ -55,7 +55,7 @@ gulp.task('templatecache', function() {
 gulp.task('js', ['analyze', 'templatecache'], function() {
     log('Bundling, minifying, and copying the app\'s JavaScript');
 
-    var source = [].concat(pkg.paths.js, pkg.paths.stage + 'templates.js');
+    var source = [].concat(paths.js, paths.stage + 'templates.js');
     return gulp
         .src(source)
        // .pipe(plug.sourcemaps.init()) // get screwed up in the file rev process
@@ -65,7 +65,7 @@ gulp.task('js', ['analyze', 'templatecache'], function() {
         .pipe(plug.uglify({mangle: true}))
         .pipe(plug.bytediff.stop(common.bytediffFormatter))
         // .pipe(plug.sourcemaps.write('./'))
-        .pipe(gulp.dest(pkg.paths.stage));
+        .pipe(gulp.dest(paths.stage));
 });
 
 /**
@@ -74,12 +74,12 @@ gulp.task('js', ['analyze', 'templatecache'], function() {
  */
 gulp.task('vendorjs', function() {
     log('Bundling, minifying, and copying the Vendor JavaScript');
-    return gulp.src(pkg.paths.vendorjs)
+    return gulp.src(paths.vendorjs)
         .pipe(plug.concat('vendor.min.js'))
         .pipe(plug.bytediff.start())
         .pipe(plug.uglify())
         .pipe(plug.bytediff.stop(common.bytediffFormatter))
-        .pipe(gulp.dest(pkg.paths.stage)); // + 'vendor'));
+        .pipe(gulp.dest(paths.stage)); // + 'vendor'));
 });
 
 /**
@@ -88,14 +88,14 @@ gulp.task('vendorjs', function() {
  */
 gulp.task('css', function() {
     log('Bundling, minifying, and copying the app\'s CSS');
-    return gulp.src(pkg.paths.css)
+    return gulp.src(paths.css)
         .pipe(plug.concat('all.min.css')) // Before bytediff or after
         .pipe(plug.autoprefixer('last 2 version', '> 5%'))
         .pipe(plug.bytediff.start())
         .pipe(plug.minifyCss({}))
         .pipe(plug.bytediff.stop(common.bytediffFormatter))
 //        .pipe(plug.concat('all.min.css')) // Before bytediff or after
-        .pipe(gulp.dest(pkg.paths.stage + 'content'));
+        .pipe(gulp.dest(paths.stage + 'content'));
 });
 
 /**
@@ -104,12 +104,12 @@ gulp.task('css', function() {
  */
 gulp.task('vendorcss', function() {
     log('Compressing, bundling, copying vendor CSS');
-    return gulp.src(pkg.paths.vendorcss)
+    return gulp.src(paths.vendorcss)
         .pipe(plug.concat('vendor.min.css'))
         .pipe(plug.bytediff.start())
         .pipe(plug.minifyCss({}))
         .pipe(plug.bytediff.stop(common.bytediffFormatter))
-        .pipe(gulp.dest(pkg.paths.stage + 'content'));
+        .pipe(gulp.dest(paths.stage + 'content'));
 });
 
 /**
@@ -117,10 +117,10 @@ gulp.task('vendorcss', function() {
  * @return {Stream}
  */
 gulp.task('fonts', function() {
-    var dest = pkg.paths.stage + 'fonts';
+    var dest = paths.stage + 'fonts';
     log('Copying fonts');
     return gulp
-        .src(pkg.paths.fonts)
+        .src(paths.fonts)
         .pipe(gulp.dest(dest));
 });
 
@@ -129,10 +129,10 @@ gulp.task('fonts', function() {
  * @return {Stream}
  */
 gulp.task('images', function() {
-    var dest = pkg.paths.stage + 'content/images';
+    var dest = paths.stage + 'content/images';
     log('Compressing, caching, and copying images');
     return gulp
-        .src(pkg.paths.images)
+        .src(paths.images)
         .pipe(plug.cache(plug.imagemin({optimizationLevel: 3})))
         .pipe(gulp.dest(dest));
 });
@@ -146,8 +146,8 @@ gulp.task('rev-and-inject',
     ['js', 'vendorjs', 'css', 'vendorcss'], function() {
         log('Rev\'ing files and building index.html');
 
-        var minified = pkg.paths.stage + '**/*.min.*';
-        var index = pkg.paths.client + 'index.html';
+        var minified = paths.stage + '**/*.min.*';
+        var index = paths.client + 'index.html';
         var minFilter = plug.filter(['**/*.min.*', '!**/*.map']);
         var indexFilter = plug.filter(['index.html']);
 
@@ -156,7 +156,7 @@ gulp.task('rev-and-inject',
             .src([].concat(minified, index)) // add all staged min files and index.html
             .pipe(minFilter) // filter the stream to minified css and js
             .pipe(plug.rev()) // create files with rev's
-            .pipe(gulp.dest(pkg.paths.stage)) // write the rev files
+            .pipe(gulp.dest(paths.stage)) // write the rev files
             .pipe(minFilter.restore()) // remove filter, back to original stream
 
             // inject the files into index.html
@@ -165,19 +165,19 @@ gulp.task('rev-and-inject',
             .pipe(inject('content/all.min.css'))
             .pipe(inject('vendor.min.js', 'inject-vendor'))
             .pipe(inject('all.min.js'))
-            .pipe(gulp.dest(pkg.paths.stage)) // write the rev files
+            .pipe(gulp.dest(paths.stage)) // write the rev files
             .pipe(indexFilter.restore()) // remove filter, back to original stream
 
             // replace the files referenced in index.html with the rev'd files
             .pipe(plug.revReplace())         // Substitute in new filenames
-            .pipe(gulp.dest(pkg.paths.stage)) // write the index.html file changes
+            .pipe(gulp.dest(paths.stage)) // write the index.html file changes
             .pipe(plug.rev.manifest()) // create the manifest (must happen last or we screw up the injection)
-            .pipe(gulp.dest(pkg.paths.stage)); // write the manifest
+            .pipe(gulp.dest(paths.stage)); // write the manifest
 
         function inject(path, name) {
-            var glob = pkg.paths.stage + path;
+            var glob = paths.stage + path;
             var options = {
-                ignorePath: pkg.paths.stage.substring(1),
+                ignorePath: paths.stage.substring(1),
                 read: false
             };
             if (name) { options.name = name; }
@@ -206,7 +206,7 @@ gulp.task('stage',
  * @return {Stream}
  */
 gulp.task('clean', function(cb) {
-    var paths = pkg.paths.build;
+    var paths = paths.build;
     log('Cleaning: ' + plug.util.colors.blue(paths));
 
     del(paths, cb);
@@ -219,9 +219,9 @@ gulp.task('clean', function(cb) {
 gulp.task('watch', function() {
     log('Watching all files');
 
-    var css = ['gulpfile.js'].concat(pkg.paths.css, pkg.paths.vendorcss);
-    var images = ['gulpfile.js'].concat(pkg.paths.images);
-    var js = ['gulpfile.js'].concat(pkg.paths.js);
+    var css = ['gulpfile.js'].concat(paths.css, paths.vendorcss);
+    var images = ['gulpfile.js'].concat(paths.images);
+    var js = ['gulpfile.js'].concat(paths.js);
 
     gulp
         .watch(js, ['js', 'vendorjs'])
@@ -332,15 +332,15 @@ function analyzejscs(sources) {
  */
 function serve(args) {
     var options = {
-        script: pkg.paths.server + 'app.js',
+        script: paths.server + 'app.js',
         delayTime: 1,
         ext: 'html js',
         env: {'NODE_ENV': args.mode},
         watch: [
             'gulpfile.js',
             'package.json',
-            pkg.paths.server,
-            pkg.paths.client
+            paths.server,
+            paths.client
         ]
     };
 
@@ -373,7 +373,7 @@ function startBrowserSync() {
 
     browserSync({
         proxy: 'localhost:' + port,
-        files: [pkg.paths.client + '/**/*.*']
+        files: [paths.client + '/**/*.*']
     });
 }
 
@@ -435,9 +435,9 @@ function startTests(singleRun, done) {
  */
 gulp.task('ngAnnotateTest', function() {
     log('Annotating AngularJS dependencies');
-    var source = [].concat(pkg.paths.js);
+    var source = [].concat(paths.js);
     return gulp
-        .src(pkg.paths.client + '/app/avengers/avengers.js')
+        .src(paths.client + '/app/avengers/avengers.js')
         .pipe(plug.ngAnnotate({add: true, single_quotes: true}))
-        .pipe(gulp.dest(pkg.paths.client + '/app/avengers/annotated'));
+        .pipe(gulp.dest(paths.client + '/app/avengers/annotated'));
 });
