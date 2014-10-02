@@ -43,6 +43,5 @@
   "images": [
     "./src/client/content/images/**/*"
   ],
-  "stage": "./build/stage/",
   "build": "./build/"
 }

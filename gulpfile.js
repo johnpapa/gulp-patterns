@@ -1,7 +1,6 @@
 /* jshint camelcase:false */
 var gulp = require('gulp');
 var browserSync = require('browser-sync');
-var common = require('./gulp/common.js');
 var del = require('del');
 var karma = require('karma').server;
 var merge = require('merge-stream');
@@ -9,9 +8,12 @@ var paths = require('./gulp.config.json');
 var plug = require('gulp-load-plugins')();
 var reload = browserSync.reload;
 
+var colors = plug.util.colors;
 var env = plug.util.env;
 var log = plug.util.log;
 var port = process.env.PORT || 7203;
+
+log(colors.blue('********** RUNNING IN ' + env + ' ENVIRONMENT **********'));
 
 /**
  * List the available gulp tasks
@@ -45,7 +47,7 @@ gulp.task('templatecache', function() {
             standalone: false,
             root: 'app/'
         }))
-        .pipe(gulp.dest(paths.stage));
+        .pipe(gulp.dest(paths.build));
 });
 
 /**
@@ -55,7 +57,7 @@ gulp.task('templatecache', function() {
 gulp.task('js', ['analyze', 'templatecache'], function() {
     log('Bundling, minifying, and copying the app\'s JavaScript');
 
-    var source = [].concat(paths.js, paths.stage + 'templates.js');
+    var source = [].concat(paths.js, paths.build + 'templates.js');
     return gulp
         .src(source)
        // .pipe(plug.sourcemaps.init()) // get screwed up in the file rev process
@@ -63,9 +65,9 @@ gulp.task('js', ['analyze', 'templatecache'], function() {
         .pipe(plug.ngAnnotate({add: true, single_quotes: true}))
         .pipe(plug.bytediff.start())
         .pipe(plug.uglify({mangle: true}))
-        .pipe(plug.bytediff.stop(common.bytediffFormatter))
+        .pipe(plug.bytediff.stop(bytediffFormatter))
         // .pipe(plug.sourcemaps.write('./'))
-        .pipe(gulp.dest(paths.stage));
+        .pipe(gulp.dest(paths.build));
 });
 
 /**
@@ -78,8 +80,8 @@ gulp.task('vendorjs', function() {
         .pipe(plug.concat('vendor.min.js'))
         .pipe(plug.bytediff.start())
         .pipe(plug.uglify())
-        .pipe(plug.bytediff.stop(common.bytediffFormatter))
-        .pipe(gulp.dest(paths.stage)); // + 'vendor'));
+        .pipe(plug.bytediff.stop(bytediffFormatter))
+        .pipe(gulp.dest(paths.build));
 });
 
 /**
@@ -93,9 +95,9 @@ gulp.task('css', function() {
         .pipe(plug.autoprefixer('last 2 version', '> 5%'))
         .pipe(plug.bytediff.start())
         .pipe(plug.minifyCss({}))
-        .pipe(plug.bytediff.stop(common.bytediffFormatter))
+        .pipe(plug.bytediff.stop(bytediffFormatter))
 //        .pipe(plug.concat('all.min.css')) // Before bytediff or after
-        .pipe(gulp.dest(paths.stage + 'content'));
+        .pipe(gulp.dest(paths.build + 'content'));
 });
 
 /**
@@ -108,8 +110,8 @@ gulp.task('vendorcss', function() {
         .pipe(plug.concat('vendor.min.css'))
         .pipe(plug.bytediff.start())
         .pipe(plug.minifyCss({}))
-        .pipe(plug.bytediff.stop(common.bytediffFormatter))
-        .pipe(gulp.dest(paths.stage + 'content'));
+        .pipe(plug.bytediff.stop(bytediffFormatter))
+        .pipe(gulp.dest(paths.build + 'content'));
 });
 
 /**
@@ -117,7 +119,7 @@ gulp.task('vendorcss', function() {
  * @return {Stream}
  */
 gulp.task('fonts', function() {
-    var dest = paths.stage + 'fonts';
+    var dest = paths.build + 'fonts';
     log('Copying fonts');
     return gulp
         .src(paths.fonts)
@@ -129,7 +131,7 @@ gulp.task('fonts', function() {
  * @return {Stream}
  */
 gulp.task('images', function() {
-    var dest = paths.stage + 'content/images';
+    var dest = paths.build + 'content/images';
     log('Compressing, caching, and copying images');
     return gulp
         .src(paths.images)
@@ -146,17 +148,17 @@ gulp.task('rev-and-inject',
     ['js', 'vendorjs', 'css', 'vendorcss'], function() {
         log('Rev\'ing files and building index.html');
 
-        var minified = paths.stage + '**/*.min.*';
+        var minified = paths.build + '**/*.min.*';
         var index = paths.client + 'index.html';
         var minFilter = plug.filter(['**/*.min.*', '!**/*.map']);
         var indexFilter = plug.filter(['index.html']);
 
         var stream = gulp
             // Write the revisioned files
-            .src([].concat(minified, index)) // add all staged min files and index.html
+            .src([].concat(minified, index)) // add all built min files and index.html
             .pipe(minFilter) // filter the stream to minified css and js
             .pipe(plug.rev()) // create files with rev's
-            .pipe(gulp.dest(paths.stage)) // write the rev files
+            .pipe(gulp.dest(paths.build)) // write the rev files
             .pipe(minFilter.restore()) // remove filter, back to original stream
 
             // inject the files into index.html
@@ -165,19 +167,19 @@ gulp.task('rev-and-inject',
             .pipe(inject('content/all.min.css'))
             .pipe(inject('vendor.min.js', 'inject-vendor'))
             .pipe(inject('all.min.js'))
-            .pipe(gulp.dest(paths.stage)) // write the rev files
+            .pipe(gulp.dest(paths.build)) // write the rev files
             .pipe(indexFilter.restore()) // remove filter, back to original stream
 
             // replace the files referenced in index.html with the rev'd files
             .pipe(plug.revReplace())         // Substitute in new filenames
-            .pipe(gulp.dest(paths.stage)) // write the index.html file changes
+            .pipe(gulp.dest(paths.build)) // write the index.html file changes
             .pipe(plug.rev.manifest()) // create the manifest (must happen last or we screw up the injection)
-            .pipe(gulp.dest(paths.stage)); // write the manifest
+            .pipe(gulp.dest(paths.build)); // write the manifest
 
         function inject(path, name) {
-            var glob = paths.stage + path;
+            var glob = paths.build + path;
             var options = {
-                ignorePath: paths.stage.substring(1),
+                ignorePath: paths.build.substring(1),
                 read: false
             };
             if (name) { options.name = name; }
@@ -186,30 +188,29 @@ gulp.task('rev-and-inject',
     });
 
 /**
- * Stage the optimized app
+ * Build the optimized app
  * @return {Stream}
  */
-gulp.task('stage',
+gulp.task('build',
     ['rev-and-inject', 'images', 'fonts'], function() {
-        log('Staging the optimized app');
+        log('Building the optimized app');
 
         return gulp.src('').pipe(plug.notify({
             onLast: true,
-            message: 'Deployed code to stage!'
+            message: 'Deployed code!'
         }));
     });
 
 /**
  * Remove all files from the build folder
  * One way to run clean before all tasks is to run
- * from the cmd line: gulp clean && gulp stage
+ * from the cmd line: gulp clean && gulp build
  * @return {Stream}
  */
 gulp.task('clean', function(cb) {
-    var paths = paths.build;
-    log('Cleaning: ' + plug.util.colors.blue(paths));
+    log('Cleaning: ' + plug.util.colors.blue(paths.build));
 
-    del(paths, cb);
+    del(paths.build, cb);
 });
 
 /**
@@ -288,11 +289,11 @@ gulp.task('serve-dev', function() {
 });
 
 /**
- * serve the staging environment
+ * serve the build environment
  * @return {Stream}
  */
-gulp.task('serve-stage', function() {
-    serve({mode: 'stage'});
+gulp.task('serve-build', function() {
+    serve({mode: 'build'});
 });
 
 ////////////////
@@ -417,6 +418,28 @@ function startTests(singleRun, done) {
         if (child) {child.kill();}
         done();
     }
+}
+
+/**
+ * Formatter for bytediff to display the size changes after processing
+ * @param  {Object} data - byte data
+ * @return {String}      Difference in bytes, formatted
+ */
+function bytediffFormatter(data) {
+    var difference = (data.savings > 0) ? ' smaller.' : ' larger.';
+    return data.fileName + ' went from ' +
+        (data.startSize / 1000).toFixed(2) + ' kB to ' + (data.endSize / 1000).toFixed(2) + ' kB' +
+        ' and is ' + formatPercent(1 - data.percent, 2) + '%' + difference;
+}
+
+/**
+ * Format a number as a percentage
+ * @param  {Number} num       Number to format as a percent
+ * @param  {Number} precision Precision of the decimal
+ * @return {Number}           Formatted perentage
+ */
+function formatPercent(num, precision) {
+    return (num * 100).toFixed(precision);
 }
 
 /**
