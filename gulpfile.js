@@ -6,6 +6,7 @@ var karma = require('karma').server;
 var mainBowerFiles = require('main-bower-files');
 var merge = require('merge-stream');
 var paths = require('./gulp.config.json');
+var plato = require('plato');
 var plug = require('gulp-load-plugins')();
 var reload = browserSync.reload;
 
@@ -20,15 +21,18 @@ var port = process.env.PORT || 7203;
 gulp.task('help', plug.taskListing);
 
 /**
- * Lint the code
+ * Lint the code, create coverage report, and a visualizer
  * @return {Stream}
  */
 gulp.task('analyze', function() {
-    log('Analyzing source with JSHint and JSCS');
+    log('Analyzing source with JSHint, JSCS, and Plato');
 
     var jshintTests = analyzejshint(paths.specs);
     var jshint = analyzejshint([].concat(paths.js, paths.nodejs));
     var jscs = analyzejscs([].concat(paths.js, paths.nodejs));
+
+    startPlatoVisualizer();
+
     return merge(jshintTests, jshint, jscs);
 });
 
@@ -221,7 +225,8 @@ gulp.task('build',
 gulp.task('clean', function(cb) {
     log('Cleaning: ' + plug.util.colors.blue(paths.build));
 
-    del(paths.build, cb);
+    var delPaths = [].concat(paths.build, paths.report);
+    del(delPaths, cb);
 });
 
 /**
@@ -385,6 +390,41 @@ function startBrowserSync() {
 }
 
 /**
+ * Start Plato inspector and visualizer
+ */
+function startPlatoVisualizer() {
+    log('Running Plato');
+
+    var exec = require('child_process').exec;
+    exec('plato -r -d "report/plato" -l .jshintrc -t "Plato Report" -x ".*\.spec.js" src/client/app');
+
+//     var files = [
+//         'src\/client\/app\/**\/*.*'
+//         // 'src\/client\/app\/'
+// //        'src\/client\/app\/app.module.js'
+//     ];
+
+//     var options = {
+//         title: 'Plato Inspections Report',
+// //        exclude: 'src/client/test'
+//         exclude: /src\/client\/.*\.spec.js/
+//     };
+//     var outputDir = './report/plato';
+
+    // plato.inspect(files, outputDir, options, platoCompleted);
+
+    // function platoCompleted(report) {
+    //     console.log(report);
+    //     var overview = plato.getOverviewReport(report);
+    //     console.log(overview);
+    //     //TODO: inspect this
+    //     // report.complexity
+    //     // report.jshint
+    //     //test.ok(overview.summary.total.sloc === 10, 'Should contain total sloc without empty lines counted');
+    // }
+}
+
+/**
  * Start the tests using karma.
  * @param  {boolean} singleRun - True means run once and end (CI), or keep running (dev)
  * @param  {Function} done - Callback to fire when karma is done
@@ -412,6 +452,7 @@ function startTests(singleRun, done) {
     }, karmaCompleted);
 
     ////////////////
+    
     function childProcessCompleted(error, stdout, stderr) {
         log('stdout: ' + stdout);
         log('stderr: ' + stderr);

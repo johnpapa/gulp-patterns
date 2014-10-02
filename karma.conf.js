@@ -59,7 +59,7 @@ module.exports = function (config) {
 
         coverageReporter: {
             type: 'lcov',
-            dir: 'src/client/test/coverage'
+            dir: 'report/coverage'
         },
 
         // web server port
