@@ -41,6 +41,9 @@ gulp.task('templatecache', function() {
 
     return gulp
         .src(paths.htmltemplates)
+        // .pipe(plug.bytediff.start())
+        .pipe(plug.minifyHtml({empty:true}))
+        // .pipe(plug.bytediff.stop(bytediffFormatter))
         .pipe(plug.angularTemplatecache('templates.js', {
             module: 'app.core',
             standalone: false,
@@ -63,7 +66,7 @@ gulp.task('js', ['analyze', 'templatecache'], function() {
         .pipe(plug.concat('all.min.js'))
         .pipe(plug.ngAnnotate({add: true, single_quotes: true}))
         .pipe(plug.bytediff.start())
-//        .pipe(plug.uglify({mangle: true}))
+        .pipe(plug.uglify({mangle: true}))
         .pipe(plug.bytediff.stop(bytediffFormatter))
         // .pipe(plug.sourcemaps.write('./'))
         .pipe(gulp.dest(paths.build));
@@ -93,7 +96,7 @@ gulp.task('vendorjs', function() {
  */
 gulp.task('css', function() {
     log('Bundling, minifying, and copying the app\'s CSS');
-    
+
     return gulp.src(paths.css)
         .pipe(plug.concat('all.min.css')) // Before bytediff or after
         .pipe(plug.autoprefixer('last 2 version', '> 5%'))
