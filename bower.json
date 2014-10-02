@@ -15,8 +15,7 @@
     "tests"
   ],
   "devDependencies": {
-    "angular-mocks": "~1.2.25",
-    "angular": "~1.2.26"
+    "angular-mocks": "~1.2.25"
   },
   "dependencies": {
     "jquery": "~2.1.0",
@@ -31,11 +30,11 @@
     "toastr": "~2.0.1"
   },
   "overrides": {
-    "bootstrap": {
-      "main": [
-        "dist/css/bootstrap.min.css",
-        "dist/js/bootstrap.js"
-      ]
-    }
-  }
+      "bootstrap": {
+          "main": [
+              "dist/css/bootstrap.min.css",
+              "dist/js/bootstrap.js"
+          ]
+      }
+  }  
 }
