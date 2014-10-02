@@ -10,9 +10,11 @@ obj
 # Ignore Node & Bower
 ###################
 node_modules
-/modular/client/build
-/modular/build
 bower_components
+/modular/build
+
+# Ignore Test reporters
+###################
 **/test/coverage
 report
 
@@ -67,5 +69,4 @@ journal
 ehthumbs.db
 Icon?
 Thumbs.db
-packages
 
