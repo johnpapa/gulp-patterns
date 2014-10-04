@@ -20,13 +20,13 @@
   "dependencies": {
     "jquery": "~2.1.0",
     "angular": "~1.2.26",
-    "angular-route": "~1.2.26",
     "angular-animate": "~1.2.26",
     "angular-sanitize": "~1.2.26",
     "bootstrap": "~3.2.0",
     "extras.angular.plus": "~0.9.1",
     "font-awesome": "~4.2.0",
     "moment": "~2.6.0",
-    "toastr": "~2.0.1"
+    "toastr": "~2.0.1",
+    "ui-router": "~0.2.11"
   }
 }

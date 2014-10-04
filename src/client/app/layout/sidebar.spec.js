@@ -5,7 +5,7 @@ describe('layout', function () {
 
         beforeEach(function() {
             module('app', specHelper.fakeLogger);
-            specHelper.injector(function($controller, $httpBackend, $location, $rootScope, $route) {});
+            specHelper.injector(function($controller, $httpBackend, $location, $rootScope, $state) {});
         });
 
         beforeEach(function () {
@@ -17,7 +17,7 @@ describe('layout', function () {
             $location.path('/');
             $httpBackend.flush();
             $rootScope.$apply();
-            expect(controller.isCurrent($route.current)).to.equal('current');
+            expect(controller.isCurrent($state.current)).to.equal('current');
         });
 
         it('should have isCurrent() for /customers to return `current`', function () {
@@ -25,7 +25,7 @@ describe('layout', function () {
             $location.path('/customers');
             $httpBackend.flush();
             $rootScope.$apply();
-            expect(controller.isCurrent($route.current)).to.equal('current');
+            expect(controller.isCurrent($state.current)).to.equal('current');
         });
 
         it('should have isCurrent() for non route not return `current`', function () {

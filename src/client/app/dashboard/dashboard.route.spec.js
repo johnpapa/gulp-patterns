@@ -1,29 +1,28 @@
 /* jshint -W117, -W030 */
 describe('dashboard', function () {
-    describe('route', function () {
+    describe('state', function () {
         var controller;
 
         beforeEach(function() {
             module('app', specHelper.fakeLogger);
-            specHelper.injector(function($httpBackend, $location, $rootScope, $route) {});            
+            specHelper.injector(function($httpBackend, $location, $rootScope, $state) {});            
             $httpBackend.expectGET('app/dashboard/dashboard.html').respond(200);
         });
 
         it('should map / route to dashboard View template', function () {
-            expect($route.routes['/'].templateUrl).
+            expect($state.get('dashboard').templateUrl).
                 to.equal('app/dashboard/dashboard.html');
         });
 
-        it('should route / to the dashboard View', function () {
-            $location.path('/');
-            $rootScope.$digest();
-            expect($route.current.templateUrl).to.equal('app/dashboard/dashboard.html');
+        it('should map state dashboard to url / ', function () {
+            expect($state.href('dashboard', {})).to.equal('/');
         });
 
-        it('should route /invalid to the otherwise (dashboard) route', function () {
-            $location.path('/invalid');
+        it('should route / to the dashboard View', function () {
+            expect($state.href('dashboard', {})).to.equal('/');
+            $state.go('dashboard');
             $rootScope.$digest();
-            expect($route.current.templateUrl).to.equal('app/dashboard/dashboard.html');
+            expect($state.current.templateUrl).to.equal('app/dashboard/dashboard.html');
         });
     });
 });

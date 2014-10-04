@@ -5,7 +5,7 @@
         .module('app.dashboard')
         .controller('Dashboard', Dashboard);
 
-    function Dashboard($location, dataservice, logger) {
+    function Dashboard($state, dataservice, logger) {
         /*jshint validthis: true */
         var vm = this;
         vm.customers = [];
@@ -32,7 +32,7 @@
         }
 
         function gotoCustomer(c) {
-            $location.path('/customer/' + c.id);
+            $state.go('customer.detail', {id: c.id});
         }
     }
 })();

@@ -9,7 +9,6 @@
                         <table class="table table-condensed table-hover">
                             <thead>
                             <tr>
-<!--                                 <th></th> -->
                                 <th>Customer</th>
                                 <th>City</th>
                                 <th>State</th>
@@ -18,9 +17,6 @@
                             <tbody>
                             <tr ng-repeat="c in vm.customers | filter:vm.filter track by c.id" 
                                 ng-click="vm.gotoCustomer(c)">
-<!--                                 <td><img
-                                        ng-src="{{c.thumbnail.path}}.{{c.thumbnail.extension}}"
-                                        class="customer-thumb img-rounded"/></td> -->
                                 <td>{{c.firstName + ' ' + c.lastName}}</td>
                                 <td>{{c.city}}</td>
                                 <td>{{c.state}}</td>

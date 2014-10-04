@@ -1,5 +1,5 @@
-﻿<div data-ng-controller="Shell as vm">
-    <div id="splash-page" data-ng-show="vm.showSplash" class="dissolve-animation">
+﻿<div ng-controller="Shell as vm">
+    <div id="splash-page" ng-show="vm.showSplash" class="dissolve-animation">
         <div class="page-splash">
             <div class="page-splash-message">
                 Gulp Patterns Demo
@@ -8,12 +8,12 @@
     </div>
 
     <header class="clearfix">
-        <div data-ng-include="'app/layout/topnav.html'"></div>
+        <div ng-include="'app/layout/topnav.html'"></div>
     </header>
     <section id="content" class="content">
-        <div data-ng-include="'app/layout/sidebar.html'"></div>
+        <div ng-include="'app/layout/sidebar.html'"></div>
 
-        <div data-ng-view class="shuffle-animation"></div>
+        <div ui-view class="shuffle-animation"></div>
 
         <div ngplus-overlay
              ngplus-overlay-delay-in="50"

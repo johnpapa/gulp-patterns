@@ -6,7 +6,7 @@
         .controller('CustomerDetail', CustomerDetail);
 
     /* @ngInject */
-    function CustomerDetail($routeParams, $window, dataservice, logger) {
+    function CustomerDetail($stateParams, $window, dataservice, logger) {
         /*jshint validthis: true */
         var vm = this;
         vm.cancel = cancel;
@@ -20,7 +20,7 @@
         activate();
 
         function activate() {
-            return getCustomer($routeParams.id).then(function() {
+            return getCustomer($stateParams.id).then(function() {
                 logger.info('Activated Customer Detail View');
             });
         }

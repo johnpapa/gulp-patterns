@@ -6,15 +6,24 @@
         .run(appRun);
 
     /* @ngInject */
-    function appRun(routehelper) {
-        routehelper.configureRoutes(getRoutes());
+    function appRun(routerHelper) {
+        routerHelper.configureStates(getStates());
     }
 
-    function getRoutes() {
+    function getStates() {
         return [
             {
-                url: '/customers',
+                state: 'customer',
                 config: {
+                    absract: true,
+                    template: '<ui-view/>',
+                    url: '/customer'
+                }
+            },
+            {
+                state: 'customer.list',
+                config: {
+                    url: '/list',
                     templateUrl: 'app/customers/customers.html',
                     controller: 'Customers',
                     controllerAs: 'vm',
@@ -26,8 +35,9 @@
                 }
             },
             {
-                url: '/customer/:id',
+                state: 'customer.detail',
                 config: {
+                    url: '/:id',
                     templateUrl: 'app/customers/customer-detail.html',
                     controller: 'CustomerDetail',
                     controllerAs: 'vm',
