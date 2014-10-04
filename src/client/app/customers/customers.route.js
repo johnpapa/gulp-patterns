@@ -16,7 +16,7 @@
                 state: 'customer',
                 config: {
                     absract: true,
-                    template: '<ui-view/>',
+                    template: '<ui-view class="shuffle-animation"/>',
                     url: '/customer'
                 }
             },
