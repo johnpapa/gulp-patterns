@@ -28,13 +28,5 @@
     "font-awesome": "~4.2.0",
     "moment": "~2.6.0",
     "toastr": "~2.0.1"
-  },
-  "overrides": {
-    "bootstrap": {
-      "main": [
-        "dist/css/bootstrap.min.css",
-        "dist/js/bootstrap.js"
-      ]
-    }
   }
 }

@@ -27,13 +27,12 @@ gulp.task('help', plug.taskListing);
 gulp.task('analyze', function() {
     log('Analyzing source with JSHint, JSCS, and Plato');
 
-    var jshintTests = analyzejshint(paths.specs);
-    var jshint = analyzejshint([].concat(paths.js, paths.nodejs));
+    var jshint = analyzejshint([].concat(paths.js, paths.specs, paths.nodejs));
     var jscs = analyzejscs([].concat(paths.js, paths.nodejs));
 
     startPlatoVisualizer();
 
-    return merge(jshintTests, jshint, jscs);
+    return merge(jshint, jscs);
 });
 
 /**
@@ -313,7 +312,7 @@ gulp.task('serve-build', function() {
  */
 function analyzejshint(sources, overrideRcFile) {
     var jshintrcFile = overrideRcFile || './.jshintrc';
-    log('Running JSHint on [' + sources.join(',') + ']');
+    log('Running JSHint');
     return gulp
         .src(sources)
         .pipe(plug.jshint(jshintrcFile))
@@ -326,7 +325,7 @@ function analyzejshint(sources, overrideRcFile) {
  * @return {Stream}
  */
 function analyzejscs(sources) {
-    log('Running JSCS on [' + sources.join(',') + ']');
+    log('Running JSCS');
     return gulp
         .src(sources)
         .pipe(plug.jscs('./.jscsrc'));
@@ -405,7 +404,7 @@ function startPlatoVisualizer() {
 
     function platoCompleted(report) {
         var overview = plato.getOverviewReport(report);
-        console.log(overview);
+        log(overview.summary);
     }
 }
 
