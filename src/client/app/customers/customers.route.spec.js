@@ -9,17 +9,16 @@ describe('customers', function () {
             $httpBackend.expectGET('app/customers/customers.html').respond(200);
         });
 
-        it('should map state customers to url /customers ', function () {
-            expect($state.href('customers', {})).to.equal('/customers');
+        it('should map state customer.list to url /customer/list ', function () {
+            expect($state.href('customer.list', {})).to.equal('#/customer/list');
         });
 
-        it.only('should map state customer.detail to url /customer/:id ', function () {
-            console.log($state.href('customer.detail'));
-            // expect($state.href('.detail', {id: 7})).to.equal('/customer/7');
+        it('should map state customer.detail to url /customer/:id ', function () {
+            expect($state.href('customer.detail', {id: 7})).to.equal('#/customer/7');    
         });
 
         it('should map /customers route to customers View template', function () {
-            expect($state.get('customers').templateUrl).
+            expect($state.get('customer.list').templateUrl).
                 to.equal('app/customers/customers.html');
         });
 
@@ -28,10 +27,11 @@ describe('customers', function () {
                 to.equal('app/customers/customer-detail.html');
         });
 
-        it('of customers should route to the customers View', function () {
-            $state.go('customers');
+        it('of customer.list should work with $state.go', function () {
+            $httpBackend.expectGET('app/dashboard/dashboard.html').respond(200);
+            $state.go('customer.list');
             $rootScope.$apply();
-            expect($state.current.templateUrl).to.equal('app/customers/customers.html');
+            expect($state.is('customer.list'));
         });
     });
 });

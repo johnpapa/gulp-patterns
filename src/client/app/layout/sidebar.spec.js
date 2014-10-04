@@ -21,6 +21,7 @@ describe('layout', function () {
         });
 
         it('should have isCurrent() for /customers to return `current`', function () {
+            $httpBackend.when('GET', 'app/dashboard/dashboard.html').respond(200);
             $httpBackend.when('GET', 'app/customers/customers.html').respond(200);
             $location.path('/customers');
             $httpBackend.flush();

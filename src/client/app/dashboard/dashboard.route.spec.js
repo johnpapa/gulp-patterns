@@ -15,14 +15,15 @@ describe('dashboard', function () {
         });
 
         it('should map state dashboard to url / ', function () {
-            expect($state.href('dashboard', {})).to.equal('/');
+            expect($state.href('dashboard', {})).to.equal('#/');
         });
 
-        it('should route / to the dashboard View', function () {
-            expect($state.href('dashboard', {})).to.equal('/');
+        it('of dashboard should work with $state.go', function () {
+//            $httpBackend.expectGET('app/dashboard/dashboard.html').respond(200);
             $state.go('dashboard');
-            $rootScope.$digest();
-            expect($state.current.templateUrl).to.equal('app/dashboard/dashboard.html');
+            $rootScope.$apply();
+            expect($state.is('dashboard'));
         });
+
     });
 });
