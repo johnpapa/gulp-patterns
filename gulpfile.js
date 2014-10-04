@@ -4,7 +4,6 @@ var browserSync = require('browser-sync');
 var del = require('del');
 var glob = require('glob');
 var karma = require('karma').server;
-var mainBowerFiles = require('main-bower-files');
 var merge = require('merge-stream');
 var paths = require('./gulp.config.json');
 var plato = require('plato');
@@ -84,10 +83,7 @@ gulp.task('js', ['analyze', 'templatecache'], function() {
 gulp.task('vendorjs', function() {
     log('Bundling, minifying, and copying the Vendor JavaScript');
 
-    var vendorFilter = plug.filter(['**/*.js']);
-
-    return gulp.src(mainBowerFiles())
-        .pipe(vendorFilter)
+    return gulp.src(paths.vendorjs)
         .pipe(plug.concat('vendor.min.js'))
         .pipe(plug.bytediff.start())
         .pipe(plug.uglify())
@@ -121,7 +117,7 @@ gulp.task('vendorcss', function() {
 
     var vendorFilter = plug.filter(['**/*.css']);
 
-    return gulp.src(mainBowerFiles())
+    return gulp.src(paths.vendorcss)
         .pipe(vendorFilter)
         .pipe(plug.concat('vendor.min.css'))
         .pipe(plug.bytediff.start())
