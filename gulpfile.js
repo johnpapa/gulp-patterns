@@ -396,6 +396,7 @@ function startBrowserSync() {
 function startPlatoVisualizer() {
     log('Running Plato');
 
+    // Could run via command line
     // var exec = require('child_process').exec;
     // exec('plato -r -d "report/plato" -l .jshintrc -t "Plato Report" -x ".*\.spec.js" src/client/app');
 
@@ -414,8 +415,6 @@ function startPlatoVisualizer() {
         var overview = plato.getOverviewReport(report);
         console.log(overview);
         //TODO: inspect this
-        // report.complexity
-        // report.jshint
         //test.ok(overview.summary.total.sloc === 10, 'Should contain total sloc without empty lines counted');
     }
 }
