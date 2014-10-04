@@ -2,6 +2,7 @@
 var gulp = require('gulp');
 var browserSync = require('browser-sync');
 var del = require('del');
+var glob = require('glob');
 var karma = require('karma').server;
 var mainBowerFiles = require('main-bower-files');
 var merge = require('merge-stream');
@@ -192,13 +193,13 @@ gulp.task('rev-and-inject',
             .pipe(gulp.dest(paths.build)); // write the manifest
 
         function inject(path, name) {
-            var glob = paths.build + path;
+            var pathGlob = paths.build + path;
             var options = {
                 ignorePath: paths.build.substring(1),
                 read: false
             };
             if (name) { options.name = name; }
-            return plug.inject(gulp.src(glob), options);
+            return plug.inject(gulp.src(pathGlob), options);
         }
     });
 
@@ -395,33 +396,28 @@ function startBrowserSync() {
 function startPlatoVisualizer() {
     log('Running Plato');
 
-    var exec = require('child_process').exec;
-    exec('plato -r -d "report/plato" -l .jshintrc -t "Plato Report" -x ".*\.spec.js" src/client/app');
+    // var exec = require('child_process').exec;
+    // exec('plato -r -d "report/plato" -l .jshintrc -t "Plato Report" -x ".*\.spec.js" src/client/app');
 
-//     var files = [
-//         'src\/client\/app\/**\/*.*'
-//         // 'src\/client\/app\/'
-// //        'src\/client\/app\/app.module.js'
-//     ];
+    var files = glob.sync('./src/client/app/**/*.js');
+    var excludeFiles = /\/src\/client\/app\/.*\.spec\.js/;
 
-//     var options = {
-//         title: 'Plato Inspections Report',
-// //        exclude: 'src/client/test'
-//         exclude: /src\/client\/.*\.spec.js/
-//     };
-//     var outputDir = './report/plato';
+    var options = {
+        title: 'Plato Inspections Report',
+        exclude: excludeFiles
+    };
+    var outputDir = './report/plato';
 
-    // plato.inspect(files, outputDir, options, platoCompleted);
+    plato.inspect(files, outputDir, options, platoCompleted);
 
-    // function platoCompleted(report) {
-    //     console.log(report);
-    //     var overview = plato.getOverviewReport(report);
-    //     console.log(overview);
-    //     //TODO: inspect this
-    //     // report.complexity
-    //     // report.jshint
-    //     //test.ok(overview.summary.total.sloc === 10, 'Should contain total sloc without empty lines counted');
-    // }
+    function platoCompleted(report) {
+        var overview = plato.getOverviewReport(report);
+        console.log(overview);
+        //TODO: inspect this
+        // report.complexity
+        // report.jshint
+        //test.ok(overview.summary.total.sloc === 10, 'Should contain total sloc without empty lines counted');
+    }
 }
 
 /**
