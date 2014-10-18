@@ -375,8 +375,6 @@ function serve(args) {
         options.nodeArgs = [args.debug + '=5858'];
     }
 
-    browserSync.reload();
-
     return plug.nodemon(options)
         .on('start', function() {
             startBrowserSync();
@@ -384,6 +382,9 @@ function serve(args) {
         //.on('change', tasks)
         .on('restart', function() {
             log('restarted!');
+            setTimeout(function () {
+                browserSync.reload({ stream: false });
+            }, 1000);
         });
 }
 
@@ -392,7 +393,7 @@ function serve(args) {
  * @return {Stream}
  */
 function startBrowserSync() {
-    if (!env.browserSync) {
+    if(!env.browserSync || browserSync.active) {
         return;
     }
 
