@@ -28,8 +28,6 @@ console.log('About to crank up node');
 console.log('PORT=' + port);
 console.log('NODE_ENV=' + environment);
 
-var source = '';
-
 app.get('/ping', function(req, res, next) {
     console.log(req.body);
     res.send('pong');

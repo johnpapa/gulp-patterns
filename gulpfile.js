@@ -45,7 +45,9 @@ gulp.task('templatecache', function() {
     return gulp
         .src(paths.htmltemplates)
         // .pipe(plug.bytediff.start())
-        .pipe(plug.minifyHtml({empty:true}))
+        .pipe(plug.minifyHtml({
+            empty: true
+        }))
         // .pipe(plug.bytediff.stop(bytediffFormatter))
         .pipe(plug.angularTemplatecache('templates.js', {
             module: 'app.core',
@@ -65,11 +67,16 @@ gulp.task('js', ['analyze', 'templatecache'], function() {
     var source = [].concat(paths.js, paths.build + 'templates.js');
     return gulp
         .src(source)
-       // .pipe(plug.sourcemaps.init()) // get screwed up in the file rev process
+        // .pipe(plug.sourcemaps.init()) // get screwed up in the file rev process
         .pipe(plug.concat('all.min.js'))
-        .pipe(plug.ngAnnotate({add: true, single_quotes: true}))
+        .pipe(plug.ngAnnotate({
+            add: true,
+            single_quotes: true
+        }))
         .pipe(plug.bytediff.start())
-        .pipe(plug.uglify({mangle: true}))
+        .pipe(plug.uglify({
+            mangle: true
+        }))
         .pipe(plug.bytediff.stop(bytediffFormatter))
         // .pipe(plug.sourcemaps.write('./'))
         .pipe(gulp.dest(paths.build));
@@ -103,7 +110,7 @@ gulp.task('css', function() {
         .pipe(plug.bytediff.start())
         .pipe(plug.minifyCss({}))
         .pipe(plug.bytediff.stop(bytediffFormatter))
-//        .pipe(plug.concat('all.min.css')) // Before bytediff or after
+        //        .pipe(plug.concat('all.min.css')) // Before bytediff or after
         .pipe(gulp.dest(paths.build + 'content'));
 });
 
@@ -146,7 +153,9 @@ gulp.task('images', function() {
     log('Compressing, caching, and copying images');
     return gulp
         .src(paths.images)
-        .pipe(plug.cache(plug.imagemin({optimizationLevel: 3})))
+        .pipe(plug.cache(plug.imagemin({
+            optimizationLevel: 3
+        })))
         .pipe(gulp.dest(dest));
 });
 
@@ -155,62 +164,62 @@ gulp.task('images', function() {
  * rev, but no map
  * @return {Stream}
  */
-gulp.task('rev-and-inject',
-    ['js', 'vendorjs', 'css', 'vendorcss'], function() {
-        log('Rev\'ing files and building index.html');
+gulp.task('rev-and-inject', ['js', 'vendorjs', 'css', 'vendorcss'], function() {
+    log('Rev\'ing files and building index.html');
 
-        var minified = paths.build + '**/*.min.*';
-        var index = paths.client + 'index.html';
-        var minFilter = plug.filter(['**/*.min.*', '!**/*.map']);
-        var indexFilter = plug.filter(['index.html']);
+    var minified = paths.build + '**/*.min.*';
+    var index = paths.client + 'index.html';
+    var minFilter = plug.filter(['**/*.min.*', '!**/*.map']);
+    var indexFilter = plug.filter(['index.html']);
 
-        var stream = gulp
-            // Write the revisioned files
-            .src([].concat(minified, index)) // add all built min files and index.html
-            .pipe(minFilter) // filter the stream to minified css and js
-            .pipe(plug.rev()) // create files with rev's
-            .pipe(gulp.dest(paths.build)) // write the rev files
-            .pipe(minFilter.restore()) // remove filter, back to original stream
+    var stream = gulp
+        // Write the revisioned files
+        .src([].concat(minified, index)) // add all built min files and index.html
+        .pipe(minFilter) // filter the stream to minified css and js
+        .pipe(plug.rev()) // create files with rev's
+        .pipe(gulp.dest(paths.build)) // write the rev files
+        .pipe(minFilter.restore()) // remove filter, back to original stream
 
-            // inject the files into index.html
-            .pipe(indexFilter) // filter to index.html
-            .pipe(inject('content/vendor.min.css', 'inject-vendor'))
-            .pipe(inject('content/all.min.css'))
-            .pipe(inject('vendor.min.js', 'inject-vendor'))
-            .pipe(inject('all.min.js'))
-            .pipe(gulp.dest(paths.build)) // write the rev files
-            .pipe(indexFilter.restore()) // remove filter, back to original stream
+    // inject the files into index.html
+    .pipe(indexFilter) // filter to index.html
+    .pipe(inject('content/vendor.min.css', 'inject-vendor'))
+        .pipe(inject('content/all.min.css'))
+        .pipe(inject('vendor.min.js', 'inject-vendor'))
+        .pipe(inject('all.min.js'))
+        .pipe(gulp.dest(paths.build)) // write the rev files
+    .pipe(indexFilter.restore()) // remove filter, back to original stream
 
-            // replace the files referenced in index.html with the rev'd files
-            .pipe(plug.revReplace())         // Substitute in new filenames
-            .pipe(gulp.dest(paths.build)) // write the index.html file changes
-            .pipe(plug.rev.manifest()) // create the manifest (must happen last or we screw up the injection)
-            .pipe(gulp.dest(paths.build)); // write the manifest
+    // replace the files referenced in index.html with the rev'd files
+    .pipe(plug.revReplace()) // Substitute in new filenames
+    .pipe(gulp.dest(paths.build)) // write the index.html file changes
+    .pipe(plug.rev.manifest()) // create the manifest (must happen last or we screw up the injection)
+    .pipe(gulp.dest(paths.build)); // write the manifest
 
-        function inject(path, name) {
-            var pathGlob = paths.build + path;
-            var options = {
-                ignorePath: paths.build.substring(1),
-                read: false
-            };
-            if (name) { options.name = name; }
-            return plug.inject(gulp.src(pathGlob), options);
+    function inject(path, name) {
+        var pathGlob = paths.build + path;
+        var options = {
+            ignorePath: paths.build.substring(1),
+            read: false
+        };
+        if (name) {
+            options.name = name;
         }
-    });
+        return plug.inject(gulp.src(pathGlob), options);
+    }
+});
 
 /**
  * Build the optimized app
  * @return {Stream}
  */
-gulp.task('build',
-    ['rev-and-inject', 'images', 'fonts'], function() {
-        log('Building the optimized app');
+gulp.task('build', ['rev-and-inject', 'images', 'fonts'], function() {
+    log('Building the optimized app');
 
-        return gulp.src('').pipe(plug.notify({
-            onLast: true,
-            message: 'Deployed code!'
-        }));
-    });
+    return gulp.src('').pipe(plug.notify({
+        onLast: true,
+        message: 'Deployed code!'
+    }));
+});
 
 /**
  * Remove all files from the build folder
@@ -258,18 +267,18 @@ gulp.task('watch', function() {
  *    gulp test --startServers
  * @return {Stream}
  */
-gulp.task('test', function (done) {
-    startTests(true /*singleRun*/, done);
+gulp.task('test', function(done) {
+    startTests(true /*singleRun*/ , done);
 });
 
 /**
  * Run specs and wait.
  * Watch for file changes and re-run tests on each change
  * To start servers and run midway specs as well:
- *    gulp autotest --startServers  
+ *    gulp autotest --startServers
  */
-gulp.task('autotest', function (done) {
-    startTests(false /*singleRun*/, done);
+gulp.task('autotest', function(done) {
+    startTests(false /*singleRun*/ , done);
 });
 
 /**
@@ -277,7 +286,10 @@ gulp.task('autotest', function (done) {
  * and with node inspector
  */
 gulp.task('serve-dev-debug', function() {
-    serve({mode: 'dev', debug: '--debug'});
+    serve({
+        mode: 'dev',
+        debug: '--debug'
+    });
 });
 
 /**
@@ -285,21 +297,28 @@ gulp.task('serve-dev-debug', function() {
  * and with node inspector
  */
 gulp.task('serve-dev-debug-brk', function() {
-    serve({mode: 'dev', debug: '--debug-brk'});
+    serve({
+        mode: 'dev',
+        debug: '--debug-brk'
+    });
 });
 
 /**
  * serve the dev environment
  */
 gulp.task('serve-dev', function() {
-    serve({mode: 'dev'});
+    serve({
+        mode: 'dev'
+    });
 });
 
 /**
  * serve the build environment
  */
 gulp.task('serve-build', function() {
-    serve({mode: 'build'});
+    serve({
+        mode: 'build'
+    });
 });
 
 ////////////////
@@ -307,7 +326,7 @@ gulp.task('serve-build', function() {
 /**
  * Execute JSHint on given source files
  * @param  {Array} sources
- * @param  {String} overrideRcFile 
+ * @param  {String} overrideRcFile
  * @return {Stream}
  */
 function analyzejshint(sources, overrideRcFile) {
@@ -342,7 +361,10 @@ function serve(args) {
         script: paths.server + 'app.js',
         delayTime: 1,
         ext: 'html js',
-        env: {'NODE_ENV': args.mode},
+        env: {
+            'NODE_ENV': args.mode,
+            'PORT': port
+        },
         watch: [
             'gulpfile.js',
             'package.json',
@@ -375,7 +397,9 @@ function serve(args) {
  * @return {Stream}
  */
 function startBrowserSync() {
-    if (!env.browserSync) { return; }
+    if (!env.browserSync) {
+        return;
+    }
 
     log('Starting BrowserSync');
 
@@ -436,7 +460,7 @@ function startTests(singleRun, done) {
     }, karmaCompleted);
 
     ////////////////
-    
+
     function childProcessCompleted(error, stdout, stderr) {
         log('stdout: ' + stdout);
         log('stderr: ' + stderr);
@@ -446,7 +470,9 @@ function startTests(singleRun, done) {
     }
 
     function karmaCompleted() {
-        if (child) {child.kill();}
+        if (child) {
+            child.kill();
+        }
         done();
     }
 }
@@ -484,7 +510,7 @@ function formatPercent(num, precision) {
  *  See min'd and concat'd output?
  *      Comment rename, uncomment concat and uglify,
  *      add to index.html, then run it with `gulp serve-dev`.
- *      
+ *
  * @return {Stream}
  */
 gulp.task('ngAnnotateTest', function() {
@@ -492,6 +518,9 @@ gulp.task('ngAnnotateTest', function() {
     var source = [].concat(paths.js);
     return gulp
         .src(paths.client + '/app/avengers/avengers.js')
-        .pipe(plug.ngAnnotate({add: true, single_quotes: true}))
+        .pipe(plug.ngAnnotate({
+            add: true,
+            single_quotes: true
+        }))
         .pipe(gulp.dest(paths.client + '/app/avengers/annotated'));
 });
