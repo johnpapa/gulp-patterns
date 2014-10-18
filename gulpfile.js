@@ -360,18 +360,11 @@ function serve(args) {
     var options = {
         script: paths.server + 'app.js',
         delayTime: 1,
-        ext: 'html js',
         env: {
             'NODE_ENV': args.mode,
             'PORT': port
         },
-        watch: [
-            'gulpfile.js',
-            'package.json',
-            'gulp.config.json',
-            paths.server,
-            paths.client
-        ]
+        watch: [paths.server]
     };
 
     var exec;
@@ -381,6 +374,8 @@ function serve(args) {
         exec('node-inspector');
         options.nodeArgs = [args.debug + '=5858'];
     }
+
+    browserSync.reload();
 
     return plug.nodemon(options)
         .on('start', function() {
@@ -401,11 +396,11 @@ function startBrowserSync() {
         return;
     }
 
-    log('Starting BrowserSync');
-
-    browserSync({
+    log('Starting BrowserSync on port ' + port);
+        browserSync({
         proxy: 'localhost:' + port,
-        files: [paths.client + '/**/*.*']
+        files: [paths.client + '/**/*.*'],
+        notify: true
     });
 }
 
