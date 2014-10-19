@@ -27,7 +27,7 @@
     "serve-favicon": "^2.0.1"
   },
   "devDependencies": {
-    "browser-sync": "^1.5.2",
+    "browser-sync": "^1.5.8",
     "chai": "^1.9.1",
     "chai-as-promised": "^4.1.1",
     "chalk": "^0.5.1",
