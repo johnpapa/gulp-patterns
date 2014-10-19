@@ -397,10 +397,19 @@ function startBrowserSync() {
     }
 
     log('Starting BrowserSync on port ' + port);
-        browserSync({
+    browserSync({
         proxy: 'localhost:' + port,
+        port: 3000,
         files: [paths.client + '/**/*.*'],
-        notify: true
+        notify: true,
+        ghostMode: { // these are the defaults t,f,t,t
+            clicks: true,
+            location: false,
+            forms: true,
+            scroll: true
+        },
+        logLevel: 'debug',
+        logPrefix: 'gulp-patterns'
     });
 }
 
