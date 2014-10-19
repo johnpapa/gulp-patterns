@@ -390,7 +390,6 @@ function serve(args) {
 
 /**
  * Start BrowserSync
- * @return {Stream}
  */
 function startBrowserSync() {
     if(!env.browserSync || browserSync.active) {
