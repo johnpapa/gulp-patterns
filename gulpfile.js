@@ -103,7 +103,7 @@ gulp.task('images', function() {
  * rev, but no map
  * @return {Stream}
  */
-gulp.task('rev-and-inject', ['templatecache', 'wiredep'], function() {
+gulp.task('inject-and-rev', ['templatecache', 'wiredep'], function() {
     log('Rev\'ing files and building index.html');
 
     var index = paths.client + 'index.html';
@@ -138,122 +138,10 @@ gulp.task('rev-and-inject', ['templatecache', 'wiredep'], function() {
 });
 
 /**
- * Minify and bundle the app's JavaScript
- * @return {Stream}
- */
-gulp.task('x-js', ['analyze', 'templatecache'], function() {
-    log('Bundling, minifying, and copying the app\'s JavaScript');
-
-    var source = [].concat(paths.js, paths.build + 'templates.js');
-    return gulp
-        .src(source)
-        .pipe(plug.concat('app.js'))
-        .pipe(plug.ngAnnotate({add: true}))
-        .pipe(plug.bytediff.start())
-        .pipe(plug.uglify({mangle: true}))
-        .pipe(plug.bytediff.stop(bytediffFormatter))
-        .pipe(gulp.dest(paths.build));
-});
-
-/**
- * Copy the Vendor JavaScript
- * @return {Stream}
- */
-gulp.task('x-vendorjs', function() {
-    log('Bundling, minifying, and copying the Vendor JavaScript');
-
-    return gulp.src(paths.vendorjs)
-        .pipe(plug.concat('lib.js'))
-        .pipe(plug.bytediff.start())
-        .pipe(plug.uglify())
-        .pipe(plug.bytediff.stop(bytediffFormatter))
-        .pipe(gulp.dest(paths.build));
-});
-
-/**
- * Minify and bundle the CSS
- * @return {Stream}
- */
-gulp.task('x-css', function() {
-    log('Bundling, minifying, and copying the app\'s CSS');
-
-    return gulp.src(paths.css)
-        .pipe(plug.concat('app.css')) // Before bytediff or after
-        .pipe(plug.autoprefixer('last 2 version', '> 5%'))
-        .pipe(plug.bytediff.start())
-        .pipe(plug.minifyCss({}))
-        .pipe(plug.bytediff.stop(bytediffFormatter))
-        //        .pipe(plug.concat('all.min.css')) // Before bytediff or after
-        .pipe(gulp.dest(paths.build + 'content'));
-});
-
-/**
- * Minify and bundle the Vendor CSS
- * @return {Stream}
- */
-gulp.task('x-vendorcss', function() {
-    log('Compressing, bundling, copying vendor CSS');
-
-    var vendorFilter = plug.filter(['**/*.css']);
-
-    return gulp.src(paths.vendorcss)
-        .pipe(vendorFilter)
-        .pipe(plug.concat('lib.css'))
-        .pipe(plug.bytediff.start())
-        .pipe(plug.minifyCss({}))
-        .pipe(plug.bytediff.stop(bytediffFormatter))
-        .pipe(gulp.dest(paths.build + 'content'));
-});
-
-gulp.task('x-rev-and-inject', ['x-js', 'x-vendorjs', 'x-css', 'x-vendorcss'], function() {
-    log('Rev\'ing files and building index.html');
-
-    var minified = paths.build + '**/*.min.*';
-    var index = paths.client + 'index.html';
-    var minFilter = plug.filter(['**/*.min.*', '!**/*.map']);
-    var indexFilter = plug.filter(['index.html']);
-
-    var stream = gulp
-        // Write the revisioned files
-        .src([].concat(minified, index)) // add all built min files and index.html
-        .pipe(minFilter) // filter the stream to minified css and js
-        .pipe(plug.rev()) // create files with rev's
-        .pipe(gulp.dest(paths.build)) // write the rev files
-        .pipe(minFilter.restore()) // remove filter, back to original stream
-
-        // inject the files into index.html
-        .pipe(indexFilter) // filter to index.html
-        .pipe(inject('content/lib.css', 'inject-vendor'))
-        .pipe(inject('content/app.css'))
-        .pipe(inject('lib.js', 'inject-vendor'))
-        .pipe(inject('app.js'))
-        .pipe(gulp.dest(paths.build)) // write the rev files
-        .pipe(indexFilter.restore()) // remove filter, back to original stream
-
-        // replace the files referenced in index.html with the rev'd files
-        .pipe(plug.revReplace()) // Substitute in new filenames
-        .pipe(gulp.dest(paths.build)) // write the index.html file changes
-        .pipe(plug.rev.manifest()) // create the manifest (must happen last or we screw up the injection)
-        .pipe(gulp.dest(paths.build)); // write the manifest
-
-    function inject(path, name) {
-        var pathGlob = paths.build + path;
-        var options = {
-            ignorePath: paths.build.substring(1),
-            read: false
-        };
-        if (name) {
-            options.name = name;
-        }
-        return plug.inject(gulp.src(pathGlob), options);
-    }
-});
-
-/**
  * Build the optimized app
  * @return {Stream}
  */
-gulp.task('build', ['rev-and-inject', 'images', 'fonts'], function() {
+gulp.task('build', ['inject-and-rev', 'images', 'fonts'], function() {
     log('Building the optimized app');
 
     // clean out the temp folder when done
@@ -276,33 +164,6 @@ gulp.task('clean', function(cb) {
     var delPaths = [].concat(paths.build, paths.temp, paths.report);
     log('Cleaning: ' + plug.util.colors.blue(delPaths));
     del(delPaths, cb);
-});
-
-/**
- * Watch files and build
- */
-gulp.task('watch', function() {
-    log('Watching all files');
-
-    var css = ['gulpfile.js'].concat(paths.css, paths.vendorcss);
-    var images = ['gulpfile.js'].concat(paths.images);
-    var js = ['gulpfile.js'].concat(paths.js);
-
-    gulp
-        .watch(js, ['js', 'vendorjs'])
-        .on('change', logWatch);
-
-    gulp
-        .watch(css, ['css', 'vendorcss'])
-        .on('change', logWatch);
-
-    gulp
-        .watch(images, ['images'])
-        .on('change', logWatch);
-
-    function logWatch(event) {
-        log('*** File ' + event.path + ' was ' + event.type + ', running tasks...');
-    }
 });
 
 /**
@@ -351,18 +212,14 @@ gulp.task('serve-dev-debug-brk', function() {
  * serve the dev environment
  */
 gulp.task('serve-dev', function() {
-    serve({
-        mode: 'dev'
-    });
+    serve({mode: 'dev'});
 });
 
 /**
  * serve the build environment
  */
 gulp.task('serve-build', function() {
-    serve({
-        mode: 'build'
-    });
+    serve({mode: 'build'});
 });
 
 ////////////////
@@ -490,7 +347,7 @@ function startPlatoVisualizer() {
  */
 function startTests(singleRun, done) {
     var child;
-    var excludeFiles = ['./src/client/app/**/*spaghetti.js'];
+    var excludeFiles = [];
     var fork = require('child_process').fork;
     var karma = require('karma').server;
 
