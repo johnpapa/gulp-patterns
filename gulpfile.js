@@ -3,10 +3,8 @@ var gulp = require('gulp');
 var browserSync = require('browser-sync');
 var del = require('del');
 var glob = require('glob');
-var karma = require('karma').server;
 var merge = require('merge-stream');
 var paths = require('./gulp.config.json');
-var plato = require('plato');
 var plug = require('gulp-load-plugins')();
 var reload = browserSync.reload;
 var wiredep = require('wiredep').stream;
@@ -68,13 +66,11 @@ gulp.task('x-js', ['analyze', 'templatecache'], function() {
     var source = [].concat(paths.js, paths.build + 'templates.js');
     return gulp
         .src(source)
-        // .pipe(plug.sourcemaps.init()) // get screwed up in the file rev process
         .pipe(plug.concat('all.min.js'))
         .pipe(plug.ngAnnotate({add: true}))
         .pipe(plug.bytediff.start())
         .pipe(plug.uglify({mangle: true}))
         .pipe(plug.bytediff.stop(bytediffFormatter))
-        // .pipe(plug.sourcemaps.write('./'))
         .pipe(gulp.dest(paths.build));
 });
 
@@ -460,12 +456,13 @@ function startPlatoVisualizer() {
 
     var files = glob.sync('./src/client/app/**/*.js');
     var excludeFiles = /\/src\/client\/app\/.*\.spec\.js/;
+    var plato = require('plato');
 
     var options = {
         title: 'Plato Inspections Report',
         exclude: excludeFiles
     };
-    var outputDir = './report/plato';
+    var outputDir = paths.report + '/plato';
 
     plato.inspect(files, outputDir, options, platoCompleted);
 
@@ -485,6 +482,7 @@ function startTests(singleRun, done) {
     var child;
     var excludeFiles = ['./src/client/app/**/*spaghetti.js'];
     var fork = require('child_process').fork;
+    var karma = require('karma').server;
 
     if (env.startServers) {
         log('Starting servers');
