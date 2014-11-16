@@ -43,11 +43,9 @@ gulp.task('templatecache', function() {
 
     return gulp
         .src(paths.htmltemplates)
-        // .pipe(plug.bytediff.start())
-        .pipe(plug.minifyHtml({
-            empty: true
-        }))
-        // .pipe(plug.bytediff.stop(bytediffFormatter))
+        .pipe(plug.bytediff.start())
+        .pipe(plug.minifyHtml({empty: true}))
+        .pipe(plug.bytediff.stop(bytediffFormatter))
         .pipe(plug.angularTemplatecache('templates.js', {
             module: 'app.core',
             standalone: false,
