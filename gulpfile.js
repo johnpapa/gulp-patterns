@@ -6,7 +6,6 @@ var glob = require('glob');
 var paths = require('./gulp.config.json');
 var plug = require('gulp-load-plugins')();
 var reload = browserSync.reload;
-var wiredep = require('wiredep').stream;
 
 var colors = plug.util.colors;
 var env = plug.util.env;
@@ -26,7 +25,7 @@ gulp.task('analyze', function() {
     log('Analyzing source with JSHint, JSCS, and Plato');
 
     var merge = require('merge-stream');
-    
+
     var jshint = analyzejshint([].concat(paths.js, paths.specs, paths.nodejs));
     var jscs = analyzejscs([].concat(paths.js, paths.nodejs));
 
@@ -82,7 +81,9 @@ gulp.task('x-js', ['analyze', 'templatecache'], function() {
 gulp.task('wiredep', function () {
     log('Wiring the bower dependencies into the html');
 
+    var wiredep = require('wiredep').stream;
     var index = paths.client + 'index.html';
+    
     return gulp.src(index)
         .pipe(wiredep({
             directory: './bower_components/',
