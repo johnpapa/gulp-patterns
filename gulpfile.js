@@ -566,29 +566,3 @@ function getHeader() {
         ''].join('\n');
     return plug.header(template, { pkg : pkg } );
 }
-
-/**
- * Annotate only
- *  ONLY USED IN PLURALSIGHT COURSE ANGULARJS PATTERNS: CLEAN CODE
- *  ONLY FOR DEMO PURPOSES
- *  ALL OTHER TASKS ARE AWESOME-SAUCE
- *
- *  See the output of each file?
- *      Uncomment rename, comment concat and uglify
- *  See min'd and concat'd output?
- *      Comment rename, uncomment concat and uglify,
- *      add to index.html, then run it with `gulp serve-dev`.
- *
- * @return {Stream}
- */
-gulp.task('ngAnnotateTest', function() {
-    log('Annotating AngularJS dependencies');
-    var source = [].concat(paths.js);
-    return gulp
-        .src(paths.client + '/app/customers/customers.js')
-        .pipe(plug.ngAnnotate({
-            add: true,
-            single_quotes: true
-        }))
-        .pipe(gulp.dest(paths.client + '/app/customers/annotated'));
-});
