@@ -15,7 +15,7 @@ describe('dashboard', function () {
         });
 
         it('should map state dashboard to url / ', function () {
-            expect($state.href('dashboard', {})).to.equal('#/');
+            expect($state.href('dashboard', {})).to.equal('/');
         });
 
         it('of dashboard should work with $state.go', function () {
