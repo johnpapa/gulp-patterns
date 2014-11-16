@@ -9,6 +9,7 @@ var paths = require('./gulp.config.json');
 var plato = require('plato');
 var plug = require('gulp-load-plugins')();
 var reload = browserSync.reload;
+var wiredep = require('wiredep').stream;
 
 var colors = plug.util.colors;
 var env = plug.util.env;
