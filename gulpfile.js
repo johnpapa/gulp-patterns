@@ -25,10 +25,8 @@ gulp.task('analyze', function() {
     log('Analyzing source with JSHint, JSCS, and Plato');
 
     var merge = require('merge-stream');
-
     var jshint = analyzejshint([].concat(paths.js, paths.specs, paths.nodejs));
     var jscs = analyzejscs([].concat(paths.js, paths.nodejs));
-
     startPlatoVisualizer();
 
     return merge(jshint, jscs);
@@ -195,7 +193,7 @@ gulp.task('rev-and-inject', ['templatecache', 'wiredep'], function() {
         .pipe(gulp.dest(paths.build));
 });
 
-gulp.task('x-rev-and-inject', ['js', 'css', 'vendorcss'], function() {
+gulp.task('x-rev-and-inject', ['x-js', 'x-vendorjs', 'x-css', 'x-vendorcss'], function() {
     log('Rev\'ing files and building index.html');
 
     var minified = paths.build + '**/*.min.*';
