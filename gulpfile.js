@@ -55,14 +55,14 @@ gulp.task('templatecache', function() {
             standalone: false,
             root: 'app/'
         }))
-        .pipe(gulp.dest(paths.build));
+        .pipe(gulp.dest(paths.temp));
 });
 
 /**
  * Minify and bundle the app's JavaScript
  * @return {Stream}
  */
-gulp.task('js', ['analyze', 'templatecache'], function() {
+gulp.task('x-js', ['analyze', 'templatecache'], function() {
     log('Bundling, minifying, and copying the app\'s JavaScript');
 
     var source = [].concat(paths.js, paths.build + 'templates.js');
@@ -70,24 +70,36 @@ gulp.task('js', ['analyze', 'templatecache'], function() {
         .src(source)
         // .pipe(plug.sourcemaps.init()) // get screwed up in the file rev process
         .pipe(plug.concat('all.min.js'))
-        .pipe(plug.ngAnnotate({
-            add: true,
-            single_quotes: true
-        }))
+        .pipe(plug.ngAnnotate({add: true}))
         .pipe(plug.bytediff.start())
-        .pipe(plug.uglify({
-            mangle: true
-        }))
+        .pipe(plug.uglify({mangle: true}))
         .pipe(plug.bytediff.stop(bytediffFormatter))
         // .pipe(plug.sourcemaps.write('./'))
         .pipe(gulp.dest(paths.build));
 });
 
 /**
+ * Wire-up the bower dependencies
+ * @return {Stream}
+ */
+gulp.task('wiredep', function () {
+    log('Wiring the bower dependencies into the html');
+
+    var index = paths.client + 'index.html';
+    return gulp.src(index)
+        .pipe(wiredep({
+            directory: './bower_components/',
+            bowerJson: require('./bower.json'),
+            ignorePath: '../..' // bower files will be relative to the root
+        }))
+        .pipe(gulp.dest(paths.client));
+});
+
+/**
  * Copy the Vendor JavaScript
  * @return {Stream}
  */
-gulp.task('vendorjs', function() {
+gulp.task('x-vendorjs', function() {
     log('Bundling, minifying, and copying the Vendor JavaScript');
 
     return gulp.src(paths.vendorjs)
@@ -102,7 +114,7 @@ gulp.task('vendorjs', function() {
  * Minify and bundle the CSS
  * @return {Stream}
  */
-gulp.task('css', function() {
+gulp.task('x-css', function() {
     log('Bundling, minifying, and copying the app\'s CSS');
 
     return gulp.src(paths.css)
@@ -119,7 +131,7 @@ gulp.task('css', function() {
  * Minify and bundle the Vendor CSS
  * @return {Stream}
  */
-gulp.task('vendorcss', function() {
+gulp.task('x-vendorcss', function() {
     log('Compressing, bundling, copying vendor CSS');
 
     var vendorFilter = plug.filter(['**/*.css']);
@@ -165,7 +177,29 @@ gulp.task('images', function() {
  * rev, but no map
  * @return {Stream}
  */
-gulp.task('rev-and-inject', ['js', 'vendorjs', 'css', 'vendorcss'], function() {
+gulp.task('rev-and-inject', ['templatecache', 'wiredep'], function() {
+    log('Rev\'ing files and building index.html');
+
+    var index = paths.client + 'index.html';
+    var projectHeader = getHeader();
+
+    return gulp
+        .src(index)
+        .pipe(plug.inject(gulp.src(paths.temp + 'templates.js', {read: false}), {
+            starttag: '<!-- inject:templates:js -->',
+            ignorePath: '/.temp'
+        }))
+        .pipe(plug.usemin({
+            assetsDir: './',
+            css: [ plug.minifyCss(),  'concat', plug.rev(), projectHeader],
+            html: [plug.minifyHtml({empty: true})],
+            js: [plug.ngAnnotate({add: true}),  plug.uglify(),  plug.rev(), projectHeader],
+            js_libs: [plug.uglify(), plug.rev()]
+        }))
+        .pipe(gulp.dest(paths.build));
+});
+
+gulp.task('x-rev-and-inject', ['js', 'css', 'vendorcss'], function() {
     log('Rev\'ing files and building index.html');
 
     var minified = paths.build + '**/*.min.*';
@@ -185,7 +219,7 @@ gulp.task('rev-and-inject', ['js', 'vendorjs', 'css', 'vendorcss'], function() {
         .pipe(indexFilter) // filter to index.html
         .pipe(inject('content/vendor.min.css', 'inject-vendor'))
         .pipe(inject('content/all.min.css'))
-        .pipe(inject('vendor.min.js', 'inject-vendor'))
+        // .pipe(inject('vendor.min.js', 'inject-vendor'))
         .pipe(inject('all.min.js'))
         .pipe(gulp.dest(paths.build)) // write the rev files
         .pipe(indexFilter.restore()) // remove filter, back to original stream
@@ -216,10 +250,14 @@ gulp.task('rev-and-inject', ['js', 'vendorjs', 'css', 'vendorcss'], function() {
 gulp.task('build', ['rev-and-inject', 'images', 'fonts'], function() {
     log('Building the optimized app');
 
-    return gulp.src('').pipe(plug.notify({
-        onLast: true,
-        message: 'Deployed code!'
-    }));
+    // clean out the temp folder when done
+    del(paths.temp);
+
+    return gulp
+        .src('').pipe(plug.notify({
+            onLast: true,
+            message: 'Deployed code!'
+        }));
 });
 
 /**
@@ -229,9 +267,8 @@ gulp.task('build', ['rev-and-inject', 'images', 'fonts'], function() {
  * @return {Stream}
  */
 gulp.task('clean', function(cb) {
-    log('Cleaning: ' + plug.util.colors.blue(paths.build));
-
-    var delPaths = [].concat(paths.build, paths.report);
+    var delPaths = [].concat(paths.build, paths.temp, paths.report);
+    log('Cleaning: ' + plug.util.colors.blue(delPaths));
     del(delPaths, cb);
 });
 
@@ -384,7 +421,7 @@ function serve(args) {
         .on('restart', function() {
             log('restarted!');
             setTimeout(function () {
-                browserSync.reload({ stream: false });
+                browserSync.reload({stream: false});
             }, 1000);
         });
 }
@@ -393,7 +430,7 @@ function serve(args) {
  * Start BrowserSync
  */
 function startBrowserSync() {
-    if(!env.browserSync || browserSync.active) {
+    if (!env.browserSync || browserSync.active) {
         return;
     }
 
@@ -503,6 +540,23 @@ function bytediffFormatter(data) {
  */
 function formatPercent(num, precision) {
     return (num * 100).toFixed(precision);
+}
+
+/**
+ * Format and return the header for files
+ * @return {String}           Formatted file header
+ */
+function getHeader() {
+    var pkg = require('./package.json');
+    var template = ['/**',
+        ' * <%= pkg.name %> - <%= pkg.description %>',
+        ' * @authors <%= pkg.authors %>',
+        ' * @version v<%= pkg.version %>',
+        ' * @link <%= pkg.homepage %>',
+        ' * @license <%= pkg.license %>',
+        ' */',
+        ''].join('\n');
+    return plug.header(template, { pkg : pkg } );
 }
 
 /**

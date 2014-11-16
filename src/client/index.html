@@ -8,21 +8,21 @@
     <style>
         /* This helps the ng-show/ng-hide animations start at the right place. */
         /* Since Angular has this but needs to load, this gives us the class early. */
-        .ng-hide {
-            display: none!important;
-        }
+        .ng-hide { display: none!important; }
     </style>
 
-    <!-- inject-vendor:css -->
-    <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="/bower_components/toastr/toastr.css" rel="stylesheet" />
-    <!-- endinject -->
+    <!-- build:css content/lib.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="/bower_components/toastr/toastr.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
 
-    <!-- inject:css -->
+    <!-- build:css content/styles.css-->
     <link href="/src/client/content/customtheme.css" rel="stylesheet">
     <link href="/src/client/content/styles.css" rel="stylesheet" />
-    <!-- endinject -->
+    <!-- endbuild -->
 </head>
 <body>
     <div>
@@ -39,19 +39,21 @@
         </div>
     </div>
 
-    <!-- inject-vendor:js -->
+    <!-- build:js_libs lib.js -->
+    <!-- bower:js -->
     <script src="/bower_components/jquery/dist/jquery.js"></script>
     <script src="/bower_components/angular/angular.js"></script>
-    <script src="/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
-    <script src="/bower_components/angular-animate/angular-animate.js"></script>
     <script src="/bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="/bower_components/toastr/toastr.js"></script>
-    <script src="/bower_components/moment/moment.js"></script>
     <script src="/bower_components/extras.angular.plus/ngplus-overlay.js"></script>
-    <!-- endinject -->
+    <script src="/bower_components/moment/moment.js"></script>
+    <script src="/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="/bower_components/toastr/toastr.js"></script>
+    <script src="/bower_components/angular-animate/angular-animate.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
 
-    <!-- inject:js -->
+    <!-- build:js app.js-->
     <!-- Bootstrapping -->
     <script src="/src/client/app/app.module.js"></script>
 
@@ -69,6 +71,8 @@
     <script src="/src/client/app/core/constants.js"></script>
     <script src="/src/client/app/core/config.js"></script>
     <script src="/src/client/app/core/dataservice.js"></script>
+    <!-- inject:templates:js -->
+    <!-- endinject -->
 
     <!-- layout -->
     <script src="/src/client/app/layout/layout.module.js"></script>
@@ -91,6 +95,6 @@
     <script src="/src/client/app/customers/customers.route.js"></script>
     <script src="/src/client/app/customers/customers.js"></script>
     <script src="/src/client/app/customers/customer-detail.js"></script>
-    <!-- endinject -->
+    <!-- endbuild -->
 </body>
 </html>
