@@ -24,6 +24,7 @@
     "./src/client/content/images/**/*"
   ],
   "build": "./build/",
+  "temp": "./.tmp/",
   "report": "./report/",
   "vendorjs": [
     "./bower_components/jquery/dist/jquery.min.js",
