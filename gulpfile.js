@@ -401,7 +401,6 @@ function startBrowserSync() {
         proxy: 'localhost:' + port,
         port: 3000,
         files: [paths.client + '/**/*.*'],
-        notify: true,
         ghostMode: { // these are the defaults t,f,t,t
             clicks: true,
             location: false,
@@ -409,7 +408,9 @@ function startBrowserSync() {
             scroll: true
         },
         logLevel: 'debug',
-        logPrefix: 'gulp-patterns'
+        logPrefix: 'gulp-patterns',
+        notify: true,
+        reloadDelay: 5000
     });
 }
 
@@ -521,10 +522,10 @@ gulp.task('ngAnnotateTest', function() {
     log('Annotating AngularJS dependencies');
     var source = [].concat(paths.js);
     return gulp
-        .src(paths.client + '/app/avengers/avengers.js')
+        .src(paths.client + '/app/customers/customers.js')
         .pipe(plug.ngAnnotate({
             add: true,
             single_quotes: true
         }))
-        .pipe(gulp.dest(paths.client + '/app/avengers/annotated'));
+        .pipe(gulp.dest(paths.client + '/app/customers/annotated'));
 });
