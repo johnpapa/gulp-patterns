@@ -180,20 +180,20 @@ gulp.task('rev-and-inject', ['js', 'vendorjs', 'css', 'vendorcss'], function() {
         .pipe(gulp.dest(paths.build)) // write the rev files
         .pipe(minFilter.restore()) // remove filter, back to original stream
 
-    // inject the files into index.html
-    .pipe(indexFilter) // filter to index.html
-    .pipe(inject('content/vendor.min.css', 'inject-vendor'))
-        .pipe(inject('content/all.min.css'))
-        .pipe(inject('vendor.min.js', 'inject-vendor'))
-        .pipe(inject('all.min.js'))
-        .pipe(gulp.dest(paths.build)) // write the rev files
-    .pipe(indexFilter.restore()) // remove filter, back to original stream
+        // inject the files into index.html
+        .pipe(indexFilter) // filter to index.html
+        .pipe(inject('content/vendor.min.css', 'inject-vendor'))
+            .pipe(inject('content/all.min.css'))
+            .pipe(inject('vendor.min.js', 'inject-vendor'))
+            .pipe(inject('all.min.js'))
+            .pipe(gulp.dest(paths.build)) // write the rev files
+        .pipe(indexFilter.restore()) // remove filter, back to original stream
 
-    // replace the files referenced in index.html with the rev'd files
-    .pipe(plug.revReplace()) // Substitute in new filenames
-    .pipe(gulp.dest(paths.build)) // write the index.html file changes
-    .pipe(plug.rev.manifest()) // create the manifest (must happen last or we screw up the injection)
-    .pipe(gulp.dest(paths.build)); // write the manifest
+        // replace the files referenced in index.html with the rev'd files
+        .pipe(plug.revReplace()) // Substitute in new filenames
+        .pipe(gulp.dest(paths.build)) // write the index.html file changes
+        .pipe(plug.rev.manifest()) // create the manifest (must happen last or we screw up the injection)
+        .pipe(gulp.dest(paths.build)); // write the manifest
 
     function inject(path, name) {
         var pathGlob = paths.build + path;
