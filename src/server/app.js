@@ -37,6 +37,7 @@ switch (environment){
     case 'build':
         console.log('** BUILD **');
         app.use('/', express.static('./build/'));
+        app.use('/', express.static('./'));
         break;
     default:
         console.log('** DEV **');
