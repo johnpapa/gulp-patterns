@@ -117,9 +117,21 @@ gulp.task('rev-and-inject', ['templatecache', 'wiredep'], function() {
         }))
         .pipe(plug.usemin({
             assetsDir: './',
-            css: [ plug.minifyCss(),  'concat', plug.rev(), projectHeader],
             html: [plug.minifyHtml({empty: true})],
-            js: [plug.ngAnnotate({add: true}),  plug.uglify(),  plug.rev(), projectHeader],
+            css: [
+                plug.autoprefixer('last 2 version', '> 5%'), 
+                plug.minifyCss(), 
+                'concat', 
+                plug.rev(), 
+                projectHeader
+            ],
+            css_libs: [plug.minifyCss(), 'concat', plug.rev()],
+            js: [
+                plug.ngAnnotate({add: true}), 
+                plug.uglify(),
+                plug.rev(), 
+                projectHeader
+            ],
             js_libs: [plug.uglify(), plug.rev()]
         }))
         .pipe(gulp.dest(paths.build));
@@ -166,7 +178,7 @@ gulp.task('x-css', function() {
     log('Bundling, minifying, and copying the app\'s CSS');
 
     return gulp.src(paths.css)
-        .pipe(plug.concat('styles.css')) // Before bytediff or after
+        .pipe(plug.concat('app.css')) // Before bytediff or after
         .pipe(plug.autoprefixer('last 2 version', '> 5%'))
         .pipe(plug.bytediff.start())
         .pipe(plug.minifyCss({}))
@@ -212,7 +224,7 @@ gulp.task('x-rev-and-inject', ['x-js', 'x-vendorjs', 'x-css', 'x-vendorcss'], fu
         // inject the files into index.html
         .pipe(indexFilter) // filter to index.html
         .pipe(inject('content/lib.css', 'inject-vendor'))
-        .pipe(inject('content/styles.css'))
+        .pipe(inject('content/app.css'))
         .pipe(inject('lib.js', 'inject-vendor'))
         .pipe(inject('app.js'))
         .pipe(gulp.dest(paths.build)) // write the rev files
