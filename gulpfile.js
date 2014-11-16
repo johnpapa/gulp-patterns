@@ -3,7 +3,6 @@ var gulp = require('gulp');
 var browserSync = require('browser-sync');
 var del = require('del');
 var glob = require('glob');
-var merge = require('merge-stream');
 var paths = require('./gulp.config.json');
 var plug = require('gulp-load-plugins')();
 var reload = browserSync.reload;
@@ -26,6 +25,8 @@ gulp.task('help', plug.taskListing);
 gulp.task('analyze', function() {
     log('Analyzing source with JSHint, JSCS, and Plato');
 
+    var merge = require('merge-stream');
+    
     var jshint = analyzejshint([].concat(paths.js, paths.specs, paths.nodejs));
     var jscs = analyzejscs([].concat(paths.js, paths.nodejs));
 
