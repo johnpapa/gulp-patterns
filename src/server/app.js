@@ -36,12 +36,14 @@ app.get('/ping', function(req, res, next) {
 switch (environment){
     case 'build':
         console.log('** BUILD **');
-        app.use('/', express.static('./build/'));
+        app.use(express.static('./build/'));
+        app.use('/*', express.static('./build/index.html'));
         break;
     default:
         console.log('** DEV **');
-        app.use('/', express.static('./src/client/'));
-        app.use('/', express.static('./'));
+        app.use(express.static('./src/client/'));
+        app.use(express.static('./'));
+        app.use('/*', express.static('./src/client/index.html'));
         break;
 }
 
