@@ -16,10 +16,10 @@ var environment = process.env.NODE_ENV;
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-app.use(compress());            // Compress response data with gzip
-//app.use(logger('dev'));
+app.use(compress());
+app.use(logger('dev'));
 app.use(favicon(__dirname + '/favicon.ico'));
-app.use(cors());                // enable ALL CORS requests
+app.use(cors());
 app.use(errorHandler.init);
 
 routes = require('./routes/index')(app);
