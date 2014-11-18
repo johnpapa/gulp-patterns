@@ -293,7 +293,7 @@ function serve(args) {
  * Start BrowserSync
  */
 function startBrowserSync() {
-    if (!env.browserSync || browserSync.active) {
+    if (!env.sync || browserSync.active) {
         return;
     }
 
