@@ -15,8 +15,7 @@
         appErrorPrefix: '[GulpPatterns Error] ', //Configure the exceptionHandler decorator
         appTitle: 'Gulp Patterns Demo',
         imageBasePath: '/content/images/photos/',
-        unknownPersonImageSource: 'unknown_person.jpg',
-        version: '1.0.0'
+        unknownPersonImageSource: 'unknown_person.jpg'
     };
 
     core.value('config', config);
@@ -42,7 +41,7 @@
             };
 
             routerHelperProvider.configure({
-                docTitle: 'NG-Modular: ',
+                docTitle: 'Gulp: ',
                 resolveAlways: resolveAlways
             });
         }
