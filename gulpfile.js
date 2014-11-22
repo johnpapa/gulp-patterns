@@ -421,5 +421,5 @@ function getHeader() {
         ' * @license <%= pkg.license %>',
         ' */',
         ''].join('\n');
-    return plug.header(template, { pkg : pkg } );
+    return plug.header(template, {pkg : pkg});
 }
