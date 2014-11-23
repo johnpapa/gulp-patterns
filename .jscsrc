@@ -1,7 +1,6 @@
 {
     "excludeFiles": ["node_modules/**", "bower_components/**"],
 
-
     "requireCurlyBraces": [
         "if",
         "else",
@@ -54,19 +53,12 @@
     "disallowSpacesInsideArrayBrackets": "all",
     "disallowSpacesInsideParentheses": true,
 
-
     "validateJSDoc": {
         "checkParamNames": true,
         "requireParamTypes": true
     },
 
     "disallowMultipleLineBreaks": true,
-
-
-
-
-
-
 
     "requireLineFeedAtFileEnd": null,
     "disallowCommaBeforeLineBreak": null,
