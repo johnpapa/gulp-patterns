@@ -163,7 +163,12 @@ gulp.task('build', ['inject-and-rev', 'images', 'fonts'], function() {
 gulp.task('clean', function(cb) {
     var delPaths = [].concat(paths.build, paths.temp, paths.report);
     log('Cleaning: ' + plug.util.colors.blue(delPaths));
+    log('Clearing Image Cache');
     del(delPaths, cb);
+
+    return gulp
+        .src('')
+        .pipe(plug.cache.clear());
 });
 
 /**
