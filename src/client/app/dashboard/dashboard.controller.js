@@ -6,7 +6,6 @@
         .controller('Dashboard', Dashboard);
 
     function Dashboard($state, dataservice, logger) {
-        /*jshint validthis: true */
         var vm = this;
         vm.customers = [];
         vm.gotoCustomer = gotoCustomer;

@@ -8,5 +8,4 @@
         'app.dashboard',
         'app.layout'
     ]);
-    
 })();

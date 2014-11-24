@@ -3,7 +3,6 @@
   "server": "./src/server/",
   "htmltemplates": "./src/client/app/**/*.html",
   "css": [
-    "./src/client/content/customtheme.css",
     "./src/client/content/styles.css"
   ],
   "js": [
@@ -14,14 +13,15 @@
   "specs": [
     "./src/client/app/**/*.spec.js"
   ],
-  "nodejs": [
+  "alljs": [
+    "./src/client/app/**/*.js",
     "./src/server/**/*.js"
   ],
   "fonts": [
     "./bower_components/font-awesome/fonts/**/*.*"
   ],
   "images": [
-    "./src/client/content/images/**/*"
+    "./src/client/content/images/**/*.*"
   ],
   "build": "./build/",
   "temp": "./.tmp/",

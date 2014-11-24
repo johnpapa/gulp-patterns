@@ -25,8 +25,8 @@ gulp.task('analyze', function() {
     log('Analyzing source with JSHint, JSCS, and Plato');
 
     var merge = require('merge-stream');
-    var jshint = analyzejshint([].concat(paths.js, paths.specs, paths.nodejs));
-    var jscs = analyzejscs([].concat(paths.js, paths.nodejs));
+    var jshint = analyzejshint(paths.alljs);
+    var jscs = analyzejscs(paths.alljs);
     startPlatoVisualizer();
 
     return merge(jshint, jscs);
@@ -92,9 +92,9 @@ gulp.task('images', function() {
     log('Compressing, caching, and copying images');
     return gulp
         .src(paths.images)
-        .pipe(plug.cache(plug.imagemin({
+        .pipe(plug.imagemin({
             optimizationLevel: 3
-        })))
+        }))
         .pipe(gulp.dest(dest));
 });
 
@@ -235,6 +235,7 @@ function analyzejshint(sources, overrideRcFile) {
     log('Running JSHint');
     return gulp
         .src(sources)
+        .pipe(plug.print())
         .pipe(plug.jshint(jshintrcFile))
         .pipe(plug.jshint.reporter('jshint-stylish'));
 }
@@ -311,7 +312,7 @@ function startBrowserSync() {
         logLevel: 'debug',
         logPrefix: 'gulp-patterns',
         notify: true,
-        reloadDelay: 5000
+        reloadDelay: 1000
     });
 }
 

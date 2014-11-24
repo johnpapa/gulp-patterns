@@ -3,12 +3,12 @@
 
     angular
         .module('app.widgets')
-        .directive('ccImgPerson', ccImgPerson);
+        .directive('htImgPerson', htImgPerson);
 
     /* @ngInject */
-    function ccImgPerson (config) {
+    function htImgPerson (config) {
         //Usage:
-        //<img cc-img-person="{{person.imageSource}}"/>
+        //<img ht-img-person="{{person.imageSource}}"/>
         var basePath = config.imageBasePath;
         var unknownImage = config.unknownPersonImageSource;
         var directive = {
@@ -18,7 +18,7 @@
         return directive;
 
         function link(scope, element, attrs) {
-            attrs.$observe('ccImgPerson', function (value) {
+            attrs.$observe('htImgPerson', function (value) {
                 value = basePath + (value || unknownImage);
                 attrs.$set('src', value);
             });

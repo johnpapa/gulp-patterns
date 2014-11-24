@@ -7,7 +7,6 @@
 
     /* @ngInject */
     function CustomerDetail($stateParams, $window, dataservice, logger) {
-        /*jshint validthis: true */
         var vm = this;
         vm.cancel = cancel;
         vm.customer = undefined;

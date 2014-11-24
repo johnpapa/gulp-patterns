@@ -7,7 +7,6 @@
 
     /* @ngInject */
     function Sidebar($state, routerHelper) {
-        /*jshint validthis: true */
         var vm = this;
         var states = routerHelper.getStates();
         vm.isCurrent = isCurrent;

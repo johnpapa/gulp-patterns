@@ -7,7 +7,6 @@
 
     /* @ngInject */
     function Customers($state, dataservice, logger) {
-        /*jshint validthis: true */
         var vm = this;
         vm.customers = [];
         vm.gotoCustomer = gotoCustomer;

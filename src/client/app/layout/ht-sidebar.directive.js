@@ -2,20 +2,21 @@
     'use strict';
 
     angular
-        .module('app.widgets')
-        .directive('ccSidebar', ccSidebar);
+        .module('app.layout')
+        .directive('htSidebar', htSidebar);
 
     /* @ngInject */
-    function ccSidebar () {
+    function htSidebar () {
         // Opens and closes the sidebar menu.
         // Usage:
-        //  <div data-cc-sidebar">
-        //  <div data-cc-sidebar whenDoneAnimating="vm.sidebarReady()">
+        //  <div ht-sidebar">
+        //  <div ht-sidebar whenDoneAnimating="vm.sidebarReady()">
         // Creates:
-        //  <div data-cc-sidebar class="sidebar">
+        //  <div ht-sidebar class="sidebar">
         var directive = {
+            bindToController: true,
             link: link,
-            restrict: 'A',
+            restrict: 'EA',
             scope: {
                 whenDoneAnimating: '&?'
             }

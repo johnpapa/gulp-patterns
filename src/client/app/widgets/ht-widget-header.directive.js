@@ -3,31 +3,26 @@
 
     angular
         .module('app.widgets')
-        .directive('ccWidgetHeader', ccWidgetHeader);
+        .directive('htWidgetHeader', htWidgetHeader);
 
     /* @ngInject */
-    function ccWidgetHeader () {
+    function htWidgetHeader () {
         //Usage:
-        //<div data-cc-widget-header title="vm.map.title"></div>
+        //<div ht-widget-header title="vm.map.title"></div>
         // Creates:
-        // <div data-cc-widget-header=""
+        // <div ht-widget-header=""
         //      title="Movie"
         //      allow-collapse="true" </div>
         var directive = {
-//            link: link,
             scope: {
                 'title': '@',
                 'subtitle': '@',
                 'rightText': '@',
                 'allowCollapse': '@'
             },
-            templateUrl: 'app/widgets/widgetheader.html',
-            restrict: 'A'
+            templateUrl: 'app/widgets/widget-header.html',
+            restrict: 'EA'
         };
         return directive;
-
-//        function link(scope, element, attrs) {
-//            attrs.$set('class', 'widget-head');
-//        }
     }
 })();
