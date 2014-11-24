@@ -312,7 +312,7 @@ function startBrowserSync() {
         logLevel: 'debug',
         logPrefix: 'gulp-patterns',
         notify: true,
-        reloadDelay: 5000
+        reloadDelay: 1000
     });
 }
 
