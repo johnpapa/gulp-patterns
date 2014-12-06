@@ -64,9 +64,8 @@ gulp.task('wiredep', function () {
     
     return gulp.src(index)
         .pipe(wiredep({
-            directory: './bower_components/',
-            bowerJson: require('./bower.json'),
-            ignorePath: '../..' // bower files will be relative to the root
+            directory: './src/client/bower_components/',
+            bowerJson: require('./bower.json')
         }))
         .pipe(gulp.dest(paths.client));
 });
@@ -112,11 +111,12 @@ gulp.task('inject-and-rev', ['templatecache', 'wiredep'], function() {
     return gulp
         .src(index)
         .pipe(plug.inject(gulp.src(paths.temp + 'templates.js', {read: false}), {
+			relative: true,
             starttag: '<!-- inject:templates:js -->',
             ignorePath: '/.temp'
         }))
         .pipe(plug.usemin({
-            assetsDir: './',
+            assetsDir: './src/client/',
             html: [plug.minifyHtml({empty: true})],
             css: [
                 plug.autoprefixer('last 2 version', '> 5%'), 

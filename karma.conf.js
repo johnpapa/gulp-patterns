@@ -15,16 +15,16 @@ module.exports = function (config) {
         files: [
             './src/client/test/bindPolyfill.js',
 
-            './bower_components/jquery/dist/jquery.js',
-            './bower_components/angular/angular.js',
-            './bower_components/angular-mocks/angular-mocks.js',
-            './bower_components/angular-animate/angular-animate.js',
-            './bower_components/angular-sanitize/angular-sanitize.js',
-            './bower_components/angular-ui-router/release/angular-ui-router.js',
-            './bower_components/bootstrap/dist/js/bootstrap.js',
-            './bower_components/toastr/toastr.js',
-            './bower_components/moment/moment.js',
-            './bower_components/extras.angular.plus/ngplus-overlay.js',
+            './src/client/bower_components/jquery/dist/jquery.js',
+            './src/client/bower_components/angular/angular.js',
+            './src/client/bower_components/angular-mocks/angular-mocks.js',
+            './src/client/bower_components/angular-animate/angular-animate.js',
+            './src/client/bower_components/angular-sanitize/angular-sanitize.js',
+            './src/client/bower_components/angular-ui-router/release/angular-ui-router.js',
+            './src/client/bower_components/bootstrap/dist/js/bootstrap.js',
+            './src/client/bower_components/toastr/toastr.js',
+            './src/client/bower_components/moment/moment.js',
+            './src/client/bower_components/extras.angular.plus/ngplus-overlay.js',
 
             /* MOCHA */
             './src/client/test/spec-helper.js',

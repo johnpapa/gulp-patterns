@@ -17,7 +17,7 @@ script:
 
 cache:
   directories:
-  - bower_components
+  - src/client/bower_components
   - node_modules
 
 notifications:
