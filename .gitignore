@@ -10,7 +10,7 @@ obj
 # Ignore Node & Bower
 ###################
 node_modules
-bower_components
+src/client/bower_components
 build
 .tmp
 
