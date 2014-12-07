@@ -1,4 +1,4 @@
-/*jshint -W079 */
+/* jshint -W117, -W030 */
 var specHelper = (function() {
     var service = {
         fakeLogger: fakeLogger,

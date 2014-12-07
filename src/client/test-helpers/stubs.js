@@ -1,15 +1,15 @@
-/*jshint -W079 */
+/* jshint -W117, -W030 */
 var stubs = (function() {
     var service = {
         dataservice: {
-            getCustomer: dataservice_getCustomer,
-            getCustomers: dataservice_getCustomers,
-            ready: dataservice_ready
+            getCustomer: getCustomer,
+            getCustomers: getCustomers,
+            ready: ready
         }
     };
     return service;
 
-    function dataservice_ready($q, dataservice) {
+    function ready($q, dataservice) {
         sinon.stub(dataservice, 'ready', function() {
             var deferred = $q.defer();
             deferred.resolve({test: 123});
@@ -17,7 +17,7 @@ var stubs = (function() {
         });
     }
 
-    function dataservice_getCustomer($q, dataservice) {
+    function getCustomer($q, dataservice) {
         sinon.stub(dataservice, 'getCustomer', function() {
             var deferred = $q.defer();
             deferred.resolve(mockData.blackWidow);
@@ -25,7 +25,7 @@ var stubs = (function() {
         }).withArgs('1017109');
     }
 
-    function dataservice_getCustomers($q, dataservice) {
+    function getCustomers($q, dataservice) {
         sinon.stub(dataservice, 'getCustomers', function() {
             var deferred = $q.defer();
             deferred.resolve(mockData.getMockCustomers());
