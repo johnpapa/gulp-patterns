@@ -436,7 +436,7 @@ function getHeader() {
  */
 function notify(){
     notifier.notify({
-        'sound': 'Bottle',
+        sound: 'Bottle',
         contentImage: path.join(__dirname, 'gulp.png'),
         icon: path.join(__dirname, 'gulp.png'),
         title: 'Gulp Build',
