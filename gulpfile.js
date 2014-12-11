@@ -1,18 +1,18 @@
 /* jshint camelcase:false */
 var gulp = require('gulp');
 var browserSync = require('browser-sync');
+var config = require('./gulp.config.json');
 var del = require('del');
 var glob = require('glob');
 var notifier = require('node-notifier');
 var path = require('path');
-var paths = require('./gulp.config.json');
 var plug = require('gulp-load-plugins')();
 var reload = browserSync.reload;
 
 var colors = plug.util.colors;
 var env = plug.util.env;
 var log = plug.util.log;
-var port = process.env.PORT || 7203;
+var port = process.env.PORT || config.defaultPort;
 
 /**
  * List the available gulp tasks
@@ -28,8 +28,8 @@ gulp.task('analyze', function() {
     log('Analyzing source with JSHint, JSCS, and Plato');
 
     var merge = require('merge-stream');
-    var jshint = analyzejshint(paths.alljs);
-    var jscs = analyzejscs(paths.alljs);
+    var jshint = analyzejshint(config.alljs);
+    var jscs = analyzejscs(config.alljs);
     startPlatoVisualizer();
 
     return merge(jshint, jscs);
@@ -43,7 +43,7 @@ gulp.task('templatecache', function() {
     log('Creating an AngularJS $templateCache');
 
     return gulp
-        .src(paths.htmltemplates)
+        .src(config.htmltemplates)
         .pipe(plug.bytediff.start())
         .pipe(plug.minifyHtml({empty: true}))
         .pipe(plug.bytediff.stop(bytediffFormatter))
@@ -52,7 +52,7 @@ gulp.task('templatecache', function() {
             standalone: false,
             root: 'app/'
         }))
-        .pipe(gulp.dest(paths.temp));
+        .pipe(gulp.dest(config.temp));
 });
 
 /**
@@ -63,7 +63,7 @@ gulp.task('wiredep', function () {
     log('Wiring the bower dependencies into the html');
 
     var wiredep = require('wiredep').stream;
-    var index = paths.client + 'index.html';
+    var index = config.client + 'index.html';
     
     return gulp.src(index)
         .pipe(wiredep({
@@ -71,7 +71,7 @@ gulp.task('wiredep', function () {
             bowerJson: require('./bower.json'),
             ignorePath: '../..' // bower files will be relative to the root
         }))
-        .pipe(gulp.dest(paths.client));
+        .pipe(gulp.dest(config.client));
 });
 
 /**
@@ -79,10 +79,10 @@ gulp.task('wiredep', function () {
  * @return {Stream}
  */
 gulp.task('fonts', function() {
-    var dest = paths.build + 'fonts';
+    var dest = config.build + 'fonts';
     log('Copying fonts');
     return gulp
-        .src(paths.fonts)
+        .src(config.fonts)
         .pipe(gulp.dest(dest));
 });
 
@@ -91,10 +91,10 @@ gulp.task('fonts', function() {
  * @return {Stream}
  */
 gulp.task('images', function() {
-    var dest = paths.build + 'content/images';
+    var dest = config.build + 'content/images';
     log('Compressing, caching, and copying images');
     return gulp
-        .src(paths.images)
+        .src(config.images)
         .pipe(plug.imagemin({
             optimizationLevel: 3
         }))
@@ -109,12 +109,12 @@ gulp.task('images', function() {
 gulp.task('inject-and-rev', ['templatecache', 'wiredep'], function() {
     log('Rev\'ing files and building index.html');
 
-    var index = paths.client + 'index.html';
+    var index = config.client + 'index.html';
     var projectHeader = getHeader();
 
     return gulp
         .src(index)
-        .pipe(plug.inject(gulp.src(paths.temp + 'templates.js', {read: false}), {
+        .pipe(plug.inject(gulp.src(config.temp + 'templates.js', {read: false}), {
             starttag: '<!-- inject:templates:js -->',
             ignorePath: '/.temp'
         }))
@@ -137,7 +137,7 @@ gulp.task('inject-and-rev', ['templatecache', 'wiredep'], function() {
             ],
             js_libs: [plug.uglify(), plug.rev()]
         }))
-        .pipe(gulp.dest(paths.build));
+        .pipe(gulp.dest(config.build));
 });
 
 /**
@@ -148,7 +148,7 @@ gulp.task('build', ['inject-and-rev', 'images', 'fonts'], function() {
     log('Building the optimized app');
 
     // clean out the temp folder when done
-    del(paths.temp);
+    del(config.temp);
 
     notify();
 });
@@ -164,9 +164,9 @@ gulp.task('notify', function() {
  * @return {Stream}
  */
 gulp.task('clean', function(cb) {
-    var delPaths = [].concat(paths.build, paths.temp, paths.report);
-    log('Cleaning: ' + plug.util.colors.blue(delPaths));
-    del(delPaths, cb);
+    var delconfig = [].concat(config.build, config.temp, config.report);
+    log('Cleaning: ' + plug.util.colors.blue(delconfig));
+    del(delconfig, cb);
 });
 
 /**
@@ -263,13 +263,13 @@ function analyzejscs(sources) {
  */
 function serve(args) {
     var options = {
-        script: paths.server + 'app.js',
+        script: config.server + 'app.js',
         delayTime: 1,
         env: {
             'NODE_ENV': args.mode,
             'PORT': port
         },
-        watch: [paths.server]
+        watch: [config.server]
     };
 
     var exec;
@@ -309,7 +309,7 @@ function startBrowserSync() {
     browserSync({
         proxy: 'localhost:' + port,
         port: 3000,
-        files: [paths.client + '/**/*.*'],
+        files: [config.client + '/**/*.*'],
         ghostMode: { // these are the defaults t,f,t,t
             clicks: true,
             location: false,
@@ -337,7 +337,7 @@ function startPlatoVisualizer() {
         title: 'Plato Inspections Report',
         exclude: excludeFiles
     };
-    var outputDir = paths.report + '/plato';
+    var outputDir = config.report + '/plato';
 
     plato.inspect(files, outputDir, options, platoCompleted);
 

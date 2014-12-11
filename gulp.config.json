@@ -26,5 +26,6 @@
   ],
   "build": "./build/",
   "temp": "./.tmp/",
-  "report": "./report/"
+  "report": "./report/",
+  "defaultPort": "7203"
 }
