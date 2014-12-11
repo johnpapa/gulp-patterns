@@ -408,7 +408,7 @@ function bytediffFormatter(data) {
  * Format a number as a percentage
  * @param  {Number} num       Number to format as a percent
  * @param  {Number} precision Precision of the decimal
- * @return {Number}           Formatted perentage
+ * @return {String}           Formatted perentage
  */
 function formatPercent(num, precision) {
     return (num * 100).toFixed(precision);
@@ -434,7 +434,7 @@ function getHeader() {
 /**
  * Show OS level notification using node-notifier
  */
-function notify(){
+function notify() {
     notifier.notify({
         sound: 'Bottle',
         contentImage: path.join(__dirname, 'gulp.png'),
