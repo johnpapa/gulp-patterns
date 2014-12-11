@@ -18,6 +18,7 @@ var port = process.env.PORT || 7203;
  * List the available gulp tasks
  */
 gulp.task('help', plug.taskListing);
+gulp.task('default', ['help'], plug.taskListing);
 
 /**
  * Lint the code, create coverage report, and a visualizer
@@ -408,7 +409,7 @@ function bytediffFormatter(data) {
  * Format a number as a percentage
  * @param  {Number} num       Number to format as a percent
  * @param  {Number} precision Precision of the decimal
- * @return {Number}           Formatted perentage
+ * @return {String}           Formatted perentage
  */
 function formatPercent(num, precision) {
     return (num * 100).toFixed(precision);
@@ -434,7 +435,7 @@ function getHeader() {
 /**
  * Show OS level notification using node-notifier
  */
-function notify(){
+function notify() {
     notifier.notify({
         sound: 'Bottle',
         contentImage: path.join(__dirname, 'gulp.png'),
