@@ -138,10 +138,11 @@ gulp.task('build', ['templatecache', 'wiredep', 'images', 'fonts'], function(don
             js: [
                 plug.ngAnnotate({add: true}), 
                 plug.uglify(),
+                'concat', 
                 plug.rev(),
                 projectHeader
             ],
-            js_libs: [plug.uglify(), plug.rev()]
+            js_libs: [plug.uglify(), 'concat', plug.rev()]
         }))
 //        .pipe(gulp.dest(config.build))
 //        .pipe(plug.rev.manifest())
