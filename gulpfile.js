@@ -110,8 +110,8 @@ gulp.task('images', function() {
 });
 
 /**
- * Inject all the files into the new index.html
- * rev, but no map
+ * Optimize all files, move to a build folder, 
+ * and inject them into the new index.html
  * @return {Stream}
  */
 gulp.task('build', ['templatecache', 'wiredep', 'images', 'fonts'], function(done) {
