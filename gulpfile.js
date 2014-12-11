@@ -4,13 +4,12 @@ var browserSync = require('browser-sync');
 var config = require('./gulp.config.json');
 var del = require('del');
 var glob = require('glob');
+var _ = require('lodash');
 var path = require('path');
 var plug = require('gulp-load-plugins')();
-var reload = browserSync.reload;
 
 var colors = plug.util.colors;
 var env = plug.util.env;
-var log = plug.util.log;
 var port = process.env.PORT || config.defaultPort;
 
 /**
@@ -115,12 +114,12 @@ gulp.task('images', function() {
  * rev, but no map
  * @return {Stream}
  */
-gulp.task('inject-and-rev', ['templatecache', 'wiredep'], function() {
-    log('Rev\'ing files and building index.html');
+gulp.task('build', ['templatecache', 'wiredep', 'images', 'fonts'], function(done) {
+    log('Building the optimized app');
 
     var projectHeader = getHeader();
 
-    return gulp
+    var stream = gulp
         .src(config.client + 'index.html')
         .pipe(plug.inject(gulp.src(config.temp + 'templates.js', {read: false}), {
             starttag: '<!-- inject:templates:js -->',
@@ -140,29 +139,29 @@ gulp.task('inject-and-rev', ['templatecache', 'wiredep'], function() {
             js: [
                 plug.ngAnnotate({add: true}), 
                 plug.uglify(),
-                plug.rev(), 
+                plug.rev(),
                 projectHeader
             ],
             js_libs: [plug.uglify(), plug.rev()]
         }))
+//        .pipe(gulp.dest(config.build))
+//        .pipe(plug.rev.manifest())
         .pipe(gulp.dest(config.build));
-});
 
-/**
- * Build the optimized app
- * @return {Stream}
- */
-gulp.task('build', ['inject-and-rev', 'images', 'fonts'], function() {
-    log('Building the optimized app');
-
-    // clean out the temp folder when done
-    del(config.temp);
-
-    notify();
-});
-
-gulp.task('notify', function() {
-    notify();
+    stream.on('end', function() {
+        var msg = {
+            title: 'Gulp Build',
+            subtitle: 'Deployed to the build folder',
+            message: 'gulp serve-dev --sync'
+        };
+        del(config.temp);
+        log(msg);
+        notify(msg);
+        done();
+    });
+    stream.on('error', function(err) {
+        done(err);
+    });
 });
 
 /**
@@ -171,10 +170,10 @@ gulp.task('notify', function() {
  * from the cmd line: gulp clean && gulp build
  * @return {Stream}
  */
-gulp.task('clean', function(cb) {
+gulp.task('clean', function(done) {
     var delconfig = [].concat(config.build, config.temp, config.report);
     log('Cleaning: ' + plug.util.colors.blue(delconfig));
-    del(delconfig, cb);
+    del(delconfig, done);
 });
 
 /**
@@ -443,16 +442,31 @@ function getHeader() {
 }
 
 /**
+ * Log a message or series of messages using chalk's blue color.
+ * Can pass in a string, object or array.
+ */
+function log(msg) {
+    if (typeof(msg) === 'object') {
+        for (var item in msg) {
+            if (msg.hasOwnProperty(item)) {               
+                plug.util.log(plug.util.colors.blue(msg[item]));
+            }
+        }
+    } else {
+        plug.util.log(plug.util.colors.blue(msg));
+    }
+}
+
+/**
  * Show OS level notification using node-notifier
  */
-function notify() {
+function notify(options) {
     var notifier = require('node-notifier');
-    notifier.notify({
+    var notifyOptions = {
         sound: 'Bottle',
         contentImage: path.join(__dirname, 'gulp.png'),
-        icon: path.join(__dirname, 'gulp.png'),
-        title: 'Gulp Build',
-        subtitle: 'Deployed to the build folder',
-        message: 'gulp serve-dev --sync'
-    });
+        icon: path.join(__dirname, 'gulp.png')
+    };
+    _.assign(notifyOptions, options);
+    notifier.notify(notifyOptions);
 }
