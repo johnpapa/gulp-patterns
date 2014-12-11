@@ -32,7 +32,7 @@
   "templateCache": {
     "module": "app.core",
     "file": "templates.js",
-    "root": "/app"
+    "root": "app/"
   },
   "bower": {
     "directory": "./bower_components/",
