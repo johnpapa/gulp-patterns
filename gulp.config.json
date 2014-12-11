@@ -18,6 +18,7 @@
     "./src/server/**/*.js",
     "./src/client/test-helpers/**/*.js"
   ],
+  "appjs": "src/client/app/**/*.js",
   "fonts": [
     "./bower_components/font-awesome/fonts/**/*.*"
   ],
@@ -27,5 +28,14 @@
   "build": "./build/",
   "temp": "./.tmp/",
   "report": "./report/",
-  "defaultPort": "7203"
+  "defaultPort": "7203",
+  "templateCache": {
+    "module": "app.core",
+    "file": "templates.js",
+    "root": "/app"
+  },
+  "bower": {
+    "directory": "./bower_components/",
+    "ignorePath": "../.."
+  }
 }

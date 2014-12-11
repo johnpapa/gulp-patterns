@@ -57,10 +57,10 @@ gulp.task('templatecache', function() {
         .pipe(plug.bytediff.start())
         .pipe(plug.minifyHtml({empty: true}))
         .pipe(plug.bytediff.stop(bytediffFormatter))
-        .pipe(plug.angularTemplatecache('templates.js', {
-            module: 'app.core',
+        .pipe(plug.angularTemplatecache(config.templateCache.file, {
+            module: config.templateCache.module,
             standalone: false,
-            root: 'app/'
+            root: config.templateCache.root
         }))
         .pipe(gulp.dest(config.temp));
 });
@@ -73,13 +73,13 @@ gulp.task('wiredep', function () {
     log('Wiring the bower dependencies into the html');
 
     var wiredep = require('wiredep').stream;
-    var index = config.client + 'index.html';
     
-    return gulp.src(index)
+    return gulp
+        .src(config.client + 'index.html')
         .pipe(wiredep({
-            directory: './bower_components/',
             bowerJson: require('./bower.json'),
-            ignorePath: '../..' // bower files will be relative to the root
+            directory: config.bower.directory,
+            ignorePath: config.bower.ignorePath
         }))
         .pipe(gulp.dest(config.client));
 });
@@ -89,11 +89,10 @@ gulp.task('wiredep', function () {
  * @return {Stream}
  */
 gulp.task('fonts', function() {
-    var dest = config.build + 'fonts';
     log('Copying fonts');
     return gulp
         .src(config.fonts)
-        .pipe(gulp.dest(dest));
+        .pipe(gulp.dest(config.build + 'fonts'));
 });
 
 /**
@@ -119,11 +118,10 @@ gulp.task('images', function() {
 gulp.task('inject-and-rev', ['templatecache', 'wiredep'], function() {
     log('Rev\'ing files and building index.html');
 
-    var index = config.client + 'index.html';
     var projectHeader = getHeader();
 
     return gulp
-        .src(index)
+        .src(config.client + 'index.html')
         .pipe(plug.inject(gulp.src(config.temp + 'templates.js', {read: false}), {
             starttag: '<!-- inject:templates:js -->',
             ignorePath: '/.temp'
@@ -291,7 +289,7 @@ function serve(args) {
     }
 
     if (args.mode === 'build') {
-        gulp.watch('./src/client/app/**/*.*', ['build']);
+        gulp.watch([config.css, config.js], ['build']);
     }
 
     return plug.nodemon(options)
@@ -339,8 +337,8 @@ function startBrowserSync() {
 function startPlatoVisualizer() {
     log('Running Plato');
 
-    var files = glob.sync('./src/client/app/**/*.js');
-    var excludeFiles = /\/src\/client\/app\/.*\.spec\.js/;
+    var files = glob.sync(config.appjs);
+    var excludeFiles = /.*\.spec\.js/;
     var plato = require('plato');
 
     var options = {
