@@ -4,7 +4,6 @@ var browserSync = require('browser-sync');
 var config = require('./gulp.config.json');
 var del = require('del');
 var glob = require('glob');
-var notifier = require('node-notifier');
 var path = require('path');
 var plug = require('gulp-load-plugins')();
 var reload = browserSync.reload;
@@ -449,6 +448,7 @@ function getHeader() {
  * Show OS level notification using node-notifier
  */
 function notify() {
+    var notifier = require('node-notifier');
     notifier.notify({
         sound: 'Bottle',
         contentImage: path.join(__dirname, 'gulp.png'),
