@@ -121,9 +121,8 @@ gulp.task('build', ['templatecache', 'wiredep', 'images', 'fonts'], function(don
 
     var stream = gulp
         .src(config.client + 'index.html')
-        .pipe(plug.inject(gulp.src(config.temp + 'templates.js', {read: false}), {
+        .pipe(plug.inject(gulp.src(config.temp + config.templateCache.file, {read: false}), {
             starttag: '<!-- inject:templates:js -->',
-            ignorePath: '/.temp'
         }))
         .pipe(plug.usemin({
             assetsDir: './',
