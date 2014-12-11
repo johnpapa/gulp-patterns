@@ -15,6 +15,17 @@ var log = plug.util.log;
 var port = process.env.PORT || config.defaultPort;
 
 /**
+ * env variables can be passed in to alter the behavior, when present.
+ * Example: gulp serve-dev --sync
+ *
+ * --verbose  : Various tasks will produce more output to the console.
+ * --sync     : When serving code, will launch the browser with browser-sync.    
+ * --debug    : When used with node-inspector it will launch the debugger.
+ * --debug-brk: When used with node-inspector it will launch the debugger and break on the 1st line.
+ * --startServers: When used with test task, will start servers for midway tests.
+ */
+
+/**
  * List the available gulp tasks
  */
 gulp.task('help', plug.taskListing);
@@ -238,7 +249,7 @@ function analyzejshint(sources, overrideRcFile) {
     log('Running JSHint');
     return gulp
         .src(sources)
-        .pipe(plug.print())
+        .pipe(plug.if(env.verbose, plug.print()))
         .pipe(plug.jshint(jshintrcFile))
         .pipe(plug.jshint.reporter('jshint-stylish'));
 }
@@ -343,7 +354,9 @@ function startPlatoVisualizer() {
 
     function platoCompleted(report) {
         var overview = plato.getOverviewReport(report);
-        log(overview.summary);
+        if (env.verbose) {
+            log(overview.summary);
+        }
     }
 }
 
