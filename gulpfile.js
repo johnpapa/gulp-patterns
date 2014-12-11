@@ -211,7 +211,7 @@ gulp.task('serve-dev-debug', function() {
  * serve the dev environment, with debug-brk,
  * and with node inspector
  */
-gulp.task('serve-dev-debug-brk', function() {
+gulp.task('serve-dev-debug-brk', ['wiredep'], function() {
     serve({
         mode: 'dev',
         debug: '--debug-brk'
@@ -221,7 +221,7 @@ gulp.task('serve-dev-debug-brk', function() {
 /**
  * serve the dev environment
  */
-gulp.task('serve-dev', function() {
+gulp.task('serve-dev', ['wiredep'], function() {
     serve({mode: 'dev'});
 });
 
