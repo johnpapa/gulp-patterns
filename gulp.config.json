@@ -2,8 +2,8 @@
   "client": "./src/client/",
   "server": "./src/server/",
   "htmltemplates": "./src/client/app/**/*.html",
-  "css": [
-    "./src/client/content/styles.css"
+  "less": [
+    "./src/client/content/styles.less"
   ],
   "js": [
     "src/client/app/**/*.module.js",

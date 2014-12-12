@@ -117,36 +117,51 @@ gulp.task('images', function() {
 gulp.task('build', ['templatecache', 'wiredep', 'images', 'fonts'], function(done) {
     log('Building the optimized app');
 
-    var projectHeader = getHeader();
+    var assets = plug.useref.assets({searchPath: './'});
+    // Filters are named for the gulp-useref path
+    var cssFilter = plug.filter('**/app.css');
+    var csslibFilter = plug.filter('**/lib.css');
+    var jsFilter = plug.filter('**/app.js'); 
+    var jslibFilter = plug.filter('**/lib.js');
 
     var stream = gulp
         .src(config.client + 'index.html')
         .pipe(plug.inject(gulp.src(config.temp + config.templateCache.file, {read: false}), {
             starttag: '<!-- inject:templates:js -->',
         }))
-        .pipe(plug.usemin({
-            assetsDir: './',
-            html: [plug.minifyHtml({empty: true})],
-            css: [
-                plug.autoprefixer('last 2 version', '> 5%'), 
-                plug.minifyCss(), 
-                'concat', 
-                plug.rev(), 
-                projectHeader
-            ],
-            css_libs: [plug.minifyCss(), 'concat', plug.rev()],
-            js: [
-                plug.ngAnnotate({add: true}), 
-                plug.uglify(),
-                'concat', 
-                plug.rev(),
-                projectHeader
-            ],
-            js_libs: [plug.uglify(), 'concat', plug.rev()]
-        }))
-//        .pipe(gulp.dest(config.build))
-//        .pipe(plug.rev.manifest())
+        .pipe(assets)       // Gather all assets from the html with useref
+
+        .pipe(cssFilter)    // Get the custom css
+        .pipe(plug.less()) 
+        .pipe(plug.autoprefixer('last 2 version', '> 5%'))
+        .pipe(plug.csso())
+        .pipe(getHeader())
+        .pipe(cssFilter.restore())
+
+        .pipe(csslibFilter) // Get the vendor css
+        .pipe(plug.csso())
+        .pipe(csslibFilter.restore())
+
+        .pipe(jsFilter)     // Get the custom javascript
+        .pipe(plug.ngAnnotate({add: true}))
+        .pipe(plug.uglify())
+        .pipe(getHeader())
+        .pipe(jsFilter.restore())
+
+        .pipe(jslibFilter)  // Get the vendor javascript
+        .pipe(plug.uglify())
+        .pipe(jslibFilter.restore())
+
+        .pipe(plug.rev())   // Add file names revisions
+        .pipe(assets.restore())
+
+        .pipe(plug.useref()) // Apply the concat and file replacement with useref
+        .pipe(plug.revReplace()) // Replace the file names in the html
+
         .pipe(gulp.dest(config.build));
+        // For demonstration only        
+        // .pipe(plug.rev.manifest())
+        // .pipe(gulp.dest(config.build));
 
     stream.on('end', function() {
         var msg = {
@@ -162,6 +177,21 @@ gulp.task('build', ['templatecache', 'wiredep', 'images', 'fonts'], function(don
     stream.on('error', function(err) {
         done(err);
     });
+});
+
+/**
+ * Optimize all files, move to a build folder, 
+ * and inject them into the new index.html
+ * @return {Stream}
+ */
+gulp.task('build-dev', ['wiredep'], function(done) {
+    log('Building the dev app');
+
+    return gulp
+        .src(config.less)
+        .pipe(plug.less()) 
+        .pipe(plug.autoprefixer('last 2 version', '> 5%'))
+        .pipe(gulp.dest(config.client + 'content/'));
 });
 
 /**
@@ -200,7 +230,7 @@ gulp.task('autotest', function(done) {
  * serve the dev environment, with debug,
  * and with node inspector
  */
-gulp.task('serve-dev-debug', function() {
+gulp.task('serve-dev-debug', ['build-dev'], function() {
     serve({
         mode: 'dev',
         debug: '--debug'
@@ -211,7 +241,7 @@ gulp.task('serve-dev-debug', function() {
  * serve the dev environment, with debug-brk,
  * and with node inspector
  */
-gulp.task('serve-dev-debug-brk', ['wiredep'], function() {
+gulp.task('serve-dev-debug-brk', ['build-dev'], function() {
     serve({
         mode: 'dev',
         debug: '--debug-brk'
@@ -221,7 +251,7 @@ gulp.task('serve-dev-debug-brk', ['wiredep'], function() {
 /**
  * serve the dev environment
  */
-gulp.task('serve-dev', ['wiredep'], function() {
+gulp.task('serve-dev', ['build-dev'], function() {
     serve({mode: 'dev'});
 });
 
@@ -245,7 +275,7 @@ function analyzejshint(sources, overrideRcFile) {
     log('Running JSHint');
     return gulp
         .src(sources)
-        .pipe(plug.if(env.verbose, plug.print()))
+        .pipe(plug.if(env.verbose, plug.debug()))
         .pipe(plug.jshint(jshintrcFile))
         .pipe(plug.jshint.reporter('jshint-stylish'));
 }
@@ -288,7 +318,7 @@ function serve(args) {
     }
 
     if (args.mode === 'build') {
-        gulp.watch([config.css, config.js], ['build']);
+        gulp.watch([config.less, config.js], ['build']);
     }
 
     return plug.nodemon(options)
