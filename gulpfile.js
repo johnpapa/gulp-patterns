@@ -172,6 +172,21 @@ gulp.task('build', ['templatecache', 'wiredep', 'images', 'fonts'], function(don
 });
 
 /**
+ * Optimize all files, move to a build folder, 
+ * and inject them into the new index.html
+ * @return {Stream}
+ */
+gulp.task('build-dev', ['wiredep'], function(done) {
+    log('Building the dev app');
+
+    return gulp
+        .src(config.less)
+        .pipe(plug.less()) 
+        .pipe(plug.autoprefixer('last 2 version', '> 5%'))
+        .pipe(gulp.dest(config.client + 'content/'));
+});
+
+/**
  * Remove all files from the build folder
  * One way to run clean before all tasks is to run
  * from the cmd line: gulp clean && gulp build
@@ -207,7 +222,7 @@ gulp.task('autotest', function(done) {
  * serve the dev environment, with debug,
  * and with node inspector
  */
-gulp.task('serve-dev-debug', function() {
+gulp.task('serve-dev-debug', ['build-dev'], function() {
     serve({
         mode: 'dev',
         debug: '--debug'
@@ -218,7 +233,7 @@ gulp.task('serve-dev-debug', function() {
  * serve the dev environment, with debug-brk,
  * and with node inspector
  */
-gulp.task('serve-dev-debug-brk', ['wiredep'], function() {
+gulp.task('serve-dev-debug-brk', ['build-dev'], function() {
     serve({
         mode: 'dev',
         debug: '--debug-brk'
@@ -228,7 +243,7 @@ gulp.task('serve-dev-debug-brk', ['wiredep'], function() {
 /**
  * serve the dev environment
  */
-gulp.task('serve-dev', ['wiredep'], function() {
+gulp.task('serve-dev', ['build-dev'], function() {
     serve({mode: 'dev'});
 });
 
@@ -252,7 +267,7 @@ function analyzejshint(sources, overrideRcFile) {
     log('Running JSHint');
     return gulp
         .src(sources)
-        .pipe(plug.if(env.verbose, plug.print()))
+        .pipe(plug.if(env.verbose, plug.debug()))
         .pipe(plug.jshint(jshintrcFile))
         .pipe(plug.jshint.reporter('jshint-stylish'));
 }
