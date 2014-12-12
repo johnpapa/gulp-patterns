@@ -130,26 +130,32 @@ gulp.task('build', ['templatecache', 'wiredep', 'images', 'fonts'], function(don
             starttag: '<!-- inject:templates:js -->',
         }))
         .pipe(assets)       // Gather all assets from the html with useref
+
         .pipe(cssFilter)    // Get the custom css
         .pipe(plug.less()) 
         .pipe(plug.autoprefixer('last 2 version', '> 5%'))
         .pipe(plug.csso())
         .pipe(cssFilter.restore())
+
         .pipe(csslibFilter) // Get the vendor css
         .pipe(plug.csso())
         .pipe(csslibFilter.restore())
+
         .pipe(jsFilter)     // Get the custom javascript
         .pipe(plug.ngAnnotate({add: true}))
         .pipe(plug.uglify())
         .pipe(jsFilter.restore())
+
         .pipe(jslibFilter)  // Get the vendor javascript
         .pipe(plug.uglify())
         .pipe(jslibFilter.restore())
+
         .pipe(plug.rev())   // Add file names revisions
         .pipe(assets.restore())
+
         .pipe(plug.useref()) // Apply the concat and file replacement with useref
         .pipe(plug.revReplace()) // Replace the file names in the html
-        .pipe(plug.minifyHtml({empty: true}))
+
         .pipe(gulp.dest(config.build));
         // For demonstration only        
         // .pipe(plug.rev.manifest())
