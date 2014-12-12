@@ -135,6 +135,7 @@ gulp.task('build', ['templatecache', 'wiredep', 'images', 'fonts'], function(don
         .pipe(plug.less()) 
         .pipe(plug.autoprefixer('last 2 version', '> 5%'))
         .pipe(plug.csso())
+        .pipe(getHeader())
         .pipe(cssFilter.restore())
 
         .pipe(csslibFilter) // Get the vendor css
@@ -144,6 +145,7 @@ gulp.task('build', ['templatecache', 'wiredep', 'images', 'fonts'], function(don
         .pipe(jsFilter)     // Get the custom javascript
         .pipe(plug.ngAnnotate({add: true}))
         .pipe(plug.uglify())
+        .pipe(getHeader())
         .pipe(jsFilter.restore())
 
         .pipe(jslibFilter)  // Get the vendor javascript
@@ -450,6 +452,23 @@ function bytediffFormatter(data) {
  */
 function formatPercent(num, precision) {
     return (num * 100).toFixed(precision);
+}
+
+/**
+ * Format and return the header for files
+ * @return {String}           Formatted file header
+ */
+function getHeader() {
+    var pkg = require('./package.json');
+    var template = ['/**',
+        ' * <%= pkg.name %> - <%= pkg.description %>',
+        ' * @authors <%= pkg.authors %>',
+        ' * @version v<%= pkg.version %>',
+        ' * @link <%= pkg.homepage %>',
+        ' * @license <%= pkg.license %>',
+        ' */',
+        ''].join('\n');
+    return plug.header(template, {pkg : pkg});
 }
 
 /**
