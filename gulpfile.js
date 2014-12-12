@@ -117,7 +117,6 @@ gulp.task('images', function() {
 gulp.task('build', ['templatecache', 'wiredep', 'images', 'fonts'], function(done) {
     log('Building the optimized app');
 
-    var projectHeader = getHeader();
     var assets = plug.useref.assets({searchPath: './'});
     // Filters are named for the gulp-useref path
     var cssFilter = plug.filter('**/app.css');
@@ -148,7 +147,7 @@ gulp.task('build', ['templatecache', 'wiredep', 'images', 'fonts'], function(don
         .pipe(jslibFilter.restore())
         .pipe(plug.rev())   // Add file names revisions
         .pipe(assets.restore())
-        .pipe(plug.useref()) // Apply thc concat and file replacement with useref
+        .pipe(plug.useref()) // Apply the concat and file replacement with useref
         .pipe(plug.revReplace()) // Replace the file names in the html
         .pipe(plug.minifyHtml({empty: true}))
         .pipe(gulp.dest(config.build));
@@ -430,23 +429,6 @@ function bytediffFormatter(data) {
  */
 function formatPercent(num, precision) {
     return (num * 100).toFixed(precision);
-}
-
-/**
- * Format and return the header for files
- * @return {String}           Formatted file header
- */
-function getHeader() {
-    var pkg = require('./package.json');
-    var template = ['/**',
-        ' * <%= pkg.name %> - <%= pkg.description %>',
-        ' * @authors <%= pkg.authors %>',
-        ' * @version v<%= pkg.version %>',
-        ' * @link <%= pkg.homepage %>',
-        ' * @license <%= pkg.license %>',
-        ' */',
-        ''].join('\n');
-    return plug.header(template, {pkg : pkg});
 }
 
 /**
