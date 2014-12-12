@@ -118,35 +118,43 @@ gulp.task('build', ['templatecache', 'wiredep', 'images', 'fonts'], function(don
     log('Building the optimized app');
 
     var projectHeader = getHeader();
+    var assets = plug.useref.assets({searchPath: './'});
+    // Filters are named for the gulp-useref path
+    var cssFilter = plug.filter('**/app.css');
+    var csslibFilter = plug.filter('**/lib.css');
+    var jsFilter = plug.filter('**/app.js'); 
+    var jslibFilter = plug.filter('**/lib.js');
 
     var stream = gulp
         .src(config.client + 'index.html')
         .pipe(plug.inject(gulp.src(config.temp + config.templateCache.file, {read: false}), {
             starttag: '<!-- inject:templates:js -->',
         }))
-        .pipe(plug.usemin({
-            assetsDir: './',
-            html: [plug.minifyHtml({empty: true})],
-            css: [
-                plug.autoprefixer('last 2 version', '> 5%'), 
-                plug.minifyCss(), 
-                'concat', 
-                plug.rev(), 
-                projectHeader
-            ],
-            css_libs: [plug.minifyCss(), 'concat', plug.rev()],
-            js: [
-                plug.ngAnnotate({add: true}), 
-                plug.uglify(),
-                'concat', 
-                plug.rev(),
-                projectHeader
-            ],
-            js_libs: [plug.uglify(), 'concat', plug.rev()]
-        }))
-//        .pipe(gulp.dest(config.build))
-//        .pipe(plug.rev.manifest())
+        .pipe(assets)       // Gather all assets from the html with useref
+        .pipe(cssFilter)    // Get the custom css
+        .pipe(plug.less()) 
+        .pipe(plug.autoprefixer('last 2 version', '> 5%'))
+        .pipe(plug.csso())
+        .pipe(cssFilter.restore())
+        .pipe(csslibFilter) // Get the vendor css
+        .pipe(plug.csso())
+        .pipe(csslibFilter.restore())
+        .pipe(jsFilter)     // Get the custom javascript
+        .pipe(plug.ngAnnotate({add: true}))
+        .pipe(plug.uglify())
+        .pipe(jsFilter.restore())
+        .pipe(jslibFilter)  // Get the vendor javascript
+        .pipe(plug.uglify())
+        .pipe(jslibFilter.restore())
+        .pipe(plug.rev())   // Add file names revisions
+        .pipe(assets.restore())
+        .pipe(plug.useref()) // Apply thc concat and file replacement with useref
+        .pipe(plug.revReplace()) // Replace the file names in the html
+        .pipe(plug.minifyHtml({empty: true}))
         .pipe(gulp.dest(config.build));
+        // For demonstration only        
+        // .pipe(plug.rev.manifest())
+        // .pipe(gulp.dest(config.build));
 
     stream.on('end', function() {
         var msg = {
@@ -288,7 +296,7 @@ function serve(args) {
     }
 
     if (args.mode === 'build') {
-        gulp.watch([config.css, config.js], ['build']);
+        gulp.watch([config.less, config.js], ['build']);
     }
 
     return plug.nodemon(options)
