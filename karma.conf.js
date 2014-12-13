@@ -1,7 +1,4 @@
-// Karma configuration
-// Generated on Sun Jul 13 2014 09:06:13 GMT-0400 (EDT)
-
-module.exports = function (config) {
+module.exports = function(config) {
     config.set({
 
         // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -37,8 +34,7 @@ module.exports = function (config) {
         ],
 
         // list of files to exclude
-        exclude: [
-        ],
+        exclude: [],
 
         proxies: {
             '/': 'http://localhost:8888/'
@@ -47,7 +43,7 @@ module.exports = function (config) {
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
-//            'src/client/app/**/*.js': 'coverage',
+            //            'src/client/app/**/*.js': 'coverage',
             '{src/client/app,src/client/app/**/!(*.spec).js}': 'coverage'
         },
 
@@ -77,7 +73,7 @@ module.exports = function (config) {
 
         // start these browsers
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-//        browsers: ['Chrome', 'ChromeCanary', 'FirefoxAurora', 'Safari', 'PhantomJS'],
+        //        browsers: ['Chrome', 'ChromeCanary', 'FirefoxAurora', 'Safari', 'PhantomJS'],
         browsers: ['PhantomJS'],
 
         // Continuous Integration mode
