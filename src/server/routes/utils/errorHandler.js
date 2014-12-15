@@ -3,7 +3,7 @@ module.exports = function() {
         init: init,
         logErrors: logErrors
     };
-    return service;    
+    return service;
 
     function init(err, req, res, next) {
         var status = err.statusCode || 500;
