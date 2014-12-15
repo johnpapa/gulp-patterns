@@ -5,7 +5,7 @@ var del = require('del');
 var glob = require('glob');
 var _ = require('lodash');
 var path = require('path');
-var plug = require('gulp-load-plugins')();
+var plug = require('gulp-load-plugins')({lazy: true});
 
 var colors = plug.util.colors;
 var env = plug.util.env;
