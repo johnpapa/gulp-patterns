@@ -127,7 +127,7 @@ gulp.task('build', ['templatecache', 'wiredep', 'images', 'fonts'], function(don
     var stream = gulp
         .src(config.client + 'index.html')
         .pipe(plug.inject(gulp.src(templateCache, {read: false}), {
-            starttag: '<!-- inject:templates:js -->',
+            starttag: '<!-- inject:templates:js -->'
         }))
         .pipe(assets) // Gather all assets from the html with useref
         // Get the custom css
