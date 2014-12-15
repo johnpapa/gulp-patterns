@@ -14,7 +14,7 @@
     var config = {
         appErrorPrefix: '[GulpPatterns Error] ', //Configure the exceptionHandler decorator
         appTitle: 'Gulp Patterns Demo',
-        imageBasePath: '/content/images/photos/',
+        imageBasePath: '/images/photos/',
         unknownPersonImageSource: 'unknown_person.jpg'
     };
 

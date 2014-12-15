@@ -5,7 +5,7 @@ var del = require('del');
 var glob = require('glob');
 var _ = require('lodash');
 var path = require('path');
-var plug = require('gulp-load-plugins')();
+var plug = require('gulp-load-plugins')({lazy: true});
 
 var colors = plug.util.colors;
 var env = plug.util.env;
@@ -19,6 +19,7 @@ var port = process.env.PORT || config.defaultPort;
  * --sync     : Launch the browser with browser-sync when serving code.
  * --debug    : Launch debugger with node-inspector.
  * --debug-brk: Launch debugger and break on 1st line with node-inspector.
+ * --prod     : building or serving prod(uction)
  * --startServers: Will start servers for midway tests on the test task.
  */
 
@@ -48,24 +49,9 @@ gulp.task('analyze', function() {
  * Create $templateCache from the html templates
  * @return {Stream}
  */
-gulp.task('templatecache', function() {
+gulp.task('templatecache', ['clean-code'], function() {
     log('Creating an AngularJS $templateCache');
 
-<<<<<<< HEAD
-    return gulp.src(config.htmltemplates)
-    .pipe(plug.bytediff.start())
-    .pipe(plug.minifyHtml({
-        empty: true
-    }))
-    .pipe(plug.
-          if (env.verbose, plug.bytediff.stop(bytediffFormatter)))
-    .pipe(plug.angularTemplatecache(config.templateCache.file, {
-        module: config.templateCache.module,
-        standalone: false,
-        root: config.templateCache.root
-    }))
-    .pipe(gulp.dest(config.temp));
-=======
     return gulp
         .src(config.htmltemplates)
         .pipe(plug.bytediff.start())
@@ -77,7 +63,6 @@ gulp.task('templatecache', function() {
             root: config.templateCache.root
         }))
         .pipe(gulp.dest(config.temp));
->>>>>>> develop
 });
 
 /**
@@ -102,7 +87,7 @@ gulp.task('wiredep', function() {
  * Copy fonts
  * @return {Stream}
  */
-gulp.task('fonts', function() {
+gulp.task('fonts', ['clean-fonts'], function() {
     log('Copying fonts');
     return gulp.src(config.fonts)
     .pipe(gulp.dest(config.build + 'fonts'));
@@ -112,8 +97,8 @@ gulp.task('fonts', function() {
  * Compress images
  * @return {Stream}
  */
-gulp.task('images', function() {
-    var dest = config.build + 'content/images';
+gulp.task('images', ['clean-images'], function() {
+    var dest = config.build + 'images';
     log('Compressing, caching, and copying images');
     return gulp.src(config.images)
     .pipe(plug.imagemin({
@@ -123,60 +108,70 @@ gulp.task('images', function() {
 });
 
 /**
+ * Build everything
+ */
+gulp.task('build', ['html', 'images', 'fonts'], function() {
+    log('Building everything');
+});
+
+/**
  * Optimize all files, move to a build folder,
  * and inject them into the new index.html
  * @return {Stream}
  */
-gulp.task('build', ['templatecache', 'wiredep', 'images', 'fonts'], function(done) {
-    log('Building the optimized app');
+gulp.task('html', ['templatecache', 'wiredep'], function(done) {
+    log('Optimizing the js, css, and html');
 
     var assets = plug.useref.assets({searchPath: './'});
     // Filters are named for the gulp-useref path
     var cssFilter = plug.filter('**/app.css');
-    var csslibFilter = plug.filter('**/lib.css');
+    var cssAllFilter = plug.filter('**/*.css');
     var jsFilter = plug.filter('**/app.js');
     var jslibFilter = plug.filter('**/lib.js');
 
     var templateCache = config.temp + config.templateCache.file;
 
     var stream = gulp
-        .src(config.client + 'index.html')
-        .pipe(plug.inject(gulp.src(templateCache, {read: false}), {
-            starttag: '<!-- inject:templates:js -->'
-        }))
-        .pipe(assets) // Gather all assets from the html with useref
-        // Get the custom css
-        .pipe(cssFilter)
-        .pipe(plug.less())
-        .pipe(plug.autoprefixer('last 2 version', '> 5%'))
-        .pipe(plug.csso())
-        .pipe(getHeader())
-        .pipe(cssFilter.restore())
-        // Get the vendor css
-        .pipe(csslibFilter)
-        .pipe(plug.csso())
-        .pipe(csslibFilter.restore())
-        // Get the custom javascript
-        .pipe(jsFilter)
-        .pipe(plug.ngAnnotate({add: true}))
-        .pipe(plug.uglify())
-        .pipe(getHeader())
-        .pipe(jsFilter.restore())
-        // Get the vendor javascript
-        .pipe(jslibFilter)
-        .pipe(plug.uglify())
-        .pipe(jslibFilter.restore())
-        // Add file names revisions
-        .pipe(plug.rev())
-        .pipe(assets.restore())
-        // Apply the concat and file replacement with useref
-        .pipe(plug.useref())
-        // Replace the file names in the html
-        .pipe(plug.revReplace())
-        .pipe(gulp.dest(config.build));
-        // For demonstration only
-        // .pipe(plug.rev.manifest())
-        // .pipe(gulp.dest(config.build));
+            .src(config.client + 'index.html')
+            .pipe(plug.inject(gulp.src(templateCache, {read: false}), {
+                starttag: '<!-- inject:templates:js -->'
+            }))
+            .pipe(assets) // Gather all assets from the html with useref
+            .pipe(cssFilter)
+            .pipe(plug.less())
+            .pipe(plug.autoprefixer('last 2 version', '> 5%'))
+            .pipe(cssFilter.restore());
+
+    if (!env.prod) {
+        stream
+            .pipe(assets.restore())
+            .pipe(plug.useref())
+            .pipe(gulp.dest(config.build));
+    } else {
+        stream
+            // Get the css
+            .pipe(cssAllFilter)
+            .pipe(plug.csso())
+            .pipe(cssAllFilter.restore())
+            // Get the custom javascript
+            .pipe(jsFilter)
+            .pipe(plug.ngAnnotate({add: true}))
+            .pipe(plug.uglify())
+            .pipe(getHeader())
+            .pipe(jsFilter.restore())
+            // Get the vendor javascript
+            .pipe(jslibFilter)
+            .pipe(plug.uglify())
+            .pipe(jslibFilter.restore())
+            // Add file names revisions
+            .pipe(plug.rev())
+            // Apply the concat and file replacement with useref
+            .pipe(assets.restore())
+            .pipe(plug.useref())
+            // Replace the file names in the html
+            .pipe(plug.revReplace())
+            .pipe(gulp.dest(config.build));
+    }
 
     stream.on('end', function() {
         var msg = {
@@ -195,46 +190,43 @@ gulp.task('build', ['templatecache', 'wiredep', 'images', 'fonts'], function(don
 });
 
 /**
- * Optimize all files, move to a build folder,
- * and inject them into the new index.html
- * @return {Stream}
- */
-gulp.task('build-dev', ['wiredep'], function(done) {
-    log('Building the dev app');
-
-    var stream = gulp
-        .src(config.less)
-        .pipe(plug.less())
-        .pipe(plug.autoprefixer('last 2 version', '> 5%'))
-        .pipe(gulp.dest(config.client + 'content/'));
-
-    stream.on('end', function() {
-        var msg = {
-            title: 'gulp build-dev',
-            subtitle: 'Deployed to the build folder',
-            message: 'gulp serve-dev --sync'
-        };
-        del(config.temp);
-        log(msg);
-        notify(msg);
-        done();
-    });
-
-    stream.on('error', function(err) {
-        done(err);
-    });
-});
-
-/**
- * Remove all files from the build folder
- * One way to run clean before all tasks is to run
- * from the cmd line: gulp clean && gulp build
- * @return {Stream}
+ * Remove all files from the build, temp, and reports folders
+ * @param  {Function} done - callback when complete
  */
 gulp.task('clean', function(done) {
     var delconfig = [].concat(config.build, config.temp, config.report);
     log('Cleaning: ' + plug.util.colors.blue(delconfig));
     del(delconfig, done);
+});
+
+/**
+ * Remove all fonts from the build folder
+ * @param  {Function} done - callback when complete
+ */
+gulp.task('clean-fonts', function(done) {
+    clean([].concat(config.build + 'fonts/**/*.*'), done);
+});
+
+/**
+ * Remove all images from the build folder
+ * @param  {Function} done - callback when complete
+ */
+gulp.task('clean-images', function(done) {
+    clean([].concat(config.build + 'images/**/*.*'), done);
+});
+
+/**
+ * Remove all styles, js, and html from the build folder
+ * @param  {Function} done - callback when complete
+ */
+gulp.task('clean-code', function(done) {
+    var files = [].concat(
+        config.temp,
+        config.build + 'js/**/*.js',
+        config.build + 'styles/**/*.css',
+        config.build + '**/*.html'
+        );
+    clean(files, done);
 });
 
 /**
@@ -258,81 +250,35 @@ gulp.task('autotest', function(done) {
 });
 
 /**
- * serve the dev environment, with debug,
- * and with node inspector
- */
-gulp.task('serve-dev-debug', ['build-dev'], function() {
-    serve({
-        mode: 'dev',
-        debug: '--debug'
-    });
-});
-
-/**
- * serve the dev environment, with debug-brk,
- * and with node inspector
- */
-gulp.task('serve-dev-debug-brk', ['build-dev'], function() {
-    serve({
-        mode: 'dev',
-        debug: '--debug-brk'
-    });
-});
-
-/**
  * serve the dev environment
+ * --debug-brk or --debug
+ * --dev (default) or -- prod
+ * --sync
  */
-gulp.task('serve-dev', ['build-dev'], function() {
-    serve({
-        mode: 'dev'
-    });
-});
-
-/**
- * serve the build environment
- */
-gulp.task('serve-build', function() {
-    serve({
-        mode: 'build'
-    });
-});
-
-////////////////
-
-/**
- * Start the node server using nodemon.
- * Optionally start the node debugging.
- * @param  {Object} args - debugging arguments
- * @return {Stream}
- */
-function serve(args) {
+gulp.task('serve', function() {
     var options = {
         script: config.server + 'app.js',
         delayTime: 1,
-        env: {
-            'NODE_ENV': args.mode,
-            'PORT': port
-        },
+        env: {'PORT': port},
         watch: [config.server]
     };
 
     var exec;
-    if (args.debug) {
+    var debug = env.debug || env.debugBrk;
+    if (debug) {
         log('Running node-inspector. Browse to http://localhost:8080/debug?port=5858');
         exec = require('child_process').exec;
         exec('node-inspector');
-        options.nodeArgs = [args.debug + '=5858'];
+        options.nodeArgs = [debug + '=5858'];
     }
 
-    if (args.mode === 'build') {
-        gulp.watch([config.less, config.js], ['build']);
-    }
+    gulp.watch([config.less, config.js, config.html], ['html'])
+        .on('change', function(event) {
+            changeEvent(event);
+        });
 
     return plug.nodemon(options)
-        .on('start', function() {
-            startBrowserSync();
-        })
-        //.on('change', tasks)
+        .on('start', startBrowserSync)
         .on('restart', function() {
             log('restarted!');
             setTimeout(function() {
@@ -341,10 +287,32 @@ function serve(args) {
                 });
             }, 1000);
         });
+});
+
+////////////////
+
+/**
+ * When files change, log it
+ * @param  {Object} event - event that fired
+ */
+function changeEvent(event) {
+    var srcPattern = new RegExp('/.*(?=/' + config.source + ')/');
+    log('File ' + event.path.replace(srcPattern, '') + ' ' + event.type);
+}
+
+/**
+ * Delete all files in a given path
+ * @param  {Array}   path - array of paths to delete
+ * @param  {Function} done - callback when complete
+ */
+function clean(path, done) {
+    log('Cleaning: ' + plug.util.colors.blue(path));
+    del(path, done);
 }
 
 /**
  * Start BrowserSync
+ * --sync will start browserSync too
  */
 function startBrowserSync() {
     if (!env.sync || browserSync.active) {
@@ -355,7 +323,8 @@ function startBrowserSync() {
     browserSync({
         proxy: 'localhost:' + port,
         port: 3000,
-        files: [config.client + '/**/*.*'],
+        // files: [config.client + '/**/*.*'],
+        files: [config.build + '/**/*.*'],
         ghostMode: { // these are the defaults t,f,t,t
             clicks: true,
             location: false,
