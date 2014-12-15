@@ -1,4 +1,4 @@
-﻿<section class="mainbar">
+<section class="mainbar">
     <section class="matter">
         <div class="container">
             <div class="row">
@@ -15,7 +15,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat="c in vm.customers | filter:vm.filter track by c.id" 
+                            <tr ng-repeat="c in vm.customers | filter:vm.filter track by c.id"
                                 ng-click="vm.gotoCustomer(c)">
                                 <td>{{c.firstName + ' ' + c.lastName}}</td>
                                 <td>{{c.city}}</td>

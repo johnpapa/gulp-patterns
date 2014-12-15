@@ -4,14 +4,14 @@
     angular
         .module('app.core', [
             /* Angular modules */
-            'ngAnimate', 
+            'ngAnimate',
             'ngSanitize',
             /* Cross-app modules */
-            'blocks.exception', 
-            'blocks.logger', 
+            'blocks.exception',
+            'blocks.logger',
             'blocks.router',
             /* 3rd-party modules */
-            'ui.router', 
+            'ui.router',
             'ngplus'
         ]);
 

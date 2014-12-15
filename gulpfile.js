@@ -1,4 +1,3 @@
-/* jshint camelcase:false */
 var gulp = require('gulp');
 var browserSync = require('browser-sync');
 var config = require('./gulp.config')().getConfig();
@@ -36,12 +35,13 @@ gulp.task('default', ['help']);
 gulp.task('analyze', function() {
     log('Analyzing source with JSHint, JSCS, and Plato');
 
-    var merge = require('merge-stream');
-    var jshint = analyzejshint(config.alljs);
-    var jscs = analyzejscs(config.alljs);
     startPlatoVisualizer();
 
-    return merge(jshint, jscs);
+    return gulp
+        .src(config.alljs)
+        .pipe(plug.if(env.verbose, plug.print()))
+        .pipe(plug.jshint.reporter('jshint-stylish'))
+        .pipe(plug.jscs());
 });
 
 /**
@@ -51,6 +51,7 @@ gulp.task('analyze', function() {
 gulp.task('templatecache', function() {
     log('Creating an AngularJS $templateCache');
 
+<<<<<<< HEAD
     return gulp.src(config.htmltemplates)
     .pipe(plug.bytediff.start())
     .pipe(plug.minifyHtml({
@@ -64,6 +65,19 @@ gulp.task('templatecache', function() {
         root: config.templateCache.root
     }))
     .pipe(gulp.dest(config.temp));
+=======
+    return gulp
+        .src(config.htmltemplates)
+        .pipe(plug.bytediff.start())
+        .pipe(plug.minifyHtml({empty: true}))
+        .pipe(plug.if(env.verbose, plug.bytediff.stop(bytediffFormatter)))
+        .pipe(plug.angularTemplatecache(config.templateCache.file, {
+            module: config.templateCache.module,
+            standalone: false,
+            root: config.templateCache.root
+        }))
+        .pipe(gulp.dest(config.temp));
+>>>>>>> develop
 });
 
 /**
@@ -116,9 +130,7 @@ gulp.task('images', function() {
 gulp.task('build', ['templatecache', 'wiredep', 'images', 'fonts'], function(done) {
     log('Building the optimized app');
 
-    var assets = plug.useref.assets({
-        searchPath: './'
-    });
+    var assets = plug.useref.assets({searchPath: './'});
     // Filters are named for the gulp-useref path
     var cssFilter = plug.filter('**/app.css');
     var csslibFilter = plug.filter('**/lib.css');
@@ -127,53 +139,50 @@ gulp.task('build', ['templatecache', 'wiredep', 'images', 'fonts'], function(don
 
     var templateCache = config.temp + config.templateCache.file;
 
-    var stream = gulp.src(config.client + 'index.html')
-    .pipe(plug.inject(gulp.src(templateCache, {
-        read: false
-    }), {
-        starttag: '<!-- inject:templates:js -->',
-    }))
-    .pipe(assets) // Gather all assets from the html with useref
-
-    .pipe(cssFilter) // Get the custom css
-    .pipe(plug.less())
-    .pipe(plug.autoprefixer('last 2 version', '> 5%'))
-    .pipe(plug.csso())
-    .pipe(getHeader())
-    .pipe(cssFilter.restore())
-
-    .pipe(csslibFilter) // Get the vendor css
-    .pipe(plug.csso())
-    .pipe(csslibFilter.restore())
-
-    .pipe(jsFilter) // Get the custom javascript
-    .pipe(plug.ngAnnotate({
-        add: true
-    }))
-    .pipe(plug.uglify())
-    .pipe(getHeader())
-    .pipe(jsFilter.restore())
-
-    .pipe(jslibFilter) // Get the vendor javascript
-    .pipe(plug.uglify())
-    .pipe(jslibFilter.restore())
-
-    .pipe(plug.rev()) // Add file names revisions
-    .pipe(assets.restore())
-
-    .pipe(plug.useref()) // Apply the concat and file replacement with useref
-    .pipe(plug.revReplace()) // Replace the file names in the html
-
-    .pipe(gulp.dest(config.build));
-    // For demonstration only
-    // .pipe(plug.rev.manifest())
-    // .pipe(gulp.dest(config.build));
+    var stream = gulp
+        .src(config.client + 'index.html')
+        .pipe(plug.inject(gulp.src(templateCache, {read: false}), {
+            starttag: '<!-- inject:templates:js -->'
+        }))
+        .pipe(assets) // Gather all assets from the html with useref
+        // Get the custom css
+        .pipe(cssFilter)
+        .pipe(plug.less())
+        .pipe(plug.autoprefixer('last 2 version', '> 5%'))
+        .pipe(plug.csso())
+        .pipe(getHeader())
+        .pipe(cssFilter.restore())
+        // Get the vendor css
+        .pipe(csslibFilter)
+        .pipe(plug.csso())
+        .pipe(csslibFilter.restore())
+        // Get the custom javascript
+        .pipe(jsFilter)
+        .pipe(plug.ngAnnotate({add: true}))
+        .pipe(plug.uglify())
+        .pipe(getHeader())
+        .pipe(jsFilter.restore())
+        // Get the vendor javascript
+        .pipe(jslibFilter)
+        .pipe(plug.uglify())
+        .pipe(jslibFilter.restore())
+        // Add file names revisions
+        .pipe(plug.rev())
+        .pipe(assets.restore())
+        // Apply the concat and file replacement with useref
+        .pipe(plug.useref())
+        // Replace the file names in the html
+        .pipe(plug.revReplace())
+        .pipe(gulp.dest(config.build));
+        // For demonstration only
+        // .pipe(plug.rev.manifest())
+        // .pipe(gulp.dest(config.build));
 
     stream.on('end', function() {
         var msg = {
-            title: 'Gulp Build',
+            title: 'gulp build',
             subtitle: 'Deployed to the build folder',
-            message: 'gulp serve-dev --sync'
+            message: 'gulp serve-build --sync'
         };
         del(config.temp);
         log(msg);
@@ -193,10 +202,27 @@ gulp.task('build', ['templatecache', 'wiredep', 'images', 'fonts'], function(don
 gulp.task('build-dev', ['wiredep'], function(done) {
     log('Building the dev app');
 
-    return gulp.src(config.less)
-    .pipe(plug.less())
-    .pipe(plug.autoprefixer('last 2 version', '> 5%'))
-    .pipe(gulp.dest(config.client + 'content/'));
+    var stream = gulp
+        .src(config.less)
+        .pipe(plug.less())
+        .pipe(plug.autoprefixer('last 2 version', '> 5%'))
+        .pipe(gulp.dest(config.client + 'content/'));
+
+    stream.on('end', function() {
+        var msg = {
+            title: 'gulp build-dev',
+            subtitle: 'Deployed to the build folder',
+            message: 'gulp serve-dev --sync'
+        };
+        del(config.temp);
+        log(msg);
+        notify(msg);
+        done();
+    });
+
+    stream.on('error', function(err) {
+        done(err);
+    });
 });
 
 /**
@@ -274,33 +300,6 @@ gulp.task('serve-build', function() {
 ////////////////
 
 /**
- * Execute JSHint on given source files
- * @param  {Array} sources
- * @param  {String} overrideRcFile
- * @return {Stream}
- */
-function analyzejshint(sources, overrideRcFile) {
-    var jshintrcFile = overrideRcFile || './.jshintrc';
-    log('Running JSHint');
-    return gulp.src(sources)
-    .pipe(plug.
-          if (env.verbose, plug.debug()))
-    .pipe(plug.jshint(jshintrcFile))
-    .pipe(plug.jshint.reporter('jshint-stylish'));
-}
-
-/**
- * Execute JSCS on given source files
- * @param  {Array} sources
- * @return {Stream}
- */
-function analyzejscs(sources) {
-    log('Running JSCS');
-    return gulp.src(sources)
-    .pipe(plug.jscs('./.jscsrc'));
-}
-
-/**
  * Start the node server using nodemon.
  * Optionally start the node debugging.
  * @param  {Object} args - debugging arguments
@@ -330,18 +329,18 @@ function serve(args) {
     }
 
     return plug.nodemon(options)
-    .on('start', function() {
-        startBrowserSync();
-    })
-    //.on('change', tasks)
-    .on('restart', function() {
-        log('restarted!');
-        setTimeout(function() {
-            browserSync.reload({
-                stream: false
-            });
-        }, 1000);
-    });
+        .on('start', function() {
+            startBrowserSync();
+        })
+        //.on('change', tasks)
+        .on('restart', function() {
+            log('restarted!');
+            setTimeout(function() {
+                browserSync.reload({
+                    stream: false
+                });
+            }, 1000);
+        });
 }
 
 /**
@@ -451,7 +450,7 @@ function bytediffFormatter(data) {
     var difference = (data.savings > 0) ? ' smaller.' : ' larger.';
     return data.fileName + ' went from ' +
         (data.startSize / 1000).toFixed(2) + ' kB to ' +
-        (data.endSize / 1000).toFixed(2) + ' kB and is ' + 
+        (data.endSize / 1000).toFixed(2) + ' kB and is ' +
         formatPercent(1 - data.percent, 2) + '%' + difference;
 }
 
@@ -471,14 +470,13 @@ function formatPercent(num, precision) {
  */
 function getHeader() {
     var pkg = require('./package.json');
-    var template = ['/**', 
-        ' * <%= pkg.name %> - <%= pkg.description %>', 
-        ' * @authors <%= pkg.authors %>', 
-        ' * @version v<%= pkg.version %>', 
-        ' * @link <%= pkg.homepage %>', 
-        ' * @license <%= pkg.license %>', 
-        ' */', 
-        ''
+    var template = ['/**',
+        ' * <%= pkg.name %> - <%= pkg.description %>',
+        ' * @authors <%= pkg.authors %>',
+        ' * @version v<%= pkg.version %>',
+        ' * @link <%= pkg.homepage %>',
+        ' * @license <%= pkg.license %>',
+        ' */'
     ].join('\n');
     return plug.header(template, {
         pkg: pkg

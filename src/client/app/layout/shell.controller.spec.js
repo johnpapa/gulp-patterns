@@ -7,7 +7,7 @@ describe('Shell', function() {
             specHelper.fakeStateProvider($provide);
             specHelper.fakeLogger($provide);
         });
-        specHelper.injector(function($controller, $q, $rootScope, $timeout, dataservice) {});            
+        specHelper.injector(function($controller, $q, $rootScope, $timeout, dataservice) {});
     });
 
     beforeEach(function () {
@@ -22,7 +22,7 @@ describe('Shell', function() {
             deferred.resolve({test: 123});
             return deferred.promise;
         });
-      
+
         controller = $controller('Shell');
         $rootScope.$apply();
     });

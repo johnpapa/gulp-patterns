@@ -5,8 +5,8 @@ describe('dataservice', function () {
             specHelper.fakeStateProvider($provide);
             specHelper.fakeLogger($provide);
         });
-        specHelper.injector(function($httpBackend, $q, $rootScope, dataservice) {});            
-        
+        specHelper.injector(function($httpBackend, $q, $rootScope, dataservice) {});
+
         sinon.stub(dataservice, 'getCustomers', function () {
             var deferred = $q.defer();
             deferred.resolve(mockData.getMockCustomers());
@@ -22,7 +22,7 @@ describe('dataservice', function () {
         it('should exist', function () {
             expect(dataservice.getCustomers).not.to.equal(null);
         });
-        
+
         it('should return 5 Customers', function (done) {
             dataservice.getCustomers().then(function(data) {
                 expect(data.length).to.equal(5);
