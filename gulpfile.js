@@ -1,7 +1,7 @@
 /* jshint camelcase:false */
 var gulp = require('gulp');
 var browserSync = require('browser-sync');
-var config = require('./gulp.config').config;
+var config = require('./gulp.config')().getConfig();
 var del = require('del');
 var glob = require('glob');
 var _ = require('lodash');
@@ -51,19 +51,19 @@ gulp.task('analyze', function() {
 gulp.task('templatecache', function() {
     log('Creating an AngularJS $templateCache');
 
-    return gulp
-        .src(config.htmltemplates)
-        .pipe(plug.bytediff.start())
-        .pipe(plug.minifyHtml({
-            empty: true
-        }))
-        .pipe(plug.if(env.verbose, plug.bytediff.stop(bytediffFormatter)))
-        .pipe(plug.angularTemplatecache(config.templateCache.file, {
-            module: config.templateCache.module,
-            standalone: false,
-            root: config.templateCache.root
-        }))
-        .pipe(gulp.dest(config.temp));
+    return gulp.src(config.htmltemplates)
+    .pipe(plug.bytediff.start())
+    .pipe(plug.minifyHtml({
+        empty: true
+    }))
+    .pipe(plug.
+          if (env.verbose, plug.bytediff.stop(bytediffFormatter)))
+    .pipe(plug.angularTemplatecache(config.templateCache.file, {
+        module: config.templateCache.module,
+        standalone: false,
+        root: config.templateCache.root
+    }))
+    .pipe(gulp.dest(config.temp));
 });
 
 /**
@@ -75,14 +75,13 @@ gulp.task('wiredep', function() {
 
     var wiredep = require('wiredep').stream;
 
-    return gulp
-        .src(config.client + 'index.html')
-        .pipe(wiredep({
-            bowerJson: require('./bower.json'),
-            directory: config.bower.directory,
-            ignorePath: config.bower.ignorePath
-        }))
-        .pipe(gulp.dest(config.client));
+    return gulp.src(config.client + 'index.html')
+    .pipe(wiredep({
+        bowerJson: require('./bower.json'),
+        directory: config.bower.directory,
+        ignorePath: config.bower.ignorePath
+    }))
+    .pipe(gulp.dest(config.client));
 });
 
 /**
@@ -91,9 +90,8 @@ gulp.task('wiredep', function() {
  */
 gulp.task('fonts', function() {
     log('Copying fonts');
-    return gulp
-        .src(config.fonts)
-        .pipe(gulp.dest(config.build + 'fonts'));
+    return gulp.src(config.fonts)
+    .pipe(gulp.dest(config.build + 'fonts'));
 });
 
 /**
@@ -103,12 +101,11 @@ gulp.task('fonts', function() {
 gulp.task('images', function() {
     var dest = config.build + 'content/images';
     log('Compressing, caching, and copying images');
-    return gulp
-        .src(config.images)
-        .pipe(plug.imagemin({
-            optimizationLevel: 3
-        }))
-        .pipe(gulp.dest(dest));
+    return gulp.src(config.images)
+    .pipe(plug.imagemin({
+        optimizationLevel: 3
+    }))
+    .pipe(gulp.dest(dest));
 });
 
 /**
@@ -128,43 +125,44 @@ gulp.task('build', ['templatecache', 'wiredep', 'images', 'fonts'], function(don
     var jsFilter = plug.filter('**/app.js');
     var jslibFilter = plug.filter('**/lib.js');
 
-    var stream = gulp
-        .src(config.client + 'index.html')
-        .pipe(plug.inject(gulp.src(config.temp + config.templateCache.file, {
-            read: false
-        }), {
-            starttag: '<!-- inject:templates:js -->',
-        }))
-        .pipe(assets) // Gather all assets from the html with useref
+    var templateCache = config.temp + config.templateCache.file;
+
+    var stream = gulp.src(config.client + 'index.html')
+    .pipe(plug.inject(gulp.src(templateCache, {
+        read: false
+    }), {
+        starttag: '<!-- inject:templates:js -->',
+    }))
+    .pipe(assets) // Gather all assets from the html with useref
 
     .pipe(cssFilter) // Get the custom css
-        .pipe(plug.less())
-        .pipe(plug.autoprefixer('last 2 version', '> 5%'))
-        .pipe(plug.csso())
-        .pipe(getHeader())
-        .pipe(cssFilter.restore())
+    .pipe(plug.less())
+    .pipe(plug.autoprefixer('last 2 version', '> 5%'))
+    .pipe(plug.csso())
+    .pipe(getHeader())
+    .pipe(cssFilter.restore())
 
     .pipe(csslibFilter) // Get the vendor css
-        .pipe(plug.csso())
-        .pipe(csslibFilter.restore())
+    .pipe(plug.csso())
+    .pipe(csslibFilter.restore())
 
     .pipe(jsFilter) // Get the custom javascript
-        .pipe(plug.ngAnnotate({
-            add: true
-        }))
-        .pipe(plug.uglify())
-        .pipe(getHeader())
-        .pipe(jsFilter.restore())
+    .pipe(plug.ngAnnotate({
+        add: true
+    }))
+    .pipe(plug.uglify())
+    .pipe(getHeader())
+    .pipe(jsFilter.restore())
 
     .pipe(jslibFilter) // Get the vendor javascript
-        .pipe(plug.uglify())
-        .pipe(jslibFilter.restore())
+    .pipe(plug.uglify())
+    .pipe(jslibFilter.restore())
 
     .pipe(plug.rev()) // Add file names revisions
-        .pipe(assets.restore())
+    .pipe(assets.restore())
 
     .pipe(plug.useref()) // Apply the concat and file replacement with useref
-        .pipe(plug.revReplace()) // Replace the file names in the html
+    .pipe(plug.revReplace()) // Replace the file names in the html
 
     .pipe(gulp.dest(config.build));
     // For demonstration only
@@ -195,11 +193,10 @@ gulp.task('build', ['templatecache', 'wiredep', 'images', 'fonts'], function(don
 gulp.task('build-dev', ['wiredep'], function(done) {
     log('Building the dev app');
 
-    return gulp
-        .src(config.less)
-        .pipe(plug.less())
-        .pipe(plug.autoprefixer('last 2 version', '> 5%'))
-        .pipe(gulp.dest(config.client + 'content/'));
+    return gulp.src(config.less)
+    .pipe(plug.less())
+    .pipe(plug.autoprefixer('last 2 version', '> 5%'))
+    .pipe(gulp.dest(config.client + 'content/'));
 });
 
 /**
@@ -285,11 +282,11 @@ gulp.task('serve-build', function() {
 function analyzejshint(sources, overrideRcFile) {
     var jshintrcFile = overrideRcFile || './.jshintrc';
     log('Running JSHint');
-    return gulp
-        .src(sources)
-        .pipe(plug.if(env.verbose, plug.debug()))
-        .pipe(plug.jshint(jshintrcFile))
-        .pipe(plug.jshint.reporter('jshint-stylish'));
+    return gulp.src(sources)
+    .pipe(plug.
+          if (env.verbose, plug.debug()))
+    .pipe(plug.jshint(jshintrcFile))
+    .pipe(plug.jshint.reporter('jshint-stylish'));
 }
 
 /**
@@ -299,9 +296,8 @@ function analyzejshint(sources, overrideRcFile) {
  */
 function analyzejscs(sources) {
     log('Running JSCS');
-    return gulp
-        .src(sources)
-        .pipe(plug.jscs('./.jscsrc'));
+    return gulp.src(sources)
+    .pipe(plug.jscs('./.jscsrc'));
 }
 
 /**
@@ -334,18 +330,18 @@ function serve(args) {
     }
 
     return plug.nodemon(options)
-        .on('start', function() {
-            startBrowserSync();
-        })
-        //.on('change', tasks)
-        .on('restart', function() {
-            log('restarted!');
-            setTimeout(function() {
-                browserSync.reload({
-                    stream: false
-                });
-            }, 1000);
-        });
+    .on('start', function() {
+        startBrowserSync();
+    })
+    //.on('change', tasks)
+    .on('restart', function() {
+        log('restarted!');
+        setTimeout(function() {
+            browserSync.reload({
+                stream: false
+            });
+        }, 1000);
+    });
 }
 
 /**
@@ -454,8 +450,9 @@ function startTests(singleRun, done) {
 function bytediffFormatter(data) {
     var difference = (data.savings > 0) ? ' smaller.' : ' larger.';
     return data.fileName + ' went from ' +
-        (data.startSize / 1000).toFixed(2) + ' kB to ' + (data.endSize / 1000).toFixed(2) + ' kB' +
-        ' and is ' + formatPercent(1 - data.percent, 2) + '%' + difference;
+        (data.startSize / 1000).toFixed(2) + ' kB to ' +
+        (data.endSize / 1000).toFixed(2) + ' kB and is ' + 
+        formatPercent(1 - data.percent, 2) + '%' + difference;
 }
 
 /**
@@ -474,13 +471,13 @@ function formatPercent(num, precision) {
  */
 function getHeader() {
     var pkg = require('./package.json');
-    var template = ['/**',
-        ' * <%= pkg.name %> - <%= pkg.description %>',
-        ' * @authors <%= pkg.authors %>',
-        ' * @version v<%= pkg.version %>',
-        ' * @link <%= pkg.homepage %>',
-        ' * @license <%= pkg.license %>',
-        ' */',
+    var template = ['/**', 
+        ' * <%= pkg.name %> - <%= pkg.description %>', 
+        ' * @authors <%= pkg.authors %>', 
+        ' * @version v<%= pkg.version %>', 
+        ' * @link <%= pkg.homepage %>', 
+        ' * @license <%= pkg.license %>', 
+        ' */', 
         ''
     ].join('\n');
     return plug.header(template, {
