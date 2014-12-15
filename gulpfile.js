@@ -5,10 +5,10 @@ var del = require('del');
 var glob = require('glob');
 var _ = require('lodash');
 var path = require('path');
-var plug = require('gulp-load-plugins')({lazy: true});
+var $ = require('gulp-load-plugins')({lazy: true});
 
-var colors = plug.util.colors;
-var env = plug.util.env;
+var colors = $.util.colors;
+var env = $.util.env;
 var port = process.env.PORT || config.defaultPort;
 
 /**
@@ -26,7 +26,7 @@ var port = process.env.PORT || config.defaultPort;
 /**
  * List the available gulp tasks
  */
-gulp.task('help', plug.taskListing);
+gulp.task('help', $.taskListing);
 gulp.task('default', ['help']);
 
 /**
@@ -40,9 +40,9 @@ gulp.task('analyze', function() {
 
     return gulp
         .src(config.alljs)
-        .pipe(plug.if(env.verbose, plug.print()))
-        .pipe(plug.jshint.reporter('jshint-stylish'))
-        .pipe(plug.jscs());
+        .pipe($.if(env.verbose, $.print()))
+        .pipe($.jshint.reporter('jshint-stylish'))
+        .pipe($.jscs());
 });
 
 /**
@@ -54,10 +54,10 @@ gulp.task('templatecache', ['clean-code'], function() {
 
     return gulp
         .src(config.htmltemplates)
-        .pipe(plug.bytediff.start())
-        .pipe(plug.minifyHtml({empty: true}))
-        .pipe(plug.if(env.verbose, plug.bytediff.stop(bytediffFormatter)))
-        .pipe(plug.angularTemplatecache(config.templateCache.file, {
+        .pipe($.bytediff.start())
+        .pipe($.minifyHtml({empty: true}))
+        .pipe($.if(env.verbose, $.bytediff.stop(bytediffFormatter)))
+        .pipe($.angularTemplatecache(config.templateCache.file, {
             module: config.templateCache.module,
             standalone: false,
             root: config.templateCache.root
@@ -101,7 +101,7 @@ gulp.task('images', ['clean-images'], function() {
     var dest = config.build + 'images';
     log('Compressing, caching, and copying images');
     return gulp.src(config.images)
-    .pipe(plug.imagemin({
+    .pipe($.imagemin({
         optimizationLevel: 3
     }))
     .pipe(gulp.dest(dest));
@@ -122,62 +122,62 @@ gulp.task('build', ['html', 'images', 'fonts'], function() {
 gulp.task('html', ['templatecache', 'wiredep'], function(done) {
     log('Optimizing the js, css, and html');
 
-    var assets = plug.useref.assets({searchPath: './'});
+    var assets = $.useref.assets({searchPath: './'});
     // Filters are named for the gulp-useref path
-    var cssFilter = plug.filter('**/app.css');
-    var cssAllFilter = plug.filter('**/*.css');
-    var jsFilter = plug.filter('**/app.js');
-    var jslibFilter = plug.filter('**/lib.js');
+    var cssFilter = $.filter('**/app.css');
+    var cssAllFilter = $.filter('**/*.css');
+    var jsFilter = $.filter('**/app.js');
+    var jslibFilter = $.filter('**/lib.js');
 
     var templateCache = config.temp + config.templateCache.file;
 
     var stream = gulp
             .src(config.client + 'index.html')
-            .pipe(plug.inject(gulp.src(templateCache, {read: false}), {
+            .pipe($.inject(gulp.src(templateCache, {read: false}), {
                 starttag: '<!-- inject:templates:js -->'
             }))
             .pipe(assets) // Gather all assets from the html with useref
             .pipe(cssFilter)
-            .pipe(plug.less())
-            .pipe(plug.autoprefixer('last 2 version', '> 5%'))
+            .pipe($.less())
+            .pipe($.autoprefixer('last 2 version', '> 5%'))
             .pipe(cssFilter.restore());
 
     if (!env.prod) {
         stream
             .pipe(assets.restore())
-            .pipe(plug.useref())
+            .pipe($.useref())
             .pipe(gulp.dest(config.build));
     } else {
         stream
             // Get the css
             .pipe(cssAllFilter)
-            .pipe(plug.csso())
+            .pipe($.csso())
             .pipe(cssAllFilter.restore())
             // Get the custom javascript
             .pipe(jsFilter)
-            .pipe(plug.ngAnnotate({add: true}))
-            .pipe(plug.uglify())
+            .pipe($.ngAnnotate({add: true}))
+            .pipe($.uglify())
             .pipe(getHeader())
             .pipe(jsFilter.restore())
             // Get the vendor javascript
             .pipe(jslibFilter)
-            .pipe(plug.uglify())
+            .pipe($.uglify())
             .pipe(jslibFilter.restore())
             // Add file names revisions
-            .pipe(plug.rev())
+            .pipe($.rev())
             // Apply the concat and file replacement with useref
             .pipe(assets.restore())
-            .pipe(plug.useref())
+            .pipe($.useref())
             // Replace the file names in the html
-            .pipe(plug.revReplace())
+            .pipe($.revReplace())
             .pipe(gulp.dest(config.build));
     }
 
     stream.on('end', function() {
         var msg = {
-            title: 'gulp build',
+            title: 'gulp html',
             subtitle: 'Deployed to the build folder',
-            message: 'gulp serve-build --sync'
+            message: 'gulp serve --sync'
         };
         del(config.temp);
         log(msg);
@@ -195,7 +195,7 @@ gulp.task('html', ['templatecache', 'wiredep'], function(done) {
  */
 gulp.task('clean', function(done) {
     var delconfig = [].concat(config.build, config.temp, config.report);
-    log('Cleaning: ' + plug.util.colors.blue(delconfig));
+    log('Cleaning: ' + $.util.colors.blue(delconfig));
     del(delconfig, done);
 });
 
@@ -277,7 +277,7 @@ gulp.task('serve', function() {
             changeEvent(event);
         });
 
-    return plug.nodemon(options)
+    return $.nodemon(options)
         .on('start', startBrowserSync)
         .on('restart', function() {
             log('restarted!');
@@ -306,7 +306,7 @@ function changeEvent(event) {
  * @param  {Function} done - callback when complete
  */
 function clean(path, done) {
-    log('Cleaning: ' + plug.util.colors.blue(path));
+    log('Cleaning: ' + $.util.colors.blue(path));
     del(path, done);
 }
 
@@ -447,7 +447,7 @@ function getHeader() {
         ' * @license <%= pkg.license %>',
         ' */'
     ].join('\n');
-    return plug.header(template, {
+    return $.header(template, {
         pkg: pkg
     });
 }
@@ -460,11 +460,11 @@ function log(msg) {
     if (typeof(msg) === 'object') {
         for (var item in msg) {
             if (msg.hasOwnProperty(item)) {
-                plug.util.log(plug.util.colors.blue(msg[item]));
+                $.util.log($.util.colors.blue(msg[item]));
             }
         }
     } else {
-        plug.util.log(plug.util.colors.blue(msg));
+        $.util.log($.util.colors.blue(msg));
     }
 }
 
