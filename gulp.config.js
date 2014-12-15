@@ -6,6 +6,7 @@ module.exports = function() {
 
     function getConfig() {
         return {
+            'source': 'src',
             'client': './src/client/',
             'server': './src/server/',
             'htmltemplates': './src/client/app/**/*.html',

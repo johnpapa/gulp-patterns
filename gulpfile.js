@@ -281,7 +281,22 @@ gulp.task('serve-build', function() {
     });
 });
 
+gulp.task('watch', function() {
+    //TODO - call appropriate tasks on change
+    gulp.watch(config.less).on('change', function(event) {
+        changeEvent(event);
+    });
+    gulp.watch(config.js).on('change', function(event) {
+        changeEvent(event);
+    });
+});
+
 ////////////////
+
+function changeEvent(event) {
+    var srcPattern = new RegExp('/.*(?=/' + config.source + ')/');
+    log('File ' + event.path.replace(srcPattern, '') + ' ' + event.type);
+}
 
 /**
  * Start the node server using nodemon.
