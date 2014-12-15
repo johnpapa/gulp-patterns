@@ -33,7 +33,7 @@ gulp.task('default', ['help']);
  * Lint the code, create coverage report, and a visualizer
  * @return {Stream}
  */
-gulp.task('analyze', function () {
+gulp.task('analyze', function() {
     log('Analyzing source with JSHint, JSCS, and Plato');
 
     var merge = require('merge-stream');
@@ -48,15 +48,13 @@ gulp.task('analyze', function () {
  * Create $templateCache from the html templates
  * @return {Stream}
  */
-gulp.task('templatecache', function () {
+gulp.task('templatecache', function() {
     log('Creating an AngularJS $templateCache');
 
     return gulp
         .src(config.htmltemplates)
         .pipe(plug.bytediff.start())
-        .pipe(plug.minifyHtml({
-            empty: true
-        }))
+        .pipe(plug.minifyHtml({empty: true}))
         .pipe(plug.if(env.verbose, plug.bytediff.stop(bytediffFormatter)))
         .pipe(plug.angularTemplatecache(config.templateCache.file, {
             module: config.templateCache.module,
@@ -70,7 +68,7 @@ gulp.task('templatecache', function () {
  * Wire-up the bower dependencies
  * @return {Stream}
  */
-gulp.task('wiredep', function () {
+gulp.task('wiredep', function() {
     log('Wiring the bower dependencies into the html');
 
     var wiredep = require('wiredep').stream;
@@ -89,7 +87,7 @@ gulp.task('wiredep', function () {
  * Copy fonts
  * @return {Stream}
  */
-gulp.task('fonts', function () {
+gulp.task('fonts', function() {
     log('Copying fonts');
     return gulp
         .src(config.fonts)
@@ -100,7 +98,7 @@ gulp.task('fonts', function () {
  * Compress images
  * @return {Stream}
  */
-gulp.task('images', function () {
+gulp.task('images', function() {
     var dest = config.build + 'content/images';
     log('Compressing, caching, and copying images');
     return gulp
@@ -114,12 +112,10 @@ gulp.task('images', function () {
  * and inject them into the new index.html
  * @return {Stream}
  */
-gulp.task('build', ['templatecache', 'wiredep', 'images', 'fonts'], function (done) {
+gulp.task('build', ['templatecache', 'wiredep', 'images', 'fonts'], function(done) {
     log('Building the optimized app');
 
-    var assets = plug.useref.assets({
-        searchPath: './'
-    });
+    var assets = plug.useref.assets({searchPath: './'});
     // Filters are named for the gulp-useref path
     var cssFilter = plug.filter('**/app.css');
     var csslibFilter = plug.filter('**/lib.css');
@@ -127,47 +123,47 @@ gulp.task('build', ['templatecache', 'wiredep', 'images', 'fonts'], function (do
     var jslibFilter = plug.filter('**/lib.js');
 
     var templateCache = config.temp + config.templateCache.file;
-    
+
     var stream = gulp
         .src(config.client + 'index.html')
         .pipe(plug.inject(gulp.src(templateCache, {read: false}), {
             starttag: '<!-- inject:templates:js -->',
         }))
         .pipe(assets) // Gather all assets from the html with useref
-
-        .pipe(cssFilter) // Get the custom css
+        // Get the custom css
+        .pipe(cssFilter)
         .pipe(plug.less())
         .pipe(plug.autoprefixer('last 2 version', '> 5%'))
         .pipe(plug.csso())
         .pipe(getHeader())
         .pipe(cssFilter.restore())
-
-        .pipe(csslibFilter) // Get the vendor css
+        // Get the vendor css
+        .pipe(csslibFilter)
         .pipe(plug.csso())
         .pipe(csslibFilter.restore())
-
-        .pipe(jsFilter) // Get the custom javascript
+        // Get the custom javascript
+        .pipe(jsFilter)
         .pipe(plug.ngAnnotate({add: true}))
         .pipe(plug.uglify())
         .pipe(getHeader())
         .pipe(jsFilter.restore())
-
-        .pipe(jslibFilter) // Get the vendor javascript
+        // Get the vendor javascript
+        .pipe(jslibFilter)
         .pipe(plug.uglify())
         .pipe(jslibFilter.restore())
-
-        .pipe(plug.rev()) // Add file names revisions
+        // Add file names revisions
+        .pipe(plug.rev())
         .pipe(assets.restore())
-
-        .pipe(plug.useref()) // Apply the concat and file replacement with useref
-        .pipe(plug.revReplace()) // Replace the file names in the html
-
+        // Apply the concat and file replacement with useref
+        .pipe(plug.useref())
+        // Replace the file names in the html
+        .pipe(plug.revReplace())
         .pipe(gulp.dest(config.build));
         // For demonstration only
         // .pipe(plug.rev.manifest())
         // .pipe(gulp.dest(config.build));
 
-    stream.on('end', function () {
+    stream.on('end', function() {
         var msg = {
             title: 'Gulp Build',
             subtitle: 'Deployed to the build folder',
@@ -178,7 +174,7 @@ gulp.task('build', ['templatecache', 'wiredep', 'images', 'fonts'], function (do
         notify(msg);
         done();
     });
-    stream.on('error', function (err) {
+    stream.on('error', function(err) {
         done(err);
     });
 });
@@ -188,7 +184,7 @@ gulp.task('build', ['templatecache', 'wiredep', 'images', 'fonts'], function (do
  * and inject them into the new index.html
  * @return {Stream}
  */
-gulp.task('build-dev', ['wiredep'], function (done) {
+gulp.task('build-dev', ['wiredep'], function(done) {
     log('Building the dev app');
 
     return gulp
@@ -204,7 +200,7 @@ gulp.task('build-dev', ['wiredep'], function (done) {
  * from the cmd line: gulp clean && gulp build
  * @return {Stream}
  */
-gulp.task('clean', function (done) {
+gulp.task('clean', function(done) {
     var delconfig = [].concat(config.build, config.temp, config.report);
     log('Cleaning: ' + plug.util.colors.blue(delconfig));
     del(delconfig, done);
@@ -216,7 +212,7 @@ gulp.task('clean', function (done) {
  *    gulp test --startServers
  * @return {Stream}
  */
-gulp.task('test', function (done) {
+gulp.task('test', function(done) {
     startTests(true /*singleRun*/ , done);
 });
 
@@ -226,7 +222,7 @@ gulp.task('test', function (done) {
  * To start servers and run midway specs as well:
  *    gulp autotest --startServers
  */
-gulp.task('autotest', function (done) {
+gulp.task('autotest', function(done) {
     startTests(false /*singleRun*/ , done);
 });
 
@@ -234,7 +230,7 @@ gulp.task('autotest', function (done) {
  * serve the dev environment, with debug,
  * and with node inspector
  */
-gulp.task('serve-dev-debug', ['build-dev'], function () {
+gulp.task('serve-dev-debug', ['build-dev'], function() {
     serve({
         mode: 'dev',
         debug: '--debug'
@@ -245,7 +241,7 @@ gulp.task('serve-dev-debug', ['build-dev'], function () {
  * serve the dev environment, with debug-brk,
  * and with node inspector
  */
-gulp.task('serve-dev-debug-brk', ['build-dev'], function () {
+gulp.task('serve-dev-debug-brk', ['build-dev'], function() {
     serve({
         mode: 'dev',
         debug: '--debug-brk'
@@ -255,7 +251,7 @@ gulp.task('serve-dev-debug-brk', ['build-dev'], function () {
 /**
  * serve the dev environment
  */
-gulp.task('serve-dev', ['build-dev'], function () {
+gulp.task('serve-dev', ['build-dev'], function() {
     serve({
         mode: 'dev'
     });
@@ -264,7 +260,7 @@ gulp.task('serve-dev', ['build-dev'], function () {
 /**
  * serve the build environment
  */
-gulp.task('serve-build', function () {
+gulp.task('serve-build', function() {
     serve({
         mode: 'build'
     });
@@ -330,13 +326,13 @@ function serve(args) {
     }
 
     return plug.nodemon(options)
-        .on('start', function () {
+        .on('start', function() {
             startBrowserSync();
         })
         //.on('change', tasks)
-        .on('restart', function () {
+        .on('restart', function() {
             log('restarted!');
-            setTimeout(function () {
+            setTimeout(function() {
                 browserSync.reload({
                     stream: false
                 });
@@ -450,8 +446,9 @@ function startTests(singleRun, done) {
 function bytediffFormatter(data) {
     var difference = (data.savings > 0) ? ' smaller.' : ' larger.';
     return data.fileName + ' went from ' +
-        (data.startSize / 1000).toFixed(2) + ' kB to ' + (data.endSize / 1000).toFixed(2) + ' kB' +
-        ' and is ' + formatPercent(1 - data.percent, 2) + '%' + difference;
+        (data.startSize / 1000).toFixed(2) + ' kB to ' +
+        (data.endSize / 1000).toFixed(2) + ' kB and is '+
+        formatPercent(1 - data.percent, 2) + '%' + difference;
 }
 
 /**
@@ -471,14 +468,14 @@ function formatPercent(num, precision) {
 function getHeader() {
     var pkg = require('./package.json');
     var template = ['/**',
-' * <%= pkg.name %> - <%= pkg.description %>',
-' * @authors <%= pkg.authors %>',
-' * @version v<%= pkg.version %>',
-' * @link <%= pkg.homepage %>',
-' * @license <%= pkg.license %>',
-' */',
-''
-].join('\n');
+        ' * <%= pkg.name %> - <%= pkg.description %>',
+        ' * @authors <%= pkg.authors %>',
+        ' * @version v<%= pkg.version %>',
+        ' * @link <%= pkg.homepage %>',
+        ' * @license <%= pkg.license %>',
+        ' */',
+        ''
+    ].join('\n');
     return plug.header(template, {
         pkg: pkg
     });
@@ -489,7 +486,7 @@ function getHeader() {
  * Can pass in a string, object or array.
  */
 function log(msg) {
-    if (typeof (msg) === 'object') {
+    if (typeof(msg) === 'object') {
         for (var item in msg) {
             if (msg.hasOwnProperty(item)) {
                 plug.util.log(plug.util.colors.blue(msg[item]));
