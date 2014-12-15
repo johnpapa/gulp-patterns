@@ -1,8 +1,8 @@
-module.exports = (function() {
-    var exports = {
-        config: getConfig()
+module.exports = function() {
+    var service = {
+        getConfig: getConfig
     };
-    return exports;
+    return service;
 
     function getConfig() {
         return {
@@ -45,6 +45,6 @@ module.exports = (function() {
                 'directory': './bower_components/',
                 'ignorePath': '../..'
             }
-        }
+        };
     }
-}());
+};
