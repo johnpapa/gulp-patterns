@@ -1,4 +1,3 @@
-/* jshint camelcase:false */
 var gulp = require('gulp');
 var browserSync = require('browser-sync');
 var config = require('./gulp.config')().getConfig();
@@ -33,15 +32,16 @@ gulp.task('default', ['help']);
  * Lint the code, create coverage report, and a visualizer
  * @return {Stream}
  */
-gulp.task('analyze', function() {
+gulp.task('analyze', function () {
     log('Analyzing source with JSHint, JSCS, and Plato');
 
-    var merge = require('merge-stream');
-    var jshint = analyzejshint(config.alljs);
-    var jscs = analyzejscs(config.alljs);
     startPlatoVisualizer();
 
-    return merge(jshint, jscs);
+    return gulp
+        .src(config.alljs)
+        .pipe(plug.if(env.verbose, plug.print()))
+        .pipe(plug.jshint.reporter('jshint-stylish'))
+        .pipe(plug.jscs());
 });
 
 /**
@@ -282,34 +282,6 @@ gulp.task('serve-build', function() {
 });
 
 ////////////////
-
-/**
- * Execute JSHint on given source files
- * @param  {Array} sources
- * @param  {String} overrideRcFile
- * @return {Stream}
- */
-function analyzejshint(sources, overrideRcFile) {
-    var jshintrcFile = overrideRcFile || './.jshintrc';
-    log('Running JSHint');
-    return gulp
-        .src(sources)
-        .pipe(plug.if(env.verbose, plug.print()))
-        .pipe(plug.jshint(jshintrcFile))
-        .pipe(plug.jshint.reporter('jshint-stylish'));
-}
-
-/**
- * Execute JSCS on given source files
- * @param  {Array} sources
- * @return {Stream}
- */
-function analyzejscs(sources) {
-    log('Running JSCS');
-    return gulp
-        .src(sources)
-        .pipe(plug.jscs());
-}
 
 /**
  * Start the node server using nodemon.
