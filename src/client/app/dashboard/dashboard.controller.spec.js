@@ -7,13 +7,13 @@ describe('Dashboard', function() {
             specHelper.fakeStateProvider($provide);
             specHelper.fakeLogger($provide);
         });
-        specHelper.injector(function($controller, $q, $rootScope, dataservice) {});            
+        specHelper.injector(function($controller, $q, $rootScope, dataservice) {});
     });
 
     beforeEach(function () {
         stubs.dataservice.getCustomers($q, dataservice);
         stubs.dataservice.ready($q, dataservice);
-      
+
         controller = $controller('Dashboard');
         $rootScope.$apply();
     });

@@ -36,7 +36,7 @@
             init();
 
             return service;
-            
+
             ///////////////
 
             function configureStates(states, otherwisePath) {

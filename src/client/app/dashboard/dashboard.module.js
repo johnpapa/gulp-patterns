@@ -6,5 +6,5 @@
             'app.core',
             'app.widgets'
         ]);
-        
+
 })();

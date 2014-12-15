@@ -14,7 +14,7 @@ describe('customers', function () {
         });
 
         it('should map state customer.detail to url /customer/:id ', function () {
-            expect($state.href('customer.detail', {id: 7})).to.equal('/customer/7');    
+            expect($state.href('customer.detail', {id: 7})).to.equal('/customer/7');
         });
 
         it('should map /customers route to customers View template', function () {
