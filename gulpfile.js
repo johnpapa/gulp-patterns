@@ -165,9 +165,9 @@ gulp.task('build', ['templatecache', 'wiredep', 'images', 'fonts'], function(don
 
     stream.on('end', function() {
         var msg = {
-            title: 'Gulp Build',
+            title: 'gulp build',
             subtitle: 'Deployed to the build folder',
-            message: 'gulp serve-dev --sync'
+            message: 'gulp serve-build --sync'
         };
         del(config.temp);
         log(msg);
@@ -187,11 +187,26 @@ gulp.task('build', ['templatecache', 'wiredep', 'images', 'fonts'], function(don
 gulp.task('build-dev', ['wiredep'], function(done) {
     log('Building the dev app');
 
-    return gulp
+    var stream = gulp
         .src(config.less)
         .pipe(plug.less())
         .pipe(plug.autoprefixer('last 2 version', '> 5%'))
         .pipe(gulp.dest(config.client + 'content/'));
+
+    stream.on('end', function() {
+        var msg = {
+            title: 'gulp build-dev',
+            subtitle: 'Deployed to the build folder',
+            message: 'gulp serve-dev --sync'
+        };
+        del(config.temp);
+        log(msg);
+        notify(msg);
+        done();
+    });
+    stream.on('error', function(err) {
+        done(err);
+    });
 });
 
 /**
@@ -447,7 +462,7 @@ function bytediffFormatter(data) {
     var difference = (data.savings > 0) ? ' smaller.' : ' larger.';
     return data.fileName + ' went from ' +
         (data.startSize / 1000).toFixed(2) + ' kB to ' +
-        (data.endSize / 1000).toFixed(2) + ' kB and is '+
+        (data.endSize / 1000).toFixed(2) + ' kB and is ' +
         formatPercent(1 - data.percent, 2) + '%' + difference;
 }
 
