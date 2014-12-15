@@ -21,9 +21,11 @@ module.exports = function() {
                 './src/client/app/**/*.spec.js'
             ],
             'alljs': [
-                './src/client/app/**/*.js',
-                './src/server/**/*.js',
-                './src/client/test-helpers/**/*.js'
+                './src/**/*.js',
+                './*.js'
+                // './src/client/app/**/*.js',
+                // './src/server/**/*.js',
+                // './src/client/test-helpers/**/*.js'
             ],
             'appjs': 'src/client/app/**/*.js',
             'fonts': [
