@@ -308,7 +308,7 @@ function analyzejscs(sources) {
     log('Running JSCS');
     return gulp
         .src(sources)
-        .pipe(plug.jscs('./.jscsrc'));
+        .pipe(plug.jscs());
 }
 
 /**
