@@ -279,7 +279,7 @@ function analyzejshint(sources, overrideRcFile) {
     log('Running JSHint');
     return gulp
         .src(sources)
-        .pipe(plug.if(env.verbose, plug.debug()))
+        .pipe(plug.if(env.verbose, plug.print()))
         .pipe(plug.jshint(jshintrcFile))
         .pipe(plug.jshint.reporter('jshint-stylish'));
 }
