@@ -33,7 +33,7 @@ gulp.task('default', ['help']);
  * Lint the code, create coverage report, and a visualizer
  * @return {Stream}
  */
-gulp.task('analyze', function () {
+gulp.task('analyze', function() {
     log('Analyzing source with JSHint, JSCS, and Plato');
 
     startPlatoVisualizer();
@@ -74,14 +74,13 @@ gulp.task('wiredep', function() {
 
     var wiredep = require('wiredep').stream;
 
-    return gulp
-        .src(config.client + 'index.html')
-        .pipe(wiredep({
-            bowerJson: require('./bower.json'),
-            directory: config.bower.directory,
-            ignorePath: config.bower.ignorePath
-        }))
-        .pipe(gulp.dest(config.client));
+    return gulp.src(config.client + 'index.html')
+    .pipe(wiredep({
+        bowerJson: require('./bower.json'),
+        directory: config.bower.directory,
+        ignorePath: config.bower.ignorePath
+    }))
+    .pipe(gulp.dest(config.client));
 });
 
 /**
@@ -90,9 +89,8 @@ gulp.task('wiredep', function() {
  */
 gulp.task('fonts', ['clean-fonts'], function() {
     log('Copying fonts');
-    return gulp
-        .src(config.fonts)
-        .pipe(gulp.dest(config.build + 'fonts'));
+    return gulp.src(config.fonts)
+    .pipe(gulp.dest(config.build + 'fonts'));
 });
 
 /**
@@ -102,10 +100,11 @@ gulp.task('fonts', ['clean-fonts'], function() {
 gulp.task('images', ['clean-images'], function() {
     var dest = config.build + 'images';
     log('Compressing, caching, and copying images');
-    return gulp
-        .src(config.images)
-        .pipe(plug.imagemin({optimizationLevel: 3}))
-        .pipe(gulp.dest(dest));
+    return gulp.src(config.images)
+    .pipe(plug.imagemin({
+        optimizationLevel: 3
+    }))
+    .pipe(gulp.dest(dest));
 });
 
 /**
@@ -446,8 +445,7 @@ function getHeader() {
         ' * @version v<%= pkg.version %>',
         ' * @link <%= pkg.homepage %>',
         ' * @license <%= pkg.license %>',
-        ' */',
-        ''
+        ' */'
     ].join('\n');
     return plug.header(template, {
         pkg: pkg
