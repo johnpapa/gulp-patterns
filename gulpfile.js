@@ -75,12 +75,12 @@ gulp.task('wiredep', function() {
     var wiredep = require('wiredep').stream;
 
     return gulp.src(config.client + 'index.html')
-    .pipe(wiredep({
-        bowerJson: require('./bower.json'),
-        directory: config.bower.directory,
-        ignorePath: config.bower.ignorePath
-    }))
-    .pipe(gulp.dest(config.client));
+        .pipe(wiredep({
+            bowerJson: require('./bower.json'),
+            directory: config.bower.directory,
+            ignorePath: config.bower.ignorePath
+        }))
+        .pipe(gulp.dest(config.client));
 });
 
 /**
@@ -90,7 +90,7 @@ gulp.task('wiredep', function() {
 gulp.task('fonts', ['clean-fonts'], function() {
     log('Copying fonts');
     return gulp.src(config.fonts)
-    .pipe(gulp.dest(config.build + 'fonts'));
+        .pipe(gulp.dest(config.build + 'fonts'));
 });
 
 /**
@@ -101,10 +101,10 @@ gulp.task('images', ['clean-images'], function() {
     var dest = config.build + 'images';
     log('Compressing, caching, and copying images');
     return gulp.src(config.images)
-    .pipe($.imagemin({
-        optimizationLevel: 3
-    }))
-    .pipe(gulp.dest(dest));
+        .pipe($.imagemin({
+            optimizationLevel: 3
+        }))
+        .pipe(gulp.dest(dest));
 });
 
 /**
@@ -143,11 +143,13 @@ gulp.task('html', ['templatecache', 'wiredep'], function(done) {
             .pipe(cssFilter.restore());
 
     if (!env.prod) {
+        log('*** Building Dev ***');
         stream
             .pipe(assets.restore())
             .pipe($.useref())
             .pipe(gulp.dest(config.build));
     } else {
+        log('*** Building Prod ***');
         stream
             // Get the css
             .pipe(cssAllFilter)
