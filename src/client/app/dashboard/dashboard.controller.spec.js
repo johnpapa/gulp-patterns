@@ -28,10 +28,6 @@ describe('Dashboard', function() {
                 expect(controller.title).to.equal('Dashboard');
             });
 
-            it('should have news', function () {
-                expect(controller.news).to.not.be.empty;
-            });
-
             it('should have at least 1 customer', function () {
                 expect(controller.customers).to.have.length.above(0);
             });
