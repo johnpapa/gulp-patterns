@@ -13,13 +13,13 @@ var port = process.env.PORT || config.defaultPort;
 
 /**
  * env variables can be passed in to alter the behavior, when present.
- * Example: gulp serve-dev --sync
+ * Example: gulp serve-dev
  *
  * --verbose  : Various tasks will produce more output to the console.
- * --sync     : Launch the browser with browser-sync when serving code.
+ * --nosync   : Don't launch the browser with browser-sync when serving code.
  * --debug    : Launch debugger with node-inspector.
  * --debug-brk: Launch debugger and break on 1st line with node-inspector.
- * --prod     : building or serving prod(uction)
+ * --build    : building or serving a production build
  * --startServers: Will start servers for midway tests on the test task.
  */
 
@@ -108,6 +108,22 @@ gulp.task('images', ['clean-images'], function() {
 });
 
 /**
+ * Compile less to css
+ * @return {Stream}
+ */
+gulp.task('styles', ['clean-styles'], function() {
+    log('Less --> CSS');
+
+    return gulp
+        .src(config.less)
+        .pipe($.less())
+        .pipe($.autoprefixer('last 2 version', '> 5%'))
+        .pipe(gulp.dest(config.temp));
+    //TODO
+//        .pipe(browserSync.reload({stream:true}));
+});
+
+/**
  * Build everything
  */
 gulp.task('build', ['html', 'images', 'fonts'], function() {
@@ -119,7 +135,7 @@ gulp.task('build', ['html', 'images', 'fonts'], function() {
  * and inject them into the new index.html
  * @return {Stream}
  */
-gulp.task('html', ['templatecache', 'wiredep'], function(done) {
+gulp.task('html', ['styles', 'templatecache', 'wiredep'], function(done) {
     log('Optimizing the js, css, and html');
 
     var assets = $.useref.assets({searchPath: './'});
@@ -132,54 +148,41 @@ gulp.task('html', ['templatecache', 'wiredep'], function(done) {
     var templateCache = config.temp + config.templateCache.file;
 
     var stream = gulp
-            .src(config.client + 'index.html')
-            .pipe($.inject(gulp.src(templateCache, {read: false}), {
-                starttag: '<!-- inject:templates:js -->'
-            }))
-            .pipe(assets) // Gather all assets from the html with useref
-            .pipe(cssFilter)
-            .pipe($.less())
-            .pipe($.autoprefixer('last 2 version', '> 5%'))
-            .pipe(cssFilter.restore());
-
-    if (!env.prod) {
-        log('*** Building Dev ***');
-        stream
-            .pipe(assets.restore())
-            .pipe($.useref())
-            .pipe(gulp.dest(config.build));
-    } else {
-        log('*** Building Prod ***');
-        stream
-            // Get the css
-            .pipe(cssAllFilter)
-            .pipe($.csso())
-            .pipe(cssAllFilter.restore())
-            // Get the custom javascript
-            .pipe(jsFilter)
-            .pipe($.ngAnnotate({add: true}))
-            .pipe($.uglify())
-            .pipe(getHeader())
-            .pipe(jsFilter.restore())
-            // Get the vendor javascript
-            .pipe(jslibFilter)
-            .pipe($.uglify())
-            .pipe(jslibFilter.restore())
-            // Add file names revisions
-            .pipe($.rev())
-            // Apply the concat and file replacement with useref
-            .pipe(assets.restore())
-            .pipe($.useref())
-            // Replace the file names in the html
-            .pipe($.revReplace())
-            .pipe(gulp.dest(config.build));
-    }
+        .src(config.client + 'index.html')
+        .pipe($.inject(gulp.src(templateCache, {read: false}), {
+            starttag: '<!-- inject:templates:js -->'
+        }))
+        .pipe(assets) // Gather all assets from the html with useref
+        // Get the css
+        .pipe(cssAllFilter)
+        .pipe($.csso())
+        .pipe(cssAllFilter.restore())
+        // Get the custom javascript
+        .pipe(jsFilter)
+        .pipe($.ngAnnotate({add: true}))
+        .pipe($.uglify())
+        .pipe(getHeader())
+        .pipe(jsFilter.restore())
+        // Get the vendor javascript
+        .pipe(jslibFilter)
+        .pipe($.uglify())
+        .pipe(jslibFilter.restore())
+        // Add file names revisions
+        .pipe($.rev())
+        // Apply the concat and file replacement with useref
+        .pipe(assets.restore())
+        .pipe($.useref())
+        // Replace the file names in the html
+        .pipe($.revReplace())
+        .pipe(gulp.dest(config.build));
+//TODO
+    //        .pipe(browserSync.reload({stream:true}));
 
     stream.on('end', function() {
         var msg = {
             title: 'gulp html',
             subtitle: 'Deployed to the build folder',
-            message: 'gulp serve --sync'
+            message: 'gulp serve-build'
         };
         del(config.temp);
         log(msg);
@@ -218,14 +221,25 @@ gulp.task('clean-images', function(done) {
 });
 
 /**
- * Remove all styles, js, and html from the build folder
+ * Remove all styles from the build and temp folders
+ * @param  {Function} done - callback when complete
+ */
+gulp.task('clean-styles', function(done) {
+    var files = [].concat(
+        config.temp + '**/*.css',
+        config.build + 'styles/**/*.css'
+    );
+    clean(files, done);
+});
+
+/**
+ * Remove all js and html from the build and temp folders
  * @param  {Function} done - callback when complete
  */
 gulp.task('clean-code', function(done) {
     var files = [].concat(
-        config.temp,
+        config.temp + '**/*.js',
         config.build + 'js/**/*.js',
-        config.build + 'styles/**/*.css',
         config.build + '**/*.html'
         );
     clean(files, done);
@@ -254,42 +268,62 @@ gulp.task('autotest', function(done) {
 /**
  * serve the dev environment
  * --debug-brk or --debug
- * --dev (default) or -- prod
- * --sync
+ * --nosync
  */
-gulp.task('serve', function() {
-    var options = {
+gulp.task('serve-dev', ['styles'], function() {
+    serve(true);
+});
+
+/**
+ * serve the build environment
+ * --debug-brk or --debug
+ * --nosync
+ */
+gulp.task('serve-build', function() {
+    serve(false);
+});
+
+function serve(isDev) {
+    var debug = env.debug || env.debugBrk;
+    var exec;
+    var nodeOptions = {
         script: config.server + 'app.js',
         delayTime: 1,
-        env: {'PORT': port},
+        env: {
+            'PORT': port,
+            'NODE_ENV': isDev ? 'dev' : 'build'
+         },
         watch: [config.server]
     };
 
-    var exec;
-    var debug = env.debug || env.debugBrk;
     if (debug) {
         log('Running node-inspector. Browse to http://localhost:8080/debug?port=5858');
         exec = require('child_process').exec;
         exec('node-inspector');
-        options.nodeArgs = [debug + '=5858'];
+        nodeOptions.nodeArgs = [debug + '=5858'];
     }
 
-    gulp.watch([config.less, config.js, config.html], ['html'])
-        .on('change', function(event) {
-            changeEvent(event);
-        });
+    if (isDev) {
+        gulp.watch([config.less], ['styles', browserSync.reload]);
+//            .on('change', function(event) { changeEvent(event);});
+        gulp.watch([config.client + '**/*'])
+            .on('change', function(event) { changeEvent(event); });
+    }
+    else {
+        gulp.watch([config.less, config.js, config.html], ['html', browserSync.reload])
+            .on('change', function(event) { changeEvent(event); });
+    }
 
-    return $.nodemon(options)
-        .on('start', startBrowserSync)
+    return $.nodemon(nodeOptions)
+        .on('start', function() { startBrowserSync(isDev); })
         .on('restart', function() {
             log('restarted!');
             setTimeout(function() {
-                browserSync.reload({
-                    stream: false
-                });
+                browserSync.notify('reloading now ...');
+                browserSync.reload({stream: false});
             }, 1000);
         });
-});
+}
 
 ////////////////
 
@@ -314,10 +348,10 @@ function clean(path, done) {
 
 /**
  * Start BrowserSync
- * --sync will start browserSync too
+ * --nosync will avoid browserSync
  */
-function startBrowserSync() {
-    if (!env.sync || browserSync.active) {
+function startBrowserSync(isDev) {
+    if (env.nosync || browserSync.active) {
         return;
     }
 
@@ -325,14 +359,15 @@ function startBrowserSync() {
     browserSync({
         proxy: 'localhost:' + port,
         port: 3000,
-        // files: [config.client + '/**/*.*'],
-        files: [config.build + '/**/*.*'],
+//        files: isDev ? [config.client + '/**/*.*'] : [], //[config.build + '/**/*.*'],
         ghostMode: { // these are the defaults t,f,t,t
             clicks: true,
             location: false,
             forms: true,
             scroll: true
         },
+        injectChanges: true,
+        logFileChanges: true,
         logLevel: 'debug',
         logPrefix: 'gulp-patterns',
         notify: true,
