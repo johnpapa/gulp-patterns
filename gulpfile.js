@@ -119,8 +119,6 @@ gulp.task('styles', ['clean-styles'], function() {
         .pipe($.less())
         .pipe($.autoprefixer('last 2 version', '> 5%'))
         .pipe(gulp.dest(config.temp));
-    //TODO
-//        .pipe(browserSync.reload({stream:true}));
 });
 
 /**
@@ -175,8 +173,6 @@ gulp.task('html', ['styles', 'templatecache', 'wiredep'], function(done) {
         // Replace the file names in the html
         .pipe($.revReplace())
         .pipe(gulp.dest(config.build));
-//TODO
-    //        .pipe(browserSync.reload({stream:true}));
 
     stream.on('end', function() {
         var msg = {
@@ -283,49 +279,23 @@ gulp.task('serve-build', function() {
     serve(false);
 });
 
-function serve(isDev) {
-    var debug = env.debug || env.debugBrk;
-    var exec;
-    var nodeOptions = {
-        script: config.server + 'app.js',
-        delayTime: 1,
-        env: {
-            'PORT': port,
-            'NODE_ENV': isDev ? 'dev' : 'build'
-         },
-        watch: [config.server]
-    };
+////////////////
 
-    if (debug) {
-        log('Running node-inspector. Browse to http://localhost:8080/debug?port=5858');
-        exec = require('child_process').exec;
-        exec('node-inspector');
-        nodeOptions.nodeArgs = [debug + '=5858'];
-    }
-
+/**
+ * Add watches to build and reload using browserSync
+ * @param  {Boolean} isDev - dev or build mode
+ */
+function addWatchForFileReload(isDev) {
     if (isDev) {
         gulp.watch([config.less], ['styles', browserSync.reload]);
-//            .on('change', function(event) { changeEvent(event);});
-        gulp.watch([config.client + '**/*'])
-            .on('change', function(event) { changeEvent(event); });
+        gulp.watch([config.client + '**/*', '!' + config.less], browserSync.reload)
+        .on('change', function(event) { changeEvent(event); });
     }
     else {
         gulp.watch([config.less, config.js, config.html], ['html', browserSync.reload])
-            .on('change', function(event) { changeEvent(event); });
+        .on('change', function(event) { changeEvent(event); });
     }
-
-    return $.nodemon(nodeOptions)
-        .on('start', function() { startBrowserSync(isDev); })
-        .on('restart', function() {
-            log('restarted!');
-            setTimeout(function() {
-                browserSync.notify('reloading now ...');
-                browserSync.reload({stream: false});
-            }, 1000);
-        });
 }
-
-////////////////
 
 /**
  * When files change, log it
@@ -359,7 +329,6 @@ function startBrowserSync(isDev) {
     browserSync({
         proxy: 'localhost:' + port,
         port: 3000,
-//        files: isDev ? [config.client + '/**/*.*'] : [], //[config.build + '/**/*.*'],
         ghostMode: { // these are the defaults t,f,t,t
             clicks: true,
             location: false,
@@ -399,6 +368,45 @@ function startPlatoVisualizer() {
             log(overview.summary);
         }
     }
+}
+
+/**
+ * serve the build environment
+ * --debug-brk or --debug
+ * --nosync
+ * @param  {Boolean} isDev - dev or build mode
+ */
+function serve(isDev) {
+    var debug = env.debug || env.debugBrk;
+    var exec;
+    var nodeOptions = {
+        script: config.server + 'app.js',
+        delayTime: 1,
+        env: {
+            'PORT': port,
+            'NODE_ENV': isDev ? 'dev' : 'build'
+        },
+        watch: [config.server]
+    };
+
+    if (debug) {
+        log('Running node-inspector. Browse to http://localhost:8080/debug?port=5858');
+        exec = require('child_process').exec;
+        exec('node-inspector');
+        nodeOptions.nodeArgs = [debug + '=5858'];
+    }
+
+    addWatchForFileReload(isDev);
+
+    return $.nodemon(nodeOptions)
+    .on('start', function() { startBrowserSync(isDev); })
+    .on('restart', function() {
+        log('restarted!');
+        setTimeout(function() {
+            browserSync.notify('reloading now ...');
+            browserSync.reload({stream: false});
+        }, 1000);
+    });
 }
 
 /**
