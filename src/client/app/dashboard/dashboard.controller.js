@@ -9,10 +9,6 @@
         var vm = this;
         vm.customers = [];
         vm.gotoCustomer = gotoCustomer;
-        vm.news = {
-            title: 'Customers',
-            description: 'Customer news'
-        };
         vm.title = 'Dashboard';
 
         activate();
