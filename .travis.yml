@@ -13,7 +13,7 @@ before_install:
 script:
   - npm install
   - bower install
-  - gulp analyze test
+  - gulp analyze test --verbose
 
 cache:
   directories:
