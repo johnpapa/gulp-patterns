@@ -7,7 +7,7 @@ var _ = require('lodash');
 var path = require('path');
 var $ = require('gulp-load-plugins')({lazy: true});
 
-var colors = $.util.colors;
+var colors = $.util.colors; // chalk
 var env = $.util.env;
 var port = process.env.PORT || config.defaultPort;
 
@@ -74,7 +74,8 @@ gulp.task('wiredep', function() {
 
     var wiredep = require('wiredep').stream;
 
-    return gulp.src(config.client + 'index.html')
+    return gulp
+        .src(config.client + 'index.html')
         .pipe(wiredep({
             bowerJson: require('./bower.json'),
             directory: config.bower.directory,
@@ -99,7 +100,7 @@ gulp.task('fonts', ['clean-fonts'], function() {
  */
 gulp.task('images', ['clean-images'], function() {
     var dest = config.build + 'images';
-    log('Compressing, caching, and copying images');
+    log('Compressing and copying images');
     return gulp.src(config.images)
         .pipe($.imagemin({
             optimizationLevel: 3
@@ -138,7 +139,6 @@ gulp.task('html', ['styles', 'templatecache', 'wiredep'], function(done) {
 
     var assets = $.useref.assets({searchPath: './'});
     // Filters are named for the gulp-useref path
-    var cssFilter = $.filter('**/app.css');
     var cssAllFilter = $.filter('**/*.css');
     var jsFilter = $.filter('**/app.js');
     var jslibFilter = $.filter('**/lib.js');
@@ -163,18 +163,23 @@ gulp.task('html', ['styles', 'templatecache', 'wiredep'], function(done) {
         .pipe(jsFilter.restore())
         // Get the vendor javascript
         .pipe(jslibFilter)
-        .pipe($.uglify())
+        .pipe($.uglify()) // another option is to override wiredep to use min files
         .pipe(jslibFilter.restore())
-        // Add file names revisions
+        // Take inventory of the file names for future rev numbers
         .pipe($.rev())
         // Apply the concat and file replacement with useref
         .pipe(assets.restore())
         .pipe($.useref())
-        // Replace the file names in the html
+        // Replace the file names in the html with rev numbers
         .pipe($.revReplace())
         .pipe(gulp.dest(config.build));
 
-    stream.on('end', function() {
+    stream.on('end', success);
+    stream.on('error', function(err) {
+        done(err);
+    });
+
+    function success() {
         var msg = {
             title: 'gulp html',
             subtitle: 'Deployed to the build folder',
@@ -184,10 +189,7 @@ gulp.task('html', ['styles', 'templatecache', 'wiredep'], function(done) {
         log(msg);
         notify(msg);
         done();
-    });
-    stream.on('error', function(err) {
-        done(err);
-    });
+    }
 });
 
 /**
@@ -267,7 +269,7 @@ gulp.task('autotest', function(done) {
  * --nosync
  */
 gulp.task('serve-dev', ['styles'], function() {
-    serve(true);
+    serve(true /*isDev*/);
 });
 
 /**
@@ -276,7 +278,7 @@ gulp.task('serve-dev', ['styles'], function() {
  * --nosync
  */
 gulp.task('serve-build', function() {
-    serve(false);
+    serve(false /*isDev*/);
 });
 
 ////////////////
@@ -289,11 +291,11 @@ function addWatchForFileReload(isDev) {
     if (isDev) {
         gulp.watch([config.less], ['styles', browserSync.reload]);
         gulp.watch([config.client + '**/*', '!' + config.less], browserSync.reload)
-        .on('change', function(event) { changeEvent(event); });
+            .on('change', function(event) { changeEvent(event); });
     }
     else {
         gulp.watch([config.less, config.js, config.html], ['html', browserSync.reload])
-        .on('change', function(event) { changeEvent(event); });
+            .on('change', function(event) { changeEvent(event); });
     }
 }
 
@@ -320,7 +322,7 @@ function clean(path, done) {
  * Start BrowserSync
  * --nosync will avoid browserSync
  */
-function startBrowserSync(isDev) {
+function startBrowserSync() {
     if (env.nosync || browserSync.active) {
         return;
     }
@@ -399,14 +401,14 @@ function serve(isDev) {
     addWatchForFileReload(isDev);
 
     return $.nodemon(nodeOptions)
-    .on('start', function() { startBrowserSync(isDev); })
-    .on('restart', function() {
-        log('restarted!');
-        setTimeout(function() {
-            browserSync.notify('reloading now ...');
-            browserSync.reload({stream: false});
-        }, 1000);
-    });
+        .on('start', function() { startBrowserSync(); })
+        .on('restart', function() {
+            log('restarted!');
+            setTimeout(function() {
+                browserSync.notify('reloading now ...');
+                browserSync.reload({stream: false});
+            }, 1000); //TODO: move to the config file
+        });
 }
 
 /**
