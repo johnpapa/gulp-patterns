@@ -3,20 +3,22 @@ describe('Dashboard', function() {
     var controller;
 
     beforeEach(function() {
-        module('app', function($provide) {
-            specHelper.fakeStateProvider($provide);
-            specHelper.fakeLogger($provide);
-        });
-        specHelper.injector(function($controller, $q, $rootScope, dataservice) {});
+        specHelper.appModule('app.dashboard');
+        specHelper.injector('$controller', '$q', '$rootScope', 'dataservice');
     });
 
     beforeEach(function () {
-        stubs.dataservice.getCustomers($q, dataservice);
-        stubs.dataservice.ready($q, dataservice);
+        sinon.stub(dataservice, 'getCustomers').
+            returns($q.when(mockData.getMockCustomers()));
+
+        sinon.stub(dataservice, 'ready').
+            returns($q.when({test: 123}));
 
         controller = $controller('Dashboard');
         $rootScope.$apply();
     });
+
+    specHelper.verifyNoOutstandingHttpRequests();
 
     describe('Dashboard controller', function() {
         it('should be created successfully', function () {
@@ -37,6 +39,4 @@ describe('Dashboard', function() {
             });
         });
     });
-
-    specHelper.verifyNoOutstandingHttpRequests();
 });

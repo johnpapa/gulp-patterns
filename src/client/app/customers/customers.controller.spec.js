@@ -1,22 +1,24 @@
 /* jshint -W117, -W030 */
 describe('app.customers', function() {
     var controller;
+    var customers = mockData.getMockCustomers();
 
     beforeEach(function() {
-        module('app', function($provide) {
-            specHelper.fakeStateProvider($provide);
-            specHelper.fakeLogger($provide);
-        });
-        specHelper.injector(function($controller, $q, $rootScope, dataservice) {});
+        specHelper.appModule('app.customers');
+        specHelper.injector('$controller', '$q', '$rootScope', 'dataservice');
     });
 
     beforeEach(function () {
-        stubs.dataservice.getCustomers($q, dataservice);
-        stubs.dataservice.ready($q, dataservice);
+        sinon.stub(dataservice, 'getCustomers').returns($q.when(customers));
+
+        sinon.stub(dataservice, 'ready').
+            returns($q.when({test: 123}));
 
         controller = $controller('Customers');
         $rootScope.$apply();
     });
+
+    specHelper.verifyNoOutstandingHttpRequests();
 
     describe('Customers controller', function() {
         it('should be created successfully', function () {
@@ -33,6 +35,4 @@ describe('app.customers', function() {
             });
         });
     });
-
-    specHelper.verifyNoOutstandingHttpRequests();
 });
