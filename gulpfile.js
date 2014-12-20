@@ -7,7 +7,7 @@ var _ = require('lodash');
 var path = require('path');
 var $ = require('gulp-load-plugins')({lazy: true});
 
-var colors = $.util.colors; // chalk
+var colors = $.util.colors; // TODO: chalk?
 var env = $.util.env;
 var port = process.env.PORT || config.defaultPort;
 
@@ -75,6 +75,7 @@ gulp.task('wiredep', function() {
     var wiredep = require('wiredep').stream;
 
     return gulp
+        //TODO: move to config
         .src(config.client + 'index.html')
         .pipe(wiredep({
             bowerJson: require('./bower.json'),
@@ -120,6 +121,30 @@ gulp.task('styles', ['clean-styles'], function() {
         .pipe($.less())
         .pipe($.autoprefixer('last 2 version', '> 5%'))
         .pipe(gulp.dest(config.temp));
+});
+
+/**
+ * Inject all the spec files into the specs.html
+ * @return {Stream}
+ */
+gulp.task('build-specs', function() {
+    log('building spec-runner.html');
+
+    var wiredep = require('wiredep').stream;
+
+    return gulp
+        //TODO: move to config
+        .src([config.client + 'spec-runner.html'])
+        .pipe(wiredep({
+            bowerJson: require('./bower.json'),
+            directory: config.bower.directory,
+            ignorePath: config.bower.ignorePath,
+            devDependencies: true
+        }))
+        .pipe($.inject(gulp.src(config.js)))
+        .pipe($.inject(gulp.src(config.specHelpers), {name: 'spechelpers', read: false}))
+        .pipe($.inject(gulp.src(config.specs), {name: 'specs', read: false}))
+        .pipe(gulp.dest(config.client));
 });
 
 /**

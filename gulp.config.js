@@ -10,18 +10,19 @@ module.exports = function() {
             server: './src/server/',
             htmltemplates: './src/client/app/**/*.html',
             less: './src/client/styles/styles.less',
-            html: '.src/client/**/*.html',
+            html: './src/client/**/*.html',
             js: [
-                'src/client/app/**/*.module.js',
-                'src/client/app/**/*.js',
-                '!src/client/app/**/*.spec.js'
+                './src/client/app/**/*.module.js',
+                './src/client/app/**/*.js',
+                '!./src/client/app/**/*.spec.js'
             ],
-            specs: './src/client/app/**/*.spec.js',
+            specs: ['./src/client/app/**/*.spec.js'],
             alljs: [
                 './src/**/*.js',
                 './*.js'
             ],
-            appjs: 'src/client/app/**/*.js',
+            specHelpers: ['./src/client/test-helpers/*.js'],
+            appjs: './src/client/app/**/*.js',
             fonts: './bower_components/font-awesome/fonts/**/*.*',
             images: './src/client/images/**/*.*',
             build: './build/',
