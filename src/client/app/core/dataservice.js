@@ -7,8 +7,8 @@
 
     /* @ngInject */
     function dataservice($http, $location, $q, exception, logger) {
-        var isPrimed = false;
-        var primePromise;
+        /* jshint validthis:true */
+        var readyPromise;
 
         var service = {
             getCustomer: getCustomer,
@@ -44,28 +44,24 @@
             }
         }
 
-        function prime() {
-            // This function can only be called once.
-            if (primePromise) {
-                return primePromise;
+        function getReady() {
+            if (!readyPromise) {
+                // Apps often pre-fetch session data ("prime the app")
+                // before showing the first view.
+                // This app doesn't need priming but we add a
+                // no-op implementation to show how it would work.
+                logger.info('Primed the app data');
+                readyPromise = $q.when(service);
             }
-
-            primePromise = $q.when(true).then(success);
-            return primePromise;
-
-            function success() {
-                isPrimed = true;
-                logger.info('Primed data');
-            }
+            return readyPromise;
         }
 
-        function ready(nextPromises) {
-            var readyPromise = primePromise || prime();
-
-            return readyPromise
-                .then(function() { return $q.all(nextPromises); })
+        function ready(promisesArray) {
+            return getReady()
+                .then(function() {
+                    return promisesArray ? $q.all(promisesArray) : readyPromise;
+                })
                 .catch(exception.catcher('"ready" function failed'));
         }
-
     }
 })();

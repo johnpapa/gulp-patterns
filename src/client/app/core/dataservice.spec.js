@@ -1,17 +1,13 @@
 /* jshint -W117, -W030 */
 describe('dataservice', function () {
-    beforeEach(function () {
-        module('app', function($provide) {
-            specHelper.fakeStateProvider($provide);
-            specHelper.fakeLogger($provide);
-        });
-        specHelper.injector(function($httpBackend, $q, $rootScope, dataservice) {});
+    var customers = mockData.getMockCustomers();
 
-        sinon.stub(dataservice, 'getCustomers', function () {
-            var deferred = $q.defer();
-            deferred.resolve(mockData.getMockCustomers());
-            return deferred.promise;
-        });
+    beforeEach(function () {
+        specHelper.appModule('app.core');
+        specHelper.injector('$httpBackend', '$rootScope', 'dataservice');
+
+        $httpBackend.when('GET', '/api/customers').respond(200, customers);
+        $httpFlush = $httpBackend.flush;
     });
 
     it('should be registered', function() {
@@ -26,39 +22,33 @@ describe('dataservice', function () {
         it('should return 5 Customers', function (done) {
             dataservice.getCustomers().then(function(data) {
                 expect(data.length).to.equal(5);
-                done();
-            });
-            $rootScope.$apply();
+            }).then(done, done);
+            $httpFlush();
         });
 
         it('should contain Black Widow', function (done) {
-            // $httpBackend.when('GET', '/api/customers').respond(200, mocks.customers);
             dataservice.getCustomers().then(function(data) {
                 var hasBlackWidow = data.some(function isPrime(element, index, array) {
                     return element.firstName.indexOf('Black') >= 0;
                 });
                 expect(hasBlackWidow).to.be.true;
-                done();
-            });
-            $rootScope.$apply();
+            }).then(done, done);
+            $httpFlush();
         });
     });
 
     describe('ready function', function () {
         it('should exist', function () {
-            expect(dataservice.ready).not.to.equal(null);
+            expect(dataservice.ready).to.be.defined;
         });
 
-        it('should return a resolved promise', function (done) {
-            dataservice.ready()
-                .then(function(data) {
-                    expect(true).to.be.true;
-                    done();
-                }, function(data) {
-                    expect('promise rejected').to.be.true;
-                    done();
-                });
-            $rootScope.$apply();
+        it('should return a resolved promise with the dataservice itself', function (done) {
+            dataservice.ready().then(function(data) {
+                console.log(data);
+                expect(data).to.equal(dataservice);
+            })
+            .then(done, done);
+            $rootScope.$apply(); // no $http so just flush
         });
     });
 

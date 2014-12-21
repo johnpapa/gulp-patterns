@@ -3,29 +3,16 @@ describe('Shell', function() {
     var controller;
 
     beforeEach(function() {
-        module('app', function($provide) {
-            specHelper.fakeStateProvider($provide);
-            specHelper.fakeLogger($provide);
-        });
-        specHelper.injector(function($controller, $q, $rootScope, $timeout, dataservice) {});
+        specHelper.appModule('app');
+        specHelper.injector('$controller', '$rootScope', '$timeout');
     });
 
     beforeEach(function () {
-        // sinon.stub(dataservice, 'getCustomers', function () {
-        //     var deferred = $q.defer();
-        //     deferred.resolve(mockData.getMockCustomers());
-        //     return deferred.promise;
-        // });
-
-        sinon.stub(dataservice, 'ready', function () {
-            var deferred = $q.defer();
-            deferred.resolve({test: 123});
-            return deferred.promise;
-        });
-
         controller = $controller('Shell');
         $rootScope.$apply();
     });
+
+    specHelper.verifyNoOutstandingHttpRequests();
 
     describe('Shell controller', function() {
         it('should be created successfully', function () {
@@ -44,6 +31,4 @@ describe('Shell', function() {
             $timeout.flush();
         });
     });
-
-    specHelper.verifyNoOutstandingHttpRequests();
 });
