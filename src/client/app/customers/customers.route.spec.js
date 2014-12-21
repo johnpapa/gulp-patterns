@@ -2,11 +2,19 @@
 describe('customers', function () {
     describe('state', function () {
         var controller;
+        var views = {
+            customers: 'app/customers/customers.html',
+            customerdetail: 'app/customers/customer-detail.html'
+        };
 
         beforeEach(function() {
-            module('app.customers', specHelper.fakeLogger);
-            specHelper.injector('$httpBackend', '$location', '$rootScope', '$state');
-            $httpBackend.expectGET('app/customers/customers.html').respond(200);
+            module('app.customers', specHelper.fakeToastr);
+            specHelper.injector('$location', '$rootScope', '$state', '$templateCache');
+        });
+
+        beforeEach(function(){
+            $templateCache.put(views.customers, '');
+            $templateCache.put(views.customerdetail, '');
         });
 
         it('should map state customer.list to url /customer/list ', function () {
@@ -18,17 +26,14 @@ describe('customers', function () {
         });
 
         it('should map /customers route to customers View template', function () {
-            expect($state.get('customer.list').templateUrl).
-                to.equal('app/customers/customers.html');
+            expect($state.get('customer.list').templateUrl).to.equal(views.customers);
         });
 
         it('should map /customer.details route to customers View template', function () {
-            expect($state.get('customer.detail').templateUrl).
-                to.equal('app/customers/customer-detail.html');
+            expect($state.get('customer.detail').templateUrl).to.equal(views.customerdetail);
         });
 
         it('of customer.list should work with $state.go', function () {
-            $httpBackend.expectGET('app/dashboard/dashboard.html').respond(200);
             $state.go('customer.list');
             $rootScope.$apply();
             expect($state.is('customer.list'));

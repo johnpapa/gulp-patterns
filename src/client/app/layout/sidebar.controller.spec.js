@@ -2,42 +2,42 @@
 describe('layout', function () {
     describe('sidebar', function () {
         var controller;
+        var views = {
+            dashboard: 'app/dashboard/dashboard.html',
+            customers: 'app/customers/customers.html'
+        };
 
         beforeEach(function() {
-            module('app', specHelper.fakeLogger);
-            specHelper.injector(
-                function($controller, $httpBackend, $location, $rootScope, $state) {});
+            module('app.layout', specHelper.fakeLogger);
+            specHelper.injector('$controller', '$httpBackend', '$location', '$rootScope', '$state', 'routerHelper');
         });
 
         beforeEach(function () {
+            routerHelper.configureStates(mockData.getMockStates(), '/');
+            $httpBackend.when('GET', views.dashboard).respond(200);
             controller = $controller('Sidebar');
+            $rootScope.$apply();
         });
 
+        specHelper.verifyNoOutstandingHttpRequests();
+
         it('should have isCurrent() for / to return `current`', function () {
-            $httpBackend.when('GET', 'app/dashboard/dashboard.html').respond(200);
             $location.path('/');
             $httpBackend.flush();
-            $rootScope.$apply();
             expect(controller.isCurrent($state.current)).to.equal('current');
         });
 
         it('should have isCurrent() for /customers to return `current`', function () {
-            $httpBackend.when('GET', 'app/dashboard/dashboard.html').respond(200);
-            $httpBackend.when('GET', 'app/customers/customers.html').respond(200);
+            $httpBackend.when('GET', views.customers).respond(200);
             $location.path('/customers');
             $httpBackend.flush();
-            $rootScope.$apply();
             expect(controller.isCurrent($state.current)).to.equal('current');
         });
 
         it('should have isCurrent() for non route not return `current`', function () {
-            $httpBackend.when('GET', 'app/dashboard/dashboard.html').respond(200);
             $location.path('/invalid');
             $httpBackend.flush();
-            $rootScope.$apply();
             expect(controller.isCurrent({title: 'invalid'})).not.to.equal('current');
         });
-
-        specHelper.verifyNoOutstandingHttpRequests();
     });
 });

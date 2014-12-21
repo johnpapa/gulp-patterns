@@ -7,13 +7,13 @@ describe('blocks.exception', function() {
     };
 
     beforeEach(function() {
-        module('blocks.exception', function($provide, _exceptionHandlerProvider_) {
+        specHelper.appModule('blocks.exception', function(_exceptionHandlerProvider_) {
             exceptionHandlerProvider = _exceptionHandlerProvider_;
-            specHelper.fakeRouteProvider($provide);
-            specHelper.fakeLogger($provide);
         });
-        specHelper.injector(function($rootScope) {});
+        specHelper.injector('$rootScope');
     });
+
+    specHelper.verifyNoOutstandingHttpRequests();
 
     describe('$exceptionHandler', function() {
         it('should have a dummy test', inject(function() {
@@ -67,6 +67,4 @@ describe('blocks.exception', function() {
     function functionThatWillThrow() {
         throw new Error(mocks.errorMessage);
     }
-
-    specHelper.verifyNoOutstandingHttpRequests();
 });

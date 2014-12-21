@@ -130,7 +130,7 @@
      */
     function appModule() {
         var args = Array.prototype.slice.call(arguments, 0);
-        args = args.concat(fakeLogger, fakeStateProvider, fakeRouteHelperProvider);
+        args = args.concat(fakeToastr, fakeStateProvider, fakeRouteHelperProvider);
         angular.mock.module.apply(angular.mock, args);
     }
 
