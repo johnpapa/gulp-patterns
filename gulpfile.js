@@ -114,13 +114,24 @@ gulp.task('images', ['clean-images'], function() {
  * @return {Stream}
  */
 gulp.task('styles', ['clean-styles'], function() {
-    log('Less --> CSS');
+    log('Compiling Less --> CSS');
 
-    return gulp
+    var stream = gulp
         .src(config.less)
+        .pipe($.plumber(error))
         .pipe($.less())
         .pipe($.autoprefixer('last 2 version', '> 5%'))
-        .pipe(gulp.dest(config.temp));
+        .pipe(gulp.dest(config.temp))
+        .on('end', function() {
+            log('Compiled Less --> CSS');
+        });
+
+    function error(err) {
+        log('There was an issue compiling Less');
+        log(err);
+        this.emit('end');
+        //done(err);
+    }
 });
 
 /**
@@ -183,6 +194,7 @@ gulp.task('html', ['styles', 'templatecache', 'wiredep'], function(done) {
 
     var stream = gulp
         .src(config.index)
+        .pipe($.plumber())
         .pipe($.inject(gulp.src(templateCache, {read: false}), {
             starttag: '<!-- inject:templates:js -->'
         }))
