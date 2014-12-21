@@ -130,7 +130,6 @@ gulp.task('styles', ['clean-styles'], function() {
         log('There was an issue compiling Less');
         log(err);
         this.emit('end');
-        //done(err);
     }
 });
 
