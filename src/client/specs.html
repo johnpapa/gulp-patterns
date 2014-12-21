@@ -31,14 +31,17 @@
 
 <div id="mocha"></div>
 
-    <script src="/node_modules/chai/chai.js"></script>
-    <script src="/node_modules/mocha/mocha.js"></script>
-    <script src="/bower_components/sinon/index.js"></script>
-    <script src="/node_modules/sinon-chai/lib/sinon-chai.js"></script>
+    <script src="node_modules/mocha/mocha.js"></script>
+    <script src="node_modules/chai/chai.js"></script>
+    <script src="node_modules/mocha-clean/index.js"></script>
+    <script src="bower_components/sinon/index.js"></script>
+    <script src="node_modules/sinon-chai/lib/sinon-chai.js"></script>
 
     <script>
         expect = chai.expect;
+        AssertionError = chai.AssertionError;
         mocha.setup('bdd');
+        mocha.traceIgnores = ['mocha.js', 'chai.js', 'angular.js'];
     </script>
 
     <!-- bower:js -->
