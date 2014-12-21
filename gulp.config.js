@@ -39,6 +39,12 @@ module.exports = function() {
             specRunner: client + specRunnerFile,
             specRunnerFile: specRunnerFile,
             midwaySpecs: client + '/test/midway/**/*.spec.js',
+            testlibraries: [
+                'node_modules/mocha/mocha.js',
+                'node_modules/chai/chai.js',
+                'node_modules/mocha-clean/index.js',
+                'node_modules/sinon-chai/lib/sinon-chai.js'
+            ],
 
             nodeServer: './src/server/app.js',
             defaultPort: '7203',

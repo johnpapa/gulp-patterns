@@ -31,10 +31,12 @@
 
 <div id="mocha"></div>
 
-    <script src="node_modules/mocha/mocha.js"></script>
-    <script src="node_modules/chai/chai.js"></script>
-    <script src="node_modules/mocha-clean/index.js"></script>
-    <script src="node_modules/sinon-chai/lib/sinon-chai.js"></script>
+    <!-- testlibraries:js -->
+    <script src="/node_modules/mocha/mocha.js"></script>
+    <script src="/node_modules/chai/chai.js"></script>
+    <script src="/node_modules/mocha-clean/index.js"></script>
+    <script src="/node_modules/sinon-chai/lib/sinon-chai.js"></script>
+    <!-- endinject -->
 
     <script>
         expect = chai.expect;
@@ -105,6 +107,7 @@
     <script src="/src/client/app/layout/sidebar.controller.spec.js"></script>
     <script src="/src/client/app/blocks/exception/exception-handler.provider.spec.js"></script>
     <!-- endinject -->
+
     <script>
         mocha.run();
     </script>

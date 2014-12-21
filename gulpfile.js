@@ -130,12 +130,6 @@ gulp.task('styles', ['clean-styles'], function() {
 gulp.task('serve-specs', ['build-specs'], function(done) {
     log('run the spec runner');
     serve(true /* isDev */, true /* specRunner */);
-//    browserSync({
-//        proxy: 'localhost:' + port + 'specs.html',
-//        port: 3000,
-//        injectChanges: true,
-//        reloadDelay: 1000
-//    });
     done();
 });
 
@@ -157,6 +151,7 @@ gulp.task('build-specs', function(done) {
             devDependencies: true
         }))
         .pipe($.inject(gulp.src(config.js)))
+        .pipe($.inject(gulp.src(config.testlibraries), {name: 'testlibraries', read: false}))
         .pipe($.inject(gulp.src(config.specHelpers), {name: 'spechelpers', read: false}))
         .pipe($.inject(gulp.src(config.specs), {name: 'specs', read: false}))
         .pipe(gulp.dest(config.client));
