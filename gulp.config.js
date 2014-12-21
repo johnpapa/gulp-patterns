@@ -22,14 +22,17 @@ module.exports = function() {
                 './src/**/*.js',
                 './*.js'
             ],
-            specHelpers: ['./src/client/test-helpers/*.js'],
-            specRunner: './src/client/specs.html',
             appjs: './src/client/app/**/*.js',
             fonts: './bower_components/font-awesome/fonts/**/*.*',
             images: './src/client/images/**/*.*',
             build: './build/',
             temp: './.tmp/',
             report: './report/',
+
+            specHelpers: ['./src/client/test-helpers/*.js'],
+            specRunner: './src/client/specs.html',
+            midwaySpecs: './src/client/test/midway/**/*.spec.js',
+
             nodeServer: './src/server/app.js',
             defaultPort: '7203',
             browserReloadDelay: 1000,

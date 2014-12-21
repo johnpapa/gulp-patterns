@@ -368,7 +368,7 @@ function startBrowserSync() {
         injectChanges: true,
         logFileChanges: true,
         logLevel: 'debug',
-        logPrefix: 'gulp-patterns',
+        logPrefix: '<%= pkg.name %>',
         notify: true,
         reloadDelay: 1000
     });
@@ -410,7 +410,7 @@ function serve(isDev) {
     var debug = env.debug || env.debugBrk;
     var exec;
     var nodeOptions = {
-        script: config.server + 'app.js',
+        script: config.nodeServer,
         delayTime: 1,
         env: {
             'PORT': port,
@@ -458,7 +458,7 @@ function startTests(singleRun, done) {
         savedEnv.PORT = 8888;
         child = fork(config.nodeServer, childProcessCompleted);
     } else {
-        excludeFiles.push('./src/client/test/midway/**/*.spec.js');
+        excludeFiles.push(config.midwaySpecs);
     }
 
     karma.start({
