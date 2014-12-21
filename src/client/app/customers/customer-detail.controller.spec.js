@@ -13,7 +13,6 @@ describe('app.customers', function() {
         sinon.stub(dataservice, 'getCustomer')
             .returns($q.when(mockData.blackWidow))
             .withArgs(id);
-        $stateParams.id = id;
         controller = $controller('CustomerDetail');
         $rootScope.$apply();
     });
@@ -27,6 +26,10 @@ describe('app.customers', function() {
 
         describe('after activate', function() {
             describe('should have called dataservice.getCustomer', function(){
+                beforeEach(function(){
+                    $stateParams.id = id;
+                });
+
                 it('1 time', function () {
                     expect(dataservice.getCustomer).to.have.been.calledOnce;
                 });

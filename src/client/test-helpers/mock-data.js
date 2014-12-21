@@ -2,8 +2,26 @@
 var mockData = (function() {
     return {
         getMockCustomers: getMockCustomers,
+        getMockStates: getMockStates,
         blackWidow: getMockCustomers()[0]
     };
+
+    function getMockStates() {
+        return [
+            {
+                state: 'dashboard',
+                config: {
+                    url: '/',
+                    templateUrl: 'app/dashboard/dashboard.html',
+                    title: 'dashboard',
+                    settings: {
+                        nav: 1,
+                        content: '<i class="fa fa-dashboard"></i> Dashboard'
+                    }
+                }
+            }
+        ];
+    }
 
     function getMockCustomers() {
         return [

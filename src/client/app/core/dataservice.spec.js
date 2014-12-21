@@ -48,7 +48,6 @@ describe('dataservice', function () {
 
         it('should return a resolved promise with the dataservice itself', function (done) {
             dataservice.ready().then(function(data) {
-                console.log(data);
                 expect(data).to.equal(dataservice);
             })
             .then(done, done);

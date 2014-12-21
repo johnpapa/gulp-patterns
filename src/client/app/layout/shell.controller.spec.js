@@ -3,7 +3,7 @@ describe('Shell', function() {
     var controller;
 
     beforeEach(function() {
-        specHelper.appModule('app');
+        specHelper.appModule('app.layout');
         specHelper.injector('$controller', '$rootScope', '$timeout');
     });
 
