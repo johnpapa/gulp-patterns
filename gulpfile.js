@@ -129,13 +129,7 @@ gulp.task('styles', ['clean-styles'], function() {
  */
 gulp.task('serve-specs', ['build-specs'], function(done) {
     log('run the spec runner');
-    serve(true /* isDev */, true );
-//    browserSync({
-//        proxy: 'localhost:' + port + 'specs.html',
-//        port: 3000,
-//        injectChanges: true,
-//        reloadDelay: 1000
-//    });
+    serve(true /* isDev */, true /* specRunner */);
     done();
 });
 
@@ -149,8 +143,7 @@ gulp.task('build-specs', function(done) {
     var wiredep = require('wiredep').stream;
 
     return gulp
-        //TODO: move to config
-        .src([config.specRunner])
+        .src(config.specRunner)
         .pipe(wiredep({
             bowerJson: require('./bower.json'),
             directory: config.bower.directory,
@@ -158,6 +151,7 @@ gulp.task('build-specs', function(done) {
             devDependencies: true
         }))
         .pipe($.inject(gulp.src(config.js)))
+        .pipe($.inject(gulp.src(config.testlibraries), {name: 'testlibraries', read: false}))
         .pipe($.inject(gulp.src(config.specHelpers), {name: 'spechelpers', read: false}))
         .pipe($.inject(gulp.src(config.specs), {name: 'specs', read: false}))
         .pipe(gulp.dest(config.client));
@@ -389,7 +383,7 @@ function startBrowserSync(specRunner) {
         notify: true,
         reloadDelay: 1000
     } ;
-    if(specRunner) { options.startPath = config.specRunner; }
+    if(specRunner) { options.startPath = config.specRunnerFile; }
     browserSync(options);
 }
 

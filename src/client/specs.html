@@ -20,7 +20,7 @@
 </head>
 <body>
 
-<h1><a href="specs.html">ng-patterns-testing</a></h1>
+<h1><a href="specs.html">Spec Runner</a></h1>
 <p><strong>Make sure the REMOTE server is running</strong><br/>
     Click on a <em>description title</em> to narrow the scope to just its specs
     (see "<a href="http://mochajs.github.io/mocha/#grep-option" target="_blank" title="MochaJS grep option">
@@ -31,14 +31,18 @@
 
 <div id="mocha"></div>
 
-    <script src="/node_modules/chai/chai.js"></script>
+    <!-- testlibraries:js -->
     <script src="/node_modules/mocha/mocha.js"></script>
-    <script src="/bower_components/sinon/index.js"></script>
+    <script src="/node_modules/chai/chai.js"></script>
+    <script src="/node_modules/mocha-clean/index.js"></script>
     <script src="/node_modules/sinon-chai/lib/sinon-chai.js"></script>
+    <!-- endinject -->
 
     <script>
         expect = chai.expect;
+        AssertionError = chai.AssertionError;
         mocha.setup('bdd');
+        mocha.traceIgnores = ['mocha.js', 'chai.js', 'angular.js'];
     </script>
 
     <!-- bower:js -->
@@ -52,6 +56,7 @@
     <script src="/bower_components/toastr/toastr.js"></script>
     <script src="/bower_components/angular-animate/angular-animate.js"></script>
     <script src="/bower_components/angular-mocks/angular-mocks.js"></script>
+    <script src="/bower_components/sinon/index.js"></script>
     <!-- endbower -->
 
     <!-- inject:js -->
@@ -102,6 +107,7 @@
     <script src="/src/client/app/layout/sidebar.controller.spec.js"></script>
     <script src="/src/client/app/blocks/exception/exception-handler.provider.spec.js"></script>
     <!-- endinject -->
+
     <script>
         mocha.run();
     </script>

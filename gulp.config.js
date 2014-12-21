@@ -8,6 +8,7 @@ module.exports = function() {
         var client = './src/client/';
         var server = './src/server/';
         var clientApp = client + 'app/';
+        var specRunnerFile = 'specs.html';
 
         var config = {
             client: client,
@@ -35,8 +36,15 @@ module.exports = function() {
             report: './report/',
 
             specHelpers: [client + '/test-helpers/*.js'],
-            specRunner: 'specs.html',
+            specRunner: client + specRunnerFile,
+            specRunnerFile: specRunnerFile,
             midwaySpecs: client + '/test/midway/**/*.spec.js',
+            testlibraries: [
+                'node_modules/mocha/mocha.js',
+                'node_modules/chai/chai.js',
+                'node_modules/mocha-clean/index.js',
+                'node_modules/sinon-chai/lib/sinon-chai.js'
+            ],
 
             nodeServer: './src/server/app.js',
             defaultPort: '7203',
@@ -51,8 +59,6 @@ module.exports = function() {
                 ignorePath: '../..'
             }
         };
-
-        config.specRunnerPath = config.client + config.specRunner;
 
         return config;
     }
