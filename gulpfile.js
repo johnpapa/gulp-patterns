@@ -76,7 +76,7 @@ gulp.task('wiredep', function() {
 
     return gulp
         //TODO: move to config
-        .src(config.client + 'index.html')
+        .src(config.index)
         .pipe(wiredep({
             bowerJson: require('./bower.json'),
             directory: config.bower.directory,
@@ -128,13 +128,13 @@ gulp.task('styles', ['clean-styles'], function() {
  * @return {Stream}
  */
 gulp.task('build-specs', function() {
-    log('building spec-runner.html');
+    log('building the spec runner');
 
     var wiredep = require('wiredep').stream;
 
     return gulp
         //TODO: move to config
-        .src([config.client + 'spec-runner.html'])
+        .src([config.specRunner])
         .pipe(wiredep({
             bowerJson: require('./bower.json'),
             directory: config.bower.directory,
@@ -171,7 +171,7 @@ gulp.task('html', ['styles', 'templatecache', 'wiredep'], function(done) {
     var templateCache = config.temp + config.templateCache.file;
 
     var stream = gulp
-        .src(config.client + 'index.html')
+        .src(config.index)
         .pipe($.inject(gulp.src(templateCache, {read: false}), {
             starttag: '<!-- inject:templates:js -->'
         }))
@@ -432,7 +432,7 @@ function serve(isDev) {
             setTimeout(function() {
                 browserSync.notify('reloading now ...');
                 browserSync.reload({stream: false});
-            }, 1000); //TODO: move to the config file
+            }, config.browserReloadDelay);
         });
 }
 
@@ -453,7 +453,7 @@ function startTests(singleRun, done) {
         var savedEnv = process.env;
         savedEnv.NODE_ENV = 'dev';
         savedEnv.PORT = 8888;
-        child = fork('src/server/app.js', childProcessCompleted);
+        child = fork(config.nodeServer, childProcessCompleted);
     } else {
         excludeFiles.push('./src/client/test/midway/**/*.spec.js');
     }
