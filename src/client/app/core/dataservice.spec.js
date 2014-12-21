@@ -10,6 +10,8 @@ describe('dataservice', function () {
         $httpFlush = $httpBackend.flush;
     });
 
+    specHelper.verifyNoOutstandingHttpRequests();
+
     it('should be registered', function() {
         expect(dataservice).not.to.equal(null);
     });
@@ -51,6 +53,4 @@ describe('dataservice', function () {
             $rootScope.$apply(); // no $http so just flush
         });
     });
-
-    specHelper.verifyNoOutstandingHttpRequests();
 });

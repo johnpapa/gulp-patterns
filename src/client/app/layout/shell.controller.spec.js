@@ -5,9 +5,7 @@ describe('Shell', function() {
     beforeEach(function() {
         specHelper.appModule('app');
         specHelper.injector('$controller', '$rootScope', '$timeout');
-    });
 
-    beforeEach(function () {
         controller = $controller('Shell');
         $rootScope.$apply();
     });

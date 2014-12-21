@@ -7,9 +7,7 @@ describe('app.customers', function() {
     beforeEach(function() {
         specHelper.appModule('app.customers');
         specHelper.injector('$controller', '$q', '$rootScope', 'dataservice');
-    });
 
-    beforeEach(function () {
         spies.getCustomers = sinon.stub(dataservice, 'getCustomers').returns($q.when(customers));
         controller = $controller('Customers');
         $rootScope.$apply();
