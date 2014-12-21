@@ -5,7 +5,7 @@ describe('app.customers', function() {
 
     beforeEach(function() {
         specHelper.appModule('app.customers');
-        specHelper.injector('$controller', '$q', '$rootScope', 'dataservice');
+        specHelper.injector('$controller', '$log',  '$q', '$rootScope', 'dataservice');
     });
 
     beforeEach(function(){
@@ -32,6 +32,10 @@ describe('app.customers', function() {
 
             it('should have 5 Customers', function() {
                 expect(controller.customers).to.have.length(5);
+            });
+
+            it('should have logged "Activated"', function() {
+                expect($log.info.logs).to.match(/Activated/);
             });
         });
     });

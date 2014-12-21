@@ -5,7 +5,7 @@ describe('dashboard', function () {
         var view = 'app/dashboard/dashboard.html';
 
         beforeEach(function() {
-            module('app.dashboard');
+            module('app.dashboard', specHelper.fakeToastr);
             specHelper.injector('$location', '$rootScope', '$state', '$templateCache');
             $templateCache.put(view, '');
         });

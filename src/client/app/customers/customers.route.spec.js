@@ -8,7 +8,7 @@ describe('customers', function () {
         };
 
         beforeEach(function() {
-            module('app.customers', specHelper.fakeLogger);
+            module('app.customers', specHelper.fakeToastr);
             specHelper.injector('$location', '$rootScope', '$state', '$templateCache');
         });
 

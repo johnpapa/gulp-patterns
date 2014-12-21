@@ -26,12 +26,14 @@ describe('app.customers', function() {
         });
 
         describe('after activate', function() {
-            it('should have called dataservice.getCustomer 1 time', function () {
-                expect(dataservice.getCustomer).to.have.been.calledOnce;
-            });
+            describe('should have called dataservice.getCustomer', function(){
+                it('1 time', function () {
+                    expect(dataservice.getCustomer).to.have.been.calledOnce;
+                });
 
-            it('should have called dataservice.getCustomer with id ' + id, function () {
-                expect(dataservice.getCustomer).to.have.been.calledWith(id);
+                it('with id ' + id, function () {
+                    expect(dataservice.getCustomer).to.have.been.calledWith(id);
+                });
             });
 
             it('should have title of Customer Detail', function() {
