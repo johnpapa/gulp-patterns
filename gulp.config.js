@@ -12,6 +12,7 @@ module.exports = function() {
         var config = {
             client: client,
             server: server,
+            source: 'src/',
             htmltemplates: clientApp + '/**/*.html',
             less: client + '/styles/styles.less',
             html: client + '/**/*.html',
