@@ -201,9 +201,11 @@ gulp.task('html', ['styles', 'templatecache', 'wiredep'], function(done) {
         .pipe(gulp.dest(config.build));
 
     stream.on('end', success);
-    stream.on('error', function(err) {
+    stream.on('error', error);
+
+    function error(err) {
         done(err);
-    });
+    }
 
     function success() {
         var msg = {
