@@ -3,27 +3,27 @@ describe('Shell', function() {
     var controller;
 
     beforeEach(function() {
-        specHelper.appModule('app.layout');
-        specHelper.injector('$controller', '$rootScope', '$timeout');
+        bard.appModule('app.layout');
+        bard.injector('$controller', '$rootScope', '$timeout');
     });
 
-    beforeEach(function(){
+    beforeEach(function() {
         controller = $controller('Shell');
         $rootScope.$apply();
     });
 
-    specHelper.verifyNoOutstandingHttpRequests();
+    bard.verifyNoOutstandingHttpRequests();
 
     describe('Shell controller', function() {
-        it('should be created successfully', function () {
+        it('should be created successfully', function() {
             expect(controller).to.be.defined;
         });
 
-        it('should show splash screen', function () {
+        it('should show splash screen', function() {
             expect(controller.showSplash).to.be.true;
         });
 
-        it('should hide splash screen after timeout', function (done) {
+        it('should hide splash screen after timeout', function(done) {
             $timeout(function() {
                 expect(controller.showSplash).to.be.false;
                 done();

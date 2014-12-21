@@ -9,7 +9,8 @@ describe('htSidebar directive: ', function () {
 
     beforeEach(module('app.layout'));
 
-    beforeEach(inject(function($compile, $rootScope) {
+    beforeEach(function() {
+        bard.injector('$compile', '$rootScope');
         // The minimum necessary template HTML for this spec.
         // Simulates a menu link that opens and closes a dropdown of menu items
         // The `when-done-animating` attribute is optional (as is the vm's implementation)
@@ -38,7 +39,7 @@ describe('htSidebar directive: ', function () {
 
         // tell angular to look at the scope values right now
         scope.$digest();
-    }));
+    });
 
     /// tests ///
     describe('the isOpenClass', function () {

@@ -383,7 +383,7 @@ function startBrowserSync(specRunner) {
         notify: true,
         reloadDelay: 1000
     } ;
-    if(specRunner) { options.startPath = config.specRunnerFile; }
+    if (specRunner) { options.startPath = config.specRunnerFile; }
     browserSync(options);
 }
 
