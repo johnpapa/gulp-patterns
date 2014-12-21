@@ -5,29 +5,41 @@ module.exports = function() {
     return service;
 
     function getConfig() {
-        return {
-            client: './src/client/',
-            server: './src/server/',
-            htmltemplates: './src/client/app/**/*.html',
-            less: './src/client/styles/styles.less',
-            html: '.src/client/**/*.html',
+        var client = './src/client/';
+        var server = './src/server/';
+        var clientApp = client + 'app/';
+
+        var config = {
+            client: client,
+            server: server,
+            htmltemplates: clientApp + '/**/*.html',
+            less: client + '/styles/styles.less',
+            html: client + '/**/*.html',
+            index: client + '/index.html',
             js: [
-                'src/client/app/**/*.module.js',
-                'src/client/app/**/*.js',
-                '!src/client/app/**/*.spec.js'
+                clientApp + '/**/*.module.js',
+                clientApp + '/**/*.js',
+                '!' + clientApp + '/**/*.spec.js'
             ],
-            specs: './src/client/app/**/*.spec.js',
+            specs: [clientApp + '/**/*.spec.js'],
             alljs: [
                 './src/**/*.js',
                 './*.js'
             ],
-            appjs: 'src/client/app/**/*.js',
+            appjs: clientApp + '/**/*.js',
             fonts: './bower_components/font-awesome/fonts/**/*.*',
-            images: './src/client/images/**/*.*',
+            images: client + '/images/**/*.*',
             build: './build/',
             temp: './.tmp/',
             report: './report/',
+
+            specHelpers: [client + '/test-helpers/*.js'],
+            specRunner: 'specs.html',
+            midwaySpecs: client + '/test/midway/**/*.spec.js',
+
+            nodeServer: './src/server/app.js',
             defaultPort: '7203',
+            browserReloadDelay: 1000,
             templateCache: {
                 module: 'app.core',
                 file: 'templates.js',
@@ -38,5 +50,9 @@ module.exports = function() {
                 ignorePath: '../..'
             }
         };
+
+        config.specRunnerPath = config.client + config.specRunner;
+
+        return config;
     }
 };

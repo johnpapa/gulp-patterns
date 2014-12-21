@@ -1,6 +1,5 @@
-/*jshint -W079, -W117 */
+/*jshint -W079, -W117, -W101 */
 (function() {
-
     var specHelper = {
         $httpBackend: $httpBackendReal,
         $q: $qReal,
@@ -14,7 +13,8 @@
         injector: injector,
         mockService: mockService,
         replaceAccentChars: replaceAccentChars,
-        verifyNoOutstandingHttpRequests: verifyNoOutstandingHttpRequests
+        verifyNoOutstandingHttpRequests: verifyNoOutstandingHttpRequests,
+        wrapWithDone: wrapWithDone
     };
     window.specHelper = specHelper;
 
@@ -124,7 +124,7 @@
      *     Equivalent to:
      *       beforeEach(module(
      *          'app.avengers',
-     *          specHelper.fakeLogger,
+     *          specHelper.fakeToastr,
      *          specHelper.fakeRouteHelperProvider)
      *       );
      */
@@ -174,8 +174,7 @@
         $provide.provider('routehelper', function() {
             /* jshint validthis:true */
             this.config = {
-                //TODO: do i need this?
-                // $routeProvider: undefined,
+                $routeProvider: undefined,
                 docTitle: 'Testing'
             };
             this.$get = function() {
@@ -214,40 +213,41 @@
     }
 
     function fakeStateProvider($provide) {
-            /**
-             * Stub out the $stateProvider so we avoid
-             * all routing calls, including the default state
-             * which runs on every test otherwise.
-             * Make sure this goes before the inject in the spec.
-             */
-            $provide.provider('$state', function() {
-                /* jshint validthis:true */
-                this.state = sinon.stub();
-
-                this.$get = function() {
-                    return {
-                        // current: {},  // fake before each test as needed
-                        // state:  {}  // fake before each test as needed
-                        // more? You'll know when it fails :-)
-                    };
-                };
-            });
-            $provide.provider('$urlRouter', function() {
-                /* jshint validthis:true */
-                this.otherwise = sinon.stub();
-
-                this.$get = function() {
-                    return {
-                        // current: {},  // fake before each test as needed
-                        // states:  {}  // fake before each test as needed
-                        // more? You'll know when it fails :-)
-                    };
-                };
-            });
-        }
         /**
-         * Inspired by Angular; that's how they get the parms for injection
+         * Stub out the $stateProvider so we avoid
+         * all routing calls, including the default state
+         * which runs on every test otherwise.
+         * Make sure this goes before the inject in the spec.
          */
+        $provide.provider('$state', function() {
+            /* jshint validthis:true */
+            this.state = sinon.stub();
+
+            this.$get = function() {
+                return {
+                    // current: {},  // fake before each test as needed
+                    // state:  {}  // fake before each test as needed
+                    // more? You'll know when it fails :-)
+                };
+            };
+        });
+        $provide.provider('$urlRouter', function() {
+            /* jshint validthis:true */
+            this.otherwise = sinon.stub();
+
+            this.$get = function() {
+                return {
+                    // current: {},  // fake before each test as needed
+                    // states:  {}  // fake before each test as needed
+                    // more? You'll know when it fails :-)
+                };
+            };
+        });
+    }
+
+    /**
+     * Inspired by Angular; that's how they get the parms for injection
+     */
     function getFnParams(fn) {
         var fnText;
         var argDecl;
@@ -277,7 +277,7 @@
      *
      * See avengers-route.spec for example
      */
-    function injector() {
+    function injector () {
         var annotation,
             body = '',
             cleanupBody = '',
@@ -290,7 +290,8 @@
         // else from here on assume that arguments are all strings
         else if (angular.isArray(arguments[0])) {
             params = arguments[0];
-        } else {
+        }
+        else {
             params = Array.prototype.slice.call(arguments, 0);
         }
 
@@ -391,7 +392,7 @@
     function mockService(service, config) {
 
         var serviceKeys = Object.keys(service);
-        var configKeys = Object.keys(config);
+        var configKeys  = Object.keys(config);
 
         serviceKeys.forEach(function(key) {
             var value = configKeys.indexOf(key) > -1 ?
@@ -452,10 +453,31 @@
      *  Assert that there are no outstanding HTTP requests after test is complete
      *  For use with ngMocks; doesn't work for midway tests
      */
-    function verifyNoOutstandingHttpRequests() {
+    function verifyNoOutstandingHttpRequests () {
         afterEach(inject(function($httpBackend) {
             $httpBackend.verifyNoOutstandingExpectation();
             $httpBackend.verifyNoOutstandingRequest();
         }));
+    }
+
+    /**
+     * Returns a function that execute a callback function
+     * (typically a fn making asserts) within a try/catch
+     * The try/catch then calls the ambient "done" function
+     * in the appropriate way for both success and failure
+     *
+     * Useage:
+     *    // When the DOM is ready, assert got the dashboard view
+     *    tester.until(elemIsReady, wrap(hasDashboardView, done));
+     */
+    function wrapWithDone(callback, done) {
+        return function() {
+            try {
+                callback();
+                done();
+            } catch (err) {
+                done(err);
+            }
+        };
     }
 })();

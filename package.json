@@ -1,7 +1,7 @@
 {
-  "name": "Gulp-Patterns-Demo",
+  "name": "Gulp-Patterns",
   "version": "0.0.1",
-  "description": "Gulp Patterns Demo",
+  "description": "Gulp Patterns",
   "authors": [
     "John Papa"
   ],
@@ -81,8 +81,8 @@
     "phantomjs": "1.9.9",
     "plato": "^1.2.0",
     "q": "^1.0.1",
-    "sinon": "^1.10.3",
-    "sinon-chai": "^2.5.0",
+    "sinon": "^1.12.2",
+    "sinon-chai": "^2.6.0",
     "wiredep": "^2.1.0"
   }
 }

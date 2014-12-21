@@ -7,7 +7,7 @@ var _ = require('lodash');
 var path = require('path');
 var $ = require('gulp-load-plugins')({lazy: true});
 
-var colors = $.util.colors; // chalk
+var colors = $.util.colors; // TODO: chalk?
 var env = $.util.env;
 var port = process.env.PORT || config.defaultPort;
 
@@ -75,7 +75,8 @@ gulp.task('wiredep', function() {
     var wiredep = require('wiredep').stream;
 
     return gulp
-        .src(config.client + 'index.html')
+        //TODO: move to config
+        .src(config.index)
         .pipe(wiredep({
             bowerJson: require('./bower.json'),
             directory: config.bower.directory,
@@ -123,10 +124,51 @@ gulp.task('styles', ['clean-styles'], function() {
 });
 
 /**
+ * Run the spec runner
+ * @return {Stream}
+ */
+gulp.task('serve-specs', ['build-specs'], function(done) {
+    log('run the spec runner');
+    serve(true /* isDev */, true );
+//    browserSync({
+//        proxy: 'localhost:' + port + 'specs.html',
+//        port: 3000,
+//        injectChanges: true,
+//        reloadDelay: 1000
+//    });
+    done();
+});
+
+/**
+ * Inject all the spec files into the specs.html
+ * @return {Stream}
+ */
+gulp.task('build-specs', function(done) {
+    log('building the spec runner');
+
+    var wiredep = require('wiredep').stream;
+
+    return gulp
+        //TODO: move to config
+        .src([config.specRunner])
+        .pipe(wiredep({
+            bowerJson: require('./bower.json'),
+            directory: config.bower.directory,
+            ignorePath: config.bower.ignorePath,
+            devDependencies: true
+        }))
+        .pipe($.inject(gulp.src(config.js)))
+        .pipe($.inject(gulp.src(config.specHelpers), {name: 'spechelpers', read: false}))
+        .pipe($.inject(gulp.src(config.specs), {name: 'specs', read: false}))
+        .pipe(gulp.dest(config.client));
+});
+
+/**
  * Build everything
  */
-gulp.task('build', ['html', 'images', 'fonts'], function() {
+gulp.task('build', ['html', 'images', 'fonts'], function(done) {
     log('Building everything');
+    done();
 });
 
 /**
@@ -146,7 +188,7 @@ gulp.task('html', ['styles', 'templatecache', 'wiredep'], function(done) {
     var templateCache = config.temp + config.templateCache.file;
 
     var stream = gulp
-        .src(config.client + 'index.html')
+        .src(config.index)
         .pipe($.inject(gulp.src(templateCache, {read: false}), {
             starttag: '<!-- inject:templates:js -->'
         }))
@@ -175,9 +217,11 @@ gulp.task('html', ['styles', 'templatecache', 'wiredep'], function(done) {
         .pipe(gulp.dest(config.build));
 
     stream.on('end', success);
-    stream.on('error', function(err) {
+    stream.on('error', error);
+
+    function error(err) {
         done(err);
-    });
+    }
 
     function success() {
         var msg = {
@@ -322,13 +366,14 @@ function clean(path, done) {
  * Start BrowserSync
  * --nosync will avoid browserSync
  */
-function startBrowserSync() {
+function startBrowserSync(specRunner) {
     if (env.nosync || browserSync.active) {
         return;
     }
 
     log('Starting BrowserSync on port ' + port);
-    browserSync({
+
+    var options = {
         proxy: 'localhost:' + port,
         port: 3000,
         ghostMode: { // these are the defaults t,f,t,t
@@ -343,7 +388,9 @@ function startBrowserSync() {
         logPrefix: 'gulp-patterns',
         notify: true,
         reloadDelay: 1000
-    });
+    } ;
+    if(specRunner) { options.startPath = config.specRunner; }
+    browserSync(options);
 }
 
 /**
@@ -378,11 +425,11 @@ function startPlatoVisualizer() {
  * --nosync
  * @param  {Boolean} isDev - dev or build mode
  */
-function serve(isDev) {
+function serve(isDev, specRunner) {
     var debug = env.debug || env.debugBrk;
     var exec;
     var nodeOptions = {
-        script: config.server + 'app.js',
+        script: config.nodeServer,
         delayTime: 1,
         env: {
             'PORT': port,
@@ -401,13 +448,15 @@ function serve(isDev) {
     addWatchForFileReload(isDev);
 
     return $.nodemon(nodeOptions)
-        .on('start', function() { startBrowserSync(); })
+        .on('start', function() {
+            startBrowserSync(specRunner);
+        })
         .on('restart', function() {
             log('restarted!');
             setTimeout(function() {
                 browserSync.notify('reloading now ...');
                 browserSync.reload({stream: false});
-            }, 1000); //TODO: move to the config file
+            }, config.browserReloadDelay);
         });
 }
 
@@ -428,9 +477,9 @@ function startTests(singleRun, done) {
         var savedEnv = process.env;
         savedEnv.NODE_ENV = 'dev';
         savedEnv.PORT = 8888;
-        child = fork('src/server/app.js', childProcessCompleted);
+        child = fork(config.nodeServer, childProcessCompleted);
     } else {
-        excludeFiles.push('./src/client/test/midway/**/*.spec.js');
+        excludeFiles.push(config.midwaySpecs);
     }
 
     karma.start({
