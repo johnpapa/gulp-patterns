@@ -10,6 +10,9 @@ describe('customers', function () {
         beforeEach(function() {
             module('app.customers', specHelper.fakeLogger);
             specHelper.injector('$location', '$rootScope', '$state', '$templateCache');
+        });
+
+        beforeEach(function(){
             $templateCache.put(views.customers, '');
             $templateCache.put(views.customerdetail, '');
         });

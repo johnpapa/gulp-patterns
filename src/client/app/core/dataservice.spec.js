@@ -5,7 +5,9 @@ describe('dataservice', function () {
     beforeEach(function () {
         specHelper.appModule('app.core');
         specHelper.injector('$httpBackend', '$rootScope', 'dataservice');
+    });
 
+    beforeEach(function(){
         $httpBackend.when('GET', '/api/customers').respond(200, customers);
         $httpFlush = $httpBackend.flush;
     });

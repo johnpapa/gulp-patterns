@@ -2,19 +2,16 @@
 describe('app.customers', function() {
     var controller;
     var customers = mockData.getMockCustomers();
-    var spies = {};
 
     beforeEach(function() {
         specHelper.appModule('app.customers');
         specHelper.injector('$controller', '$q', '$rootScope', 'dataservice');
-
-        spies.getCustomers = sinon.stub(dataservice, 'getCustomers').returns($q.when(customers));
-        controller = $controller('Customers');
-        $rootScope.$apply();
     });
 
-    afterEach(function(){
-        spies = {};
+    beforeEach(function(){
+        sinon.stub(dataservice, 'getCustomers').returns($q.when(customers));
+        controller = $controller('Customers');
+        $rootScope.$apply();
     });
 
     specHelper.verifyNoOutstandingHttpRequests();
@@ -26,7 +23,7 @@ describe('app.customers', function() {
 
         describe('after activate', function() {
             it('should have called dataservice.getCustomers 1 time', function () {
-                expect(spies.getCustomers).to.have.been.calledOnce;
+                expect(dataservice.getCustomers).to.have.been.calledOnce;
             });
 
             it('should have title of Customers', function() {
