@@ -1,6 +1,6 @@
 /*jshint -W079, -W117, -W101 */
 (function() {
-    var specHelper = {
+    var bard = {
         $httpBackend: $httpBackendReal,
         $q: $qReal,
         appModule: appModule,
@@ -16,7 +16,7 @@
         verifyNoOutstandingHttpRequests: verifyNoOutstandingHttpRequests,
         wrapWithDone: wrapWithDone
     };
-    window.specHelper = specHelper;
+    window.bard = bard;
 
     /**
      * Define a test application module with faked logger for use with ngMidwayTester

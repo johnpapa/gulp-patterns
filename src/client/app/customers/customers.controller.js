@@ -1,7 +1,6 @@
 (function() {
     'use strict';
 
-
     angular
         .module('app.customers')
         .controller('Customers', Customers);

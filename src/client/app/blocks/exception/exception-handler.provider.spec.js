@@ -7,13 +7,13 @@ describe('blocks.exception', function() {
     };
 
     beforeEach(function() {
-        specHelper.appModule('blocks.exception', function(_exceptionHandlerProvider_) {
+        bard.appModule('blocks.exception', function(_exceptionHandlerProvider_) {
             exceptionHandlerProvider = _exceptionHandlerProvider_;
         });
-        specHelper.injector('$rootScope');
+        bard.injector('$rootScope');
     });
 
-    specHelper.verifyNoOutstandingHttpRequests();
+    bard.verifyNoOutstandingHttpRequests();
 
     describe('$exceptionHandler', function() {
         it('should have a dummy test', inject(function() {

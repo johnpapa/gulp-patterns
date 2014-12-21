@@ -4,17 +4,17 @@ describe('app.customers', function() {
     var customers = mockData.getMockCustomers();
 
     beforeEach(function() {
-        specHelper.appModule('app.customers');
-        specHelper.injector('$controller', '$log',  '$q', '$rootScope', 'dataservice');
+        bard.appModule('app.customers');
+        bard.injector('$controller', '$log',  '$q', '$rootScope', 'dataservice');
     });
 
-    beforeEach(function(){
+    beforeEach(function() {
         sinon.stub(dataservice, 'getCustomers').returns($q.when(customers));
         controller = $controller('Customers');
         $rootScope.$apply();
     });
 
-    specHelper.verifyNoOutstandingHttpRequests();
+    bard.verifyNoOutstandingHttpRequests();
 
     describe('Customers controller', function() {
         it('should be created successfully', function () {

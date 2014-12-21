@@ -5,11 +5,11 @@ describe('app.customers', function() {
     var id = mockData.blackWidow.id;
 
     beforeEach(function() {
-        specHelper.appModule('app.customers');
-        specHelper.injector('$controller', '$log', '$q', '$rootScope', '$stateParams','dataservice');
+        bard.appModule('app.customers');
+        bard.injector('$controller', '$log', '$q', '$rootScope', '$stateParams', 'dataservice');
     });
 
-    beforeEach(function(){
+    beforeEach(function() {
         sinon.stub(dataservice, 'getCustomer')
             .returns($q.when(mockData.blackWidow))
             .withArgs(id);
@@ -17,24 +17,24 @@ describe('app.customers', function() {
         $rootScope.$apply();
     });
 
-    specHelper.verifyNoOutstandingHttpRequests();
+    bard.verifyNoOutstandingHttpRequests();
 
     describe('CustomerDetail controller', function() {
-        it('should be created successfully', function () {
+        it('should be created successfully', function() {
             expect(controller).to.be.defined;
         });
 
         describe('after activate', function() {
-            describe('should have called dataservice.getCustomer', function(){
-                beforeEach(function(){
+            describe('should have called dataservice.getCustomer', function() {
+                beforeEach(function() {
                     $stateParams.id = id;
                 });
 
-                it('1 time', function () {
+                it('1 time', function() {
                     expect(dataservice.getCustomer).to.have.been.calledOnce;
                 });
 
-                it('with id ' + id, function () {
+                it('with id ' + id, function() {
                     expect(dataservice.getCustomer).to.have.been.calledWith(id);
                 });
             });
