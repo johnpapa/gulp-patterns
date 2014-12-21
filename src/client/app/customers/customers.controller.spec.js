@@ -11,7 +11,6 @@ describe('app.customers', function() {
 
     beforeEach(function () {
         spies.getCustomers = sinon.stub(dataservice, 'getCustomers').returns($q.when(customers));
-
         controller = $controller('Customers');
         $rootScope.$apply();
     });
@@ -25,12 +24,10 @@ describe('app.customers', function() {
     describe('Customers controller', function() {
         it('should be created successfully', function () {
             expect(controller).to.be.defined;
-            expect(spies.getCustomers).to.have.been.calledOnce;
         });
 
         describe('after activate', function() {
             it('should have called dataservice.getCustomers 1 time', function () {
-                expect(controller).to.be.defined;
                 expect(spies.getCustomers).to.have.been.calledOnce;
             });
 
