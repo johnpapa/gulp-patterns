@@ -124,10 +124,26 @@ gulp.task('styles', ['clean-styles'], function() {
 });
 
 /**
+ * Run the spec runner
+ * @return {Stream}
+ */
+gulp.task('serve-specs', ['build-specs'], function(done) {
+    log('run the spec runner');
+    serve(true /* isDev */, true );
+//    browserSync({
+//        proxy: 'localhost:' + port + 'specs.html',
+//        port: 3000,
+//        injectChanges: true,
+//        reloadDelay: 1000
+//    });
+    done();
+});
+
+/**
  * Inject all the spec files into the specs.html
  * @return {Stream}
  */
-gulp.task('build-specs', function() {
+gulp.task('build-specs', function(done) {
     log('building the spec runner');
 
     var wiredep = require('wiredep').stream;
@@ -350,13 +366,14 @@ function clean(path, done) {
  * Start BrowserSync
  * --nosync will avoid browserSync
  */
-function startBrowserSync() {
+function startBrowserSync(specRunner) {
     if (env.nosync || browserSync.active) {
         return;
     }
 
     log('Starting BrowserSync on port ' + port);
-    browserSync({
+
+    var options = {
         proxy: 'localhost:' + port,
         port: 3000,
         ghostMode: { // these are the defaults t,f,t,t
@@ -368,10 +385,12 @@ function startBrowserSync() {
         injectChanges: true,
         logFileChanges: true,
         logLevel: 'debug',
-        logPrefix: '<%= pkg.name %>',
+        logPrefix: 'gulp-patterns',
         notify: true,
         reloadDelay: 1000
-    });
+    } ;
+    if(specRunner) { options.startPath = config.specRunner; }
+    browserSync(options);
 }
 
 /**
@@ -406,7 +425,7 @@ function startPlatoVisualizer() {
  * --nosync
  * @param  {Boolean} isDev - dev or build mode
  */
-function serve(isDev) {
+function serve(isDev, specRunner) {
     var debug = env.debug || env.debugBrk;
     var exec;
     var nodeOptions = {
@@ -429,7 +448,9 @@ function serve(isDev) {
     addWatchForFileReload(isDev);
 
     return $.nodemon(nodeOptions)
-        .on('start', function() { startBrowserSync(); })
+        .on('start', function() {
+            startBrowserSync(specRunner);
+        })
         .on('restart', function() {
             log('restarted!');
             setTimeout(function() {
