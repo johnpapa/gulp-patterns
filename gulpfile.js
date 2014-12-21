@@ -193,7 +193,6 @@ gulp.task('html', ['styles', 'templatecache', 'wiredep'], function(done) {
 
     var stream = gulp
         .src(config.index)
-        .pipe($.plumber())
         .pipe($.inject(gulp.src(templateCache, {read: false}), {
             starttag: '<!-- inject:templates:js -->'
         }))
@@ -219,12 +218,12 @@ gulp.task('html', ['styles', 'templatecache', 'wiredep'], function(done) {
         .pipe($.useref())
         // Replace the file names in the html with rev numbers
         .pipe($.revReplace())
-        .pipe(gulp.dest(config.build));
-
-    stream.on('end', success);
-    stream.on('error', error);
+        .pipe(gulp.dest(config.build))
+        .on('end', success)
+        .on('error', error);
 
     function error(err) {
+        log(err);
         done(err);
     }
 
@@ -232,7 +231,7 @@ gulp.task('html', ['styles', 'templatecache', 'wiredep'], function(done) {
         var msg = {
             title: 'gulp html',
             subtitle: 'Deployed to the build folder',
-            message: 'gulp serve-build'
+            message: 'Run `gulp serve-build`'
         };
         del(config.temp);
         log(msg);
