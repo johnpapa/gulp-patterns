@@ -150,8 +150,9 @@ gulp.task('build-specs', function() {
 /**
  * Build everything
  */
-gulp.task('build', ['html', 'images', 'fonts'], function() {
+gulp.task('build', ['html', 'images', 'fonts'], function(done) {
     log('Building everything');
+    done();
 });
 
 /**
