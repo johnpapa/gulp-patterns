@@ -1,9 +1,10 @@
-/*jshint -W079, -W117, -W101 */
+/*jshint -W079, -W117 */
 (function() {
     var bard = {
         $httpBackend: $httpBackendReal,
         $q: $qReal,
         appModule: appModule,
+        assertFail: assertFail,
         asyncModule: asyncModule,
         fakeLogger: fakeLogger,
         fakeRouteHelperProvider: fakeRouteHelperProvider,
@@ -47,7 +48,7 @@
      *
      *    var myService;
      *
-     *    beforeEach(module(specHelper.$httpBackend, 'app');
+     *    beforeEach(module(bard.$httpBackend, 'app');
      *
      *    beforeEach(inject(function(_myService_) {
      *        myService = _myService_;
@@ -85,9 +86,9 @@
      *
      *    var myService;
      *
-     *    // Consider: beforeEach(specHelper.asyncModule('app'));
+     *    // Consider: beforeEach(bard.asyncModule('app'));
      *
-     *    beforeEach(module(specHelper.$q, specHelper.$httpBackend, 'app');
+     *    beforeEach(module(bard.$q, bard.$httpBackend, 'app');
      *
      *    beforeEach(inject(function(_myService_) {
      *        myService = _myService_;
@@ -119,19 +120,38 @@
      * Use it as you would the ngMocks#module method
      *
      *  Useage:
-     *     beforeEach(specHelper.appModule('app.avengers'));
+     *     beforeEach(bard.appModule('app.avengers'));
      *
      *     Equivalent to:
      *       beforeEach(module(
      *          'app.avengers',
-     *          specHelper.fakeToastr,
-     *          specHelper.fakeRouteHelperProvider)
+     *          bard.fakeToastr,
+     *          bard.fakeRouteHelperProvider)
      *       );
      */
     function appModule() {
         var args = Array.prototype.slice.call(arguments, 0);
-        args = args.concat(fakeToastr, fakeStateProvider, fakeRouteHelperProvider);
+        args = args.concat(fakeRouteHelperProvider, fakeRouteProvider,
+                           fakeStateProvider, fakeToastr);
         angular.mock.module.apply(angular.mock, args);
+    }
+
+    /**
+     * Assert a failure in mocha, without condition
+     *
+     *  Useage:
+     *     assertFail('you are hosed')
+     *
+     *     Responds:
+     *       AssertionError: you are hosed
+     *       at Object.assertFail (..../test/lib/bard.js:153:15)
+     *       at Context.<anonymous> (.../....spec.js:329:15)
+     *
+     *  OR JUST THROW the chai.AssertionError  and treat this
+     *  as a reminder of how to do it.
+     */
+    function assertFail(message) {
+        throw new chai.AssertionError(message);
     }
 
     /**
@@ -140,10 +160,10 @@
      * Use it as you would the ngMocks#module method
      *
      *  Useage:
-     *     beforeEach(specHelper.asyncModule('app'));
+     *     beforeEach(bard.asyncModule('app'));
      *
      *     Equivalent to:
-     *       beforeEach(module('app', specHelper.$httpBackend, specHelper.$q, specHelper.fakeToastr));
+     *       beforeEach(module('app', bard.$httpBackend, bard.$q, bard.fakeToastr));
      */
     function asyncModule() {
         var args = Array.prototype.slice.call(arguments, 0);
@@ -247,6 +267,7 @@
 
     /**
      * Inspired by Angular; that's how they get the parms for injection
+     * Todo: no longer used by `injector`. Remove?
      */
     function getFnParams(fn) {
         var fnText;
@@ -271,34 +292,43 @@
 
     /**
      * inject selected services into the windows object during test
-     * then remove them when test ends.
+     * then remove them when test ends with an `afterEach`.
      *
      * spares us the repetition of creating common service vars and injecting them
      *
-     * See avengers-route.spec for example
+     * injector arguments may take one of 3 forms:
+     *
+     *    function    - This fn will be passed to ngMocks.inject.
+     *                  Annotations extracted after inject does its thing.
+     *    [strings]   - same string array you'd use to set fn.$inject
+     *    (...string) - string arguments turned into a string array
+     *
      */
     function injector () {
-        var annotation,
-            body = '',
+        var body = '',
             cleanupBody = '',
-            mustAnnotate = false,
             params;
 
-        if (typeof arguments[0] === 'function') {
-            params = getFnParams(arguments[0]);
+        var first = arguments[0];
+
+        if (typeof first === 'function') {
+            // use ngMocks.inject to execute the injector function
+            inject(first);
+            // ngMocks.inject prepares fn.$inject for us
+            params = first.$inject;
         }
-        // else from here on assume that arguments are all strings
-        else if (angular.isArray(arguments[0])) {
-            params = arguments[0];
+        else if (angular.isArray(first)) {
+            params = first; // assume is an array of strings
         }
-        else {
+        else { // assume all args are strings
             params = Array.prototype.slice.call(arguments, 0);
         }
 
-        annotation = params.join('\',\''); // might need to annotate
+        // we will annotate the generated fn with this string.
+        var annotation = '\'' + params.join('\',\'') + '\',';
 
         angular.forEach(params, function(name, ix) {
-            var _name,
+            var _name_,
                 pathName = name.split('.'),
                 pathLen = pathName.length;
 
@@ -306,12 +336,11 @@
                 // name is a path like 'block.foo'. Can't use as identifier
                 // assume last segment should be identifier name, e.g. 'foo'
                 name = pathName[pathLen - 1];
-                mustAnnotate = true;
             }
 
-            _name = '_' + name + '_';
-            params[ix] = _name;
-            body += name + '=' + _name + ';';
+            _name_ = '_' + name + '_';
+            params[ix] = _name_;
+            body += name + '=' + _name_ + ';';
             cleanupBody += 'delete window.' + name + ';';
 
             // todo: tolerate component names that are invalid JS identifiers, e.g. 'burning man'
@@ -319,24 +348,13 @@
 
         var fn = 'function(' + params.join(',') + ') {' + body + '}';
 
-        if (mustAnnotate) {
-            fn = '[\'' + annotation + '\',' + fn + ']';
-        }
+        fn = '[' + annotation + fn + ']';
 
         var exp = 'inject(' + fn + ');' +
-            'afterEach(function() {' + cleanupBody + '});'; // remove from window.
+                  'afterEach(function() {' + cleanupBody + '});'; // remove from window.
 
-        //Function(exp)(); // the assigned vars will be global. `afterEach` will remove them
         /* jshint evil:true */
         new Function(exp)();
-
-        // Alternative that would not touch window but would require eval()!!
-        // Don't do `Function(exp)()` and don't do afterEach cleanup
-        // Instead do ..
-        //     return exp;
-        //
-        // Then caller must say something like:
-        //     eval(specHelper.injector('$log', 'foo'));
     }
 
     /**
