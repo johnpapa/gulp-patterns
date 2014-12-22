@@ -4,7 +4,7 @@ describe('Shell', function() {
 
     beforeEach(function() {
         bard.appModule('app.layout');
-        bard.injector('$controller', '$rootScope', '$timeout');
+        bard.inject('$controller', '$rootScope', '$timeout');
     });
 
     beforeEach(function() {
