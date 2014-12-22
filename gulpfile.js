@@ -19,7 +19,6 @@ var port = process.env.PORT || config.defaultPort;
  * --nosync   : Don't launch the browser with browser-sync when serving code.
  * --debug    : Launch debugger with node-inspector.
  * --debug-brk: Launch debugger and break on 1st line with node-inspector.
- * --build    : building or serving a production build
  * --startServers: Will start servers for midway tests on the test task.
  */
 
