@@ -28,7 +28,9 @@ module.exports = function() {
                 './src/**/*.js',
                 './*.js'
             ],
-            appjs: clientApp + '/**/*.js',
+            plato: {
+                js: clientApp + '/**/*.js'
+            },
             fonts: './bower_components/font-awesome/fonts/**/*.*',
             images: client + '/images/**/*.*',
             build: './build/',

@@ -403,7 +403,7 @@ function startBrowserSync(specRunner) {
 function startPlatoVisualizer() {
     log('Running Plato');
 
-    var files = glob.sync(config.appjs);
+    var files = glob.sync(config.plato.js);
     var excludeFiles = /.*\.spec\.js/;
     var plato = require('plato');
 
@@ -545,7 +545,8 @@ function getHeader() {
         ' * @version v<%= pkg.version %>',
         ' * @link <%= pkg.homepage %>',
         ' * @license <%= pkg.license %>',
-        ' */'
+        ' */',
+        ''
     ].join('\n');
     return $.header(template, {
         pkg: pkg
