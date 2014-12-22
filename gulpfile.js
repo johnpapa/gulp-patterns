@@ -7,7 +7,7 @@ var _ = require('lodash');
 var path = require('path');
 var $ = require('gulp-load-plugins')({lazy: true});
 
-var colors = $.util.colors; // TODO: chalk?
+var colors = $.util.colors;
 var env = $.util.env;
 var port = process.env.PORT || config.defaultPort;
 
@@ -74,7 +74,6 @@ gulp.task('wiredep', function() {
     var wiredep = require('wiredep').stream;
 
     return gulp
-        //TODO: move to config
         .src(config.index)
         .pipe(wiredep({
             bowerJson: require('./bower.json'),
