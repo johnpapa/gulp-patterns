@@ -2,9 +2,11 @@ module.exports = function() {
     var client = './src/client/';
     var server = './src/server/';
     var clientApp = client + 'app/';
+    var root = './';
     var specRunnerFile = 'specs.html';
 
     var config = {
+        root: root,
         client: client,
         server: server,
         source: 'src/',
