@@ -80,6 +80,7 @@ gulp.task('wiredep', function() {
             directory: config.bower.directory,
             ignorePath: config.bower.ignorePath
         }))
+        .pipe($.inject(gulp.src(config.js)))
         .pipe(gulp.dest(config.client));
 });
 
@@ -316,7 +317,7 @@ gulp.task('autotest', function(done) {
  * --debug-brk or --debug
  * --nosync
  */
-gulp.task('serve-dev', ['styles'], function() {
+gulp.task('serve-dev', ['styles', 'wiredep'], function() {
     serve(true /*isDev*/);
 });
 
