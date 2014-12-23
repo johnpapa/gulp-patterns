@@ -80,14 +80,11 @@ gulp.task('wiredep', function() {
     log('Wiring the bower dependencies into the html');
 
     var wiredep = require('wiredep').stream;
+    var options = getWiredepDefaultOptions();
 
     return gulp
         .src(config.index)
-        .pipe(wiredep({
-            bowerJson: require('./bower.json'),
-            directory: config.bower.directory,
-            ignorePath: config.bower.ignorePath
-        }))
+        .pipe(wiredep(options))
         .pipe($.inject(gulp.src(config.js)))
         .pipe(gulp.dest(config.client));
 });
@@ -155,15 +152,12 @@ gulp.task('build-specs', function(done) {
     log('building the spec runner');
 
     var wiredep = require('wiredep').stream;
+    var options = getWiredepDefaultOptions();
+    options.devDependencies = true;
 
     return gulp
         .src(config.specRunner)
-        .pipe(wiredep({
-            bowerJson: require('./bower.json'),
-            directory: config.bower.directory,
-            ignorePath: config.bower.ignorePath,
-            devDependencies: true
-        }))
+        .pipe(wiredep(options))
         .pipe($.inject(gulp.src(config.js)))
         .pipe($.inject(gulp.src(config.testlibraries), {name: 'testlibraries', read: false}))
         .pipe($.inject(gulp.src(config.specHelpers), {name: 'spechelpers', read: false}))
@@ -325,10 +319,10 @@ gulp.task('serve-build', ['build'], function() {
 
 /**
  * Bump the version
- * -pre will bump the prerelease version *.*.*-x
- * -patch or no flag will bump the patch version *.*.x
- * -minor will bump the minor version *.x.*
- * -major will bump the major version x.*.*
+ * --type=pre will bump the prerelease version *.*.*-x
+ * --type=patch or no flag will bump the patch version *.*.x
+ * --type=minor will bump the minor version *.x.*
+ * --type=major will bump the major version x.*.*
  * --version=1.2.3 will bump to a specific version and ignore other flags
  */
 gulp.task('bump', function() {
@@ -388,6 +382,48 @@ function clean(path, done) {
 }
 
 /**
+ * serve the code
+ * --debug-brk or --debug
+ * --nosync
+ * @param  {Boolean} isDev - dev or build mode
+ * @param  {Boolean} specRunner - server spec runner html
+ */
+function serve(isDev, specRunner) {
+    var debug = args.debug || args.debugBrk;
+    var exec;
+    var nodeOptions = {
+        script: config.nodeServer,
+        delayTime: 1,
+        env: {
+            'PORT': port,
+            'NODE_ENV': isDev ? 'dev' : 'build'
+        },
+        watch: [config.server]
+    };
+
+    if (debug) {
+        log('Running node-inspector. Browse to http://localhost:8080/debug?port=5858');
+        exec = require('child_process').exec;
+        exec('node-inspector');
+        nodeOptions.nodeArgs = [debug + '=5858'];
+    }
+
+    addWatchForFileReload(isDev);
+
+    return $.nodemon(nodeOptions)
+        .on('start', function() {
+            startBrowserSync(specRunner);
+        })
+        .on('restart', function() {
+            log('restarted!');
+            setTimeout(function() {
+                browserSync.notify('reloading now ...');
+                browserSync.reload({stream: false});
+            }, config.browserReloadDelay);
+        });
+}
+
+/**
  * Start BrowserSync
  * --nosync will avoid browserSync
  */
@@ -443,48 +479,6 @@ function startPlatoVisualizer(done) {
         }
         if (done) { done(); }
     }
-}
-
-/**
- * serve the code
- * --debug-brk or --debug
- * --nosync
- * @param  {Boolean} isDev - dev or build mode
- * @param  {Boolean} specRunner - server spec runner html
- */
-function serve(isDev, specRunner) {
-    var debug = args.debug || args.debugBrk;
-    var exec;
-    var nodeOptions = {
-        script: config.nodeServer,
-        delayTime: 1,
-        env: {
-            'PORT': port,
-            'NODE_ENV': isDev ? 'dev' : 'build'
-        },
-        watch: [config.server]
-    };
-
-    if (debug) {
-        log('Running node-inspector. Browse to http://localhost:8080/debug?port=5858');
-        exec = require('child_process').exec;
-        exec('node-inspector');
-        nodeOptions.nodeArgs = [debug + '=5858'];
-    }
-
-    addWatchForFileReload(isDev);
-
-    return $.nodemon(nodeOptions)
-        .on('start', function() {
-            startBrowserSync(specRunner);
-        })
-        .on('restart', function() {
-            log('restarted!');
-            setTimeout(function() {
-                browserSync.notify('reloading now ...');
-                browserSync.reload({stream: false});
-            }, config.browserReloadDelay);
-        });
 }
 
 /**
@@ -547,6 +541,16 @@ function bytediffFormatter(data) {
 }
 
 /**
+ * Log an error message and emit the end of a task
+ */
+function errorLogger(error) {
+    log('*** Start of Error ***');
+    log(error);
+    log('*** End of Error ***');
+    this.emit('end');
+}
+
+/**
  * Format a number as a percentage
  * @param  {Number} num       Number to format as a percent
  * @param  {Number} precision Precision of the decimal
@@ -577,13 +581,15 @@ function getHeader() {
 }
 
 /**
- * Log an error message and emit the end of a task
+ * Get the default options for wiredep
  */
-function errorLogger(error) {
-    log('*** Start of Error ***');
-    log(error);
-    log('*** End of Error ***');
-    this.emit('end');
+function getWiredepDefaultOptions() {
+    var options = {
+        bowerJson: require('./bower.json'),
+        directory: config.bower.directory,
+        ignorePath: config.bower.ignorePath
+    };
+    return options;
 }
 
 /**
