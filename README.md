@@ -102,7 +102,7 @@ $ gulp serve-dev
 
 - `gulp wiredep`
 
-    Looks up all bower components' main files and adds them to the `index.html`. 
+    Looks up all bower components' main files and JavaScript source code, then adds them to the `index.html`.
     
     The `.bowerrc` file also runs this as a postinstall task whenever `bower install` is run.
 
