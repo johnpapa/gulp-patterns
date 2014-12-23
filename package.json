@@ -1,6 +1,6 @@
 {
   "name": "Gulp-Patterns",
-  "version": "0.0.1",
+  "version": "2.2.2",
   "description": "Gulp Patterns",
   "authors": [
     "John Papa"
@@ -37,6 +37,7 @@
     "gulp": "^3.8.10",
     "gulp-angular-templatecache": "^1.4.2",
     "gulp-autoprefixer": "^1.0.1",
+    "gulp-bump": "^0.1.11",
     "gulp-bytediff": "^0.2.0",
     "gulp-concat": "^2.3.3",
     "gulp-csso": "^0.2.9",
@@ -84,6 +85,7 @@
     "q": "^1.0.1",
     "sinon": "^1.12.2",
     "sinon-chai": "^2.6.0",
-    "wiredep": "^2.1.0"
+    "wiredep": "^2.1.0",
+    "yargs": "^1.3.3"
   }
 }

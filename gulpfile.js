@@ -1,18 +1,19 @@
-var gulp = require('gulp');
+var args = require('yargs').argv;
 var browserSync = require('browser-sync');
 var config = require('./gulp.config')();
 var del = require('del');
 var glob = require('glob');
-var _ = require('lodash');
+var gulp = require('gulp');
 var path = require('path');
+var _ = require('lodash');
 var $ = require('gulp-load-plugins')({lazy: true});
 
 var colors = $.util.colors;
-var env = $.util.env;
+var envenv = $.util.env;
 var port = process.env.PORT || config.defaultPort;
 
 /**
- * env variables can be passed in to alter the behavior, when present.
+ * yargs variables can be passed in to alter the behavior, when present.
  * Example: gulp serve-dev
  *
  * --verbose  : Various tasks will produce more output to the console.
@@ -37,7 +38,7 @@ gulp.task('analyze', ['plato'], function() {
 
     return gulp
         .src(config.alljs)
-        .pipe($.if(env.verbose, $.print()))
+        .pipe($.if(args.verbose, $.print()))
         .pipe($.jshint.reporter('jshint-stylish'))
         .pipe($.jscs());
 });
@@ -62,7 +63,7 @@ gulp.task('templatecache', ['clean-code'], function() {
         .src(config.htmltemplates)
         .pipe($.bytediff.start())
         .pipe($.minifyHtml({empty: true}))
-        .pipe($.if(env.verbose, $.bytediff.stop(bytediffFormatter)))
+        .pipe($.if(args.verbose, $.bytediff.stop(bytediffFormatter)))
         .pipe($.angularTemplatecache(config.templateCache.file, {
             module: config.templateCache.module,
             standalone: false,
@@ -322,6 +323,27 @@ gulp.task('serve-build', ['build'], function() {
     serve(false /*isDev*/);
 });
 
+/**
+ * Bump the version
+ * --type=pre will bump the prerelease version *.*.*-x
+ * --type=patch or no flag will bump the patch version *.*.x
+ * --type=minor will bump the minor version *.x.*
+ * --type=major will bump the major version x.*.*
+ * --version will bump to a specific version and ignore other flags
+ */
+gulp.task('bump', function() {
+    var semverType = args.type || 'patch';
+    log(semverType);
+    var version = args.version;
+    var options = {};
+    if (version) { options.version = version; }
+    if (!version) { options.type = semverType; }
+    return gulp
+        .src(config.packages)
+        .pipe($.bump(options))
+        .pipe(gulp.dest('./'));
+});
+
 ////////////////
 
 /**
@@ -364,7 +386,7 @@ function clean(path, done) {
  * --nosync will avoid browserSync
  */
 function startBrowserSync(specRunner) {
-    if (env.nosync || browserSync.active) {
+    if (args.nosync || browserSync.active) {
         return;
     }
 
@@ -410,7 +432,7 @@ function startPlatoVisualizer(done) {
 
     function platoCompleted(report) {
         var overview = plato.getOverviewReport(report);
-        if (env.verbose) {
+        if (args.verbose) {
             log(overview.summary);
         }
         if (done) { done(); }
@@ -418,13 +440,14 @@ function startPlatoVisualizer(done) {
 }
 
 /**
- * serve the build environment
+ * serve the code
  * --debug-brk or --debug
  * --nosync
  * @param  {Boolean} isDev - dev or build mode
+ * @param  {Boolean} specRunner - server spec runner html
  */
 function serve(isDev, specRunner) {
-    var debug = env.debug || env.debugBrk;
+    var debug = args.debug || args.debugBrk;
     var exec;
     var nodeOptions = {
         script: config.nodeServer,
@@ -470,7 +493,7 @@ function startTests(singleRun, done) {
     var fork = require('child_process').fork;
     var karma = require('karma').server;
 
-    if (env.startServers) {
+    if (args.startServers) {
         log('Starting servers');
         var savedEnv = process.env;
         savedEnv.NODE_ENV = 'dev';

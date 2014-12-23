@@ -53,7 +53,11 @@ module.exports = function() {
         bower: {
             directory: './bower_components/',
             ignorePath: '../..'
-        }
+        },
+        packages: [
+            './package.json',
+            './bower.json'
+        ]
     };
 
     return config;
