@@ -29,19 +29,26 @@ gulp.task('help', $.taskListing);
 gulp.task('default', ['help']);
 
 /**
- * Lint the code, create coverage report, and a visualizer
+ * Lint the code and create coverage report
  * @return {Stream}
  */
-gulp.task('analyze', function() {
-    log('Analyzing source with JSHint, JSCS, and Plato');
-
-    startPlatoVisualizer();
+gulp.task('analyze', ['plato'], function() {
+    log('Analyzing source with JSHint and JSCS');
 
     return gulp
         .src(config.alljs)
         .pipe($.if(env.verbose, $.print()))
         .pipe($.jshint.reporter('jshint-stylish'))
         .pipe($.jscs());
+});
+
+/**
+ * Create a visualizer report
+ */
+gulp.task('plato', function(done) {
+    log('Analyzing source with Plato');
+
+    startPlatoVisualizer(done);
 });
 
 /**
@@ -168,6 +175,15 @@ gulp.task('build-specs', function(done) {
  */
 gulp.task('build', ['html', 'images', 'fonts'], function() {
     log('Building everything');
+
+    var msg = {
+        title: 'gulp build',
+        subtitle: 'Deployed to the build folder',
+        message: 'Running `gulp serve-build`'
+    };
+    del(config.temp);
+    log(msg);
+    notify(msg);
 });
 
 /**
@@ -175,7 +191,7 @@ gulp.task('build', ['html', 'images', 'fonts'], function() {
  * and inject them into the new index.html
  * @return {Stream}
  */
-gulp.task('html', ['styles', 'templatecache', 'wiredep'], function() {
+gulp.task('html', ['styles', 'templatecache', 'wiredep', 'analyze', 'test'], function() {
     log('Optimizing the js, css, and html');
 
     var assets = $.useref.assets({searchPath: './'});
@@ -214,20 +230,7 @@ gulp.task('html', ['styles', 'templatecache', 'wiredep'], function() {
         .pipe($.useref())
         // Replace the file names in the html with rev numbers
         .pipe($.revReplace())
-        .pipe(gulp.dest(config.build))
-        .on('end', end)
-        .on('error', errorLogger);
-
-    function end() {
-        var msg = {
-            title: 'gulp html',
-            subtitle: 'Deployed to the build folder',
-            message: 'Run `gulp serve-build`'
-        };
-        del(config.temp);
-        log(msg);
-        notify(msg);
-    }
+        .pipe(gulp.dest(config.build));
 });
 
 /**
@@ -277,7 +280,7 @@ gulp.task('clean-code', function(done) {
         config.temp + '**/*.js',
         config.build + 'js/**/*.js',
         config.build + '**/*.html'
-        );
+    );
     clean(files, done);
 });
 
@@ -315,7 +318,7 @@ gulp.task('serve-dev', ['styles', 'wiredep'], function() {
  * --debug-brk or --debug
  * --nosync
  */
-gulp.task('serve-build', function() {
+gulp.task('serve-build', ['build'], function() {
     serve(false /*isDev*/);
 });
 
@@ -390,7 +393,7 @@ function startBrowserSync(specRunner) {
 /**
  * Start Plato inspector and visualizer
  */
-function startPlatoVisualizer() {
+function startPlatoVisualizer(done) {
     log('Running Plato');
 
     var files = glob.sync(config.plato.js);
@@ -410,6 +413,7 @@ function startPlatoVisualizer() {
         if (env.verbose) {
             log(overview.summary);
         }
+        if (done) { done(); }
     }
 }
 
