@@ -4,7 +4,7 @@ describe('dataservice', function() {
 
     beforeEach(function() {
         bard.appModule('app.core');
-        bard.injector('$httpBackend', '$rootScope', 'dataservice');
+        bard.inject('$httpBackend', '$rootScope', 'dataservice');
     });
 
     beforeEach(function() {

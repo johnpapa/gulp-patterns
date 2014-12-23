@@ -7,7 +7,7 @@ var _ = require('lodash');
 var path = require('path');
 var $ = require('gulp-load-plugins')({lazy: true});
 
-var colors = $.util.colors; // TODO: chalk?
+var colors = $.util.colors;
 var env = $.util.env;
 var port = process.env.PORT || config.defaultPort;
 
@@ -19,7 +19,6 @@ var port = process.env.PORT || config.defaultPort;
  * --nosync   : Don't launch the browser with browser-sync when serving code.
  * --debug    : Launch debugger with node-inspector.
  * --debug-brk: Launch debugger and break on 1st line with node-inspector.
- * --build    : building or serving a production build
  * --startServers: Will start servers for midway tests on the test task.
  */
 
@@ -75,7 +74,6 @@ gulp.task('wiredep', function() {
     var wiredep = require('wiredep').stream;
 
     return gulp
-        //TODO: move to config
         .src(config.index)
         .pipe(wiredep({
             bowerJson: require('./bower.json'),
@@ -403,7 +401,7 @@ function startBrowserSync(specRunner) {
 function startPlatoVisualizer() {
     log('Running Plato');
 
-    var files = glob.sync(config.appjs);
+    var files = glob.sync(config.plato.js);
     var excludeFiles = /.*\.spec\.js/;
     var plato = require('plato');
 
@@ -545,7 +543,8 @@ function getHeader() {
         ' * @version v<%= pkg.version %>',
         ' * @link <%= pkg.homepage %>',
         ' * @license <%= pkg.license %>',
-        ' */'
+        ' */',
+        ''
     ].join('\n');
     return $.header(template, {
         pkg: pkg
