@@ -114,7 +114,7 @@ gulp.task('images', ['clean-images'], function() {
  */
 gulp.task('styles', ['clean-styles'], function() {
     log('Compiling Less --> CSS');
-//TODO - TEST THIS EXIT PATH
+
     var stream = gulp
         .src(config.less)
         .pipe($.plumber(error))
@@ -189,8 +189,6 @@ gulp.task('html', ['styles', 'templatecache', 'wiredep'], function(done) {
     var jslibFilter = $.filter('**/lib.js');
 
     var templateCache = config.temp + config.templateCache.file;
-
-    //TODO: inject html
 
     var stream = gulp
         .src(config.index)
