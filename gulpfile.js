@@ -108,6 +108,11 @@ gulp.task('images', ['clean-images'], function() {
         .pipe(gulp.dest(dest));
 });
 
+//TODO: for testing
+//gulp.task('less', function() {
+//    gulp.watch(config.less, ['styles']);
+//});
+
 /**
  * Compile less to css
  * @return {Stream}
@@ -115,21 +120,13 @@ gulp.task('images', ['clean-images'], function() {
 gulp.task('styles', ['clean-styles'], function() {
     log('Compiling Less --> CSS');
 
-    var stream = gulp
+    return gulp
         .src(config.less)
-        .pipe($.plumber(error))
+        .pipe($.plumber())
         .pipe($.less())
+//        .on('error', errorLogger) // more verbose and dupe output. requires emit.
         .pipe($.autoprefixer('last 2 version', '> 5%'))
-        .pipe(gulp.dest(config.temp))
-        .on('end', function() {
-            log('Compiled Less --> CSS');
-        });
-
-    function error(err) {
-        log('There was an issue compiling Less');
-        log(err);
-        this.emit('end');
-    }
+        .pipe(gulp.dest(config.temp));
 });
 
 /**
@@ -169,9 +166,8 @@ gulp.task('build-specs', function(done) {
 /**
  * Build everything
  */
-gulp.task('build', ['html', 'images', 'fonts'], function(done) {
+gulp.task('build', ['html', 'images', 'fonts'], function() {
     log('Building everything');
-    done();
 });
 
 /**
@@ -179,7 +175,7 @@ gulp.task('build', ['html', 'images', 'fonts'], function(done) {
  * and inject them into the new index.html
  * @return {Stream}
  */
-gulp.task('html', ['styles', 'templatecache', 'wiredep'], function(done) {
+gulp.task('html', ['styles', 'templatecache', 'wiredep'], function() {
     log('Optimizing the js, css, and html');
 
     var assets = $.useref.assets({searchPath: './'});
@@ -190,8 +186,9 @@ gulp.task('html', ['styles', 'templatecache', 'wiredep'], function(done) {
 
     var templateCache = config.temp + config.templateCache.file;
 
-    var stream = gulp
+    return gulp
         .src(config.index)
+        .pipe($.plumber())
         .pipe($.inject(gulp.src(templateCache, {read: false}), {
             starttag: '<!-- inject:templates:js -->'
         }))
@@ -218,15 +215,10 @@ gulp.task('html', ['styles', 'templatecache', 'wiredep'], function(done) {
         // Replace the file names in the html with rev numbers
         .pipe($.revReplace())
         .pipe(gulp.dest(config.build))
-        .on('end', success)
-        .on('error', error);
+        .on('end', end)
+        .on('error', errorLogger);
 
-    function error(err) {
-        log(err);
-        done(err);
-    }
-
-    function success() {
+    function end() {
         var msg = {
             title: 'gulp html',
             subtitle: 'Deployed to the build folder',
@@ -235,7 +227,6 @@ gulp.task('html', ['styles', 'templatecache', 'wiredep'], function(done) {
         del(config.temp);
         log(msg);
         notify(msg);
-        done();
     }
 });
 
@@ -550,6 +541,16 @@ function getHeader() {
     return $.header(template, {
         pkg: pkg
     });
+}
+
+/**
+ * Log an error message and emit the end of a task
+ */
+function errorLogger(error) {
+    log('*** Start of Error ***');
+    log(error);
+    log('*** End of Error ***');
+    this.emit('end');
 }
 
 /**
