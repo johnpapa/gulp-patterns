@@ -88,6 +88,7 @@ gulp.task('wiredep', function() {
         .src(config.index)
         .pipe(wiredep(options))
         .pipe($.inject(gulp.src(config.js)))
+        .pipe($.inject(gulp.src(config.css)))
         .pipe(gulp.dest(config.client));
 });
 
@@ -188,7 +189,7 @@ gulp.task('build', ['html', 'images', 'fonts'], function() {
  * and inject them into the new index.html
  * @return {Stream}
  */
-gulp.task('html', ['styles', 'templatecache', 'wiredep', 'test'], function() {
+gulp.task('html', ['test', 'styles', 'templatecache', 'wiredep'], function() {
     log('Optimizing the js, css, and html');
 
     var assets = $.useref.assets({searchPath: './'});
