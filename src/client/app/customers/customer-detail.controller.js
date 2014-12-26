@@ -6,7 +6,7 @@
         .controller('CustomerDetail', CustomerDetail);
 
     /* @ngInject */
-    function CustomerDetail ($stateParams, $window, dataservice, logger) {
+    function CustomerDetail($stateParams, $window, dataservice, logger) {
         var vm = this;
         vm.cancel = cancel;
         vm.customer = undefined;
