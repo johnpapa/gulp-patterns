@@ -12,7 +12,7 @@ module.exports = function() {
         server: server,
         source: 'src/',
         htmltemplates: clientApp + '/**/*.html',
-        css: [temp + '/styles.css'],
+        css: temp + '/styles.css',
         less: client + '/styles/styles.less',
         html: client + '/**/*.html',
         index: client + '/index.html',
