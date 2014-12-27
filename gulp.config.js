@@ -4,6 +4,7 @@ module.exports = function() {
     var clientApp = client + 'app/';
     var root = './';
     var specRunnerFile = 'specs.html';
+    var temp = './.tmp/';
 
     var config = {
         root: root,
@@ -11,6 +12,7 @@ module.exports = function() {
         server: server,
         source: 'src/',
         htmltemplates: clientApp + '/**/*.html',
+        css: temp + '/styles.css',
         less: client + '/styles/styles.less',
         html: client + '/**/*.html',
         index: client + '/index.html',
@@ -30,7 +32,7 @@ module.exports = function() {
         fonts: './bower_components/font-awesome/fonts/**/*.*',
         images: client + '/images/**/*.*',
         build: './build/',
-        temp: './.tmp/',
+        temp: temp,
         report: './report/',
 
         specHelpers: [client + '/test-helpers/*.js'],

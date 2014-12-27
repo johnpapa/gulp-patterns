@@ -39,7 +39,9 @@ gulp.task('analyze', ['plato'], function() {
     return gulp
         .src(config.alljs)
         .pipe($.if(args.verbose, $.print()))
+        .pipe($.jshint())
         .pipe($.jshint.reporter('jshint-stylish'))
+        .pipe($.jshint.reporter('fail'))
         .pipe($.jscs());
 });
 
@@ -86,6 +88,15 @@ gulp.task('wiredep', function() {
         .src(config.index)
         .pipe(wiredep(options))
         .pipe($.inject(gulp.src(config.js)))
+        .pipe(gulp.dest(config.client));
+});
+
+gulp.task('inject', ['wiredep', 'styles', 'templatecache'], function() {
+    log('Wire up css css into the html, after files are ready');
+
+    return gulp
+        .src(config.index)
+        .pipe($.inject(gulp.src(config.css)))
         .pipe(gulp.dest(config.client));
 });
 
@@ -186,7 +197,7 @@ gulp.task('build', ['html', 'images', 'fonts'], function() {
  * and inject them into the new index.html
  * @return {Stream}
  */
-gulp.task('html', ['styles', 'templatecache', 'wiredep', 'analyze', 'test'], function() {
+gulp.task('html', ['test', 'inject'], function() {
     log('Optimizing the js, css, and html');
 
     var assets = $.useref.assets({searchPath: './'});
@@ -285,7 +296,7 @@ gulp.task('clean-code', function(done) {
  *    gulp test --startServers
  * @return {Stream}
  */
-gulp.task('test', function(done) {
+gulp.task('test', ['analyze'], function(done) {
     startTests(true /*singleRun*/ , done);
 });
 
