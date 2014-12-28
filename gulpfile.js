@@ -68,7 +68,7 @@ gulp.task('templatecache', ['clean-code'], function() {
         .pipe($.if(args.verbose, $.bytediff.stop(bytediffFormatter)))
         .pipe($.angularTemplatecache(config.templateCache.file, {
             module: config.templateCache.module,
-            standalone: false,
+            standalone: config.templateCache.standAlone,
             root: config.templateCache.root
         }))
         .pipe(gulp.dest(config.temp));
@@ -124,11 +124,6 @@ gulp.task('images', ['clean-images'], function() {
         .pipe(gulp.dest(dest));
 });
 
-//TODO: for testing
-//gulp.task('less', function() {
-//    gulp.watch(config.less, ['styles']);
-//});
-
 /**
  * Compile less to css
  * @return {Stream}
@@ -138,7 +133,7 @@ gulp.task('styles', ['clean-styles'], function() {
 
     return gulp
         .src(config.less)
-        .pipe($.plumber())
+        .pipe($.plumber()) // exit gracefully if something fails after this
         .pipe($.less())
 //        .on('error', errorLogger) // more verbose and dupe output. requires emit.
         .pipe($.autoprefixer('last 2 version', '> 5%'))
@@ -159,10 +154,11 @@ gulp.task('serve-specs', ['build-specs'], function(done) {
  * Inject all the spec files into the specs.html
  * @return {Stream}
  */
-gulp.task('build-specs', function(done) {
+gulp.task('build-specs', ['templatecache'], function(done) {
     log('building the spec runner');
 
     var wiredep = require('wiredep').stream;
+    var templateCache = config.temp + config.templateCache.file;
     var options = getWiredepDefaultOptions();
     options.devDependencies = true;
 
@@ -170,9 +166,12 @@ gulp.task('build-specs', function(done) {
         .src(config.specRunner)
         .pipe(wiredep(options))
         .pipe($.inject(gulp.src(config.js)))
-        .pipe($.inject(gulp.src(config.testlibraries), {name: 'testlibraries', read: false}))
-        .pipe($.inject(gulp.src(config.specHelpers), {name: 'spechelpers', read: false}))
-        .pipe($.inject(gulp.src(config.specs), {name: 'specs', read: false}))
+        .pipe($.inject(gulp.src(config.testlibraries), {name: 'inject:testlibraries', read: false}))
+        .pipe($.inject(gulp.src(config.specHelpers), {name: 'inject:spechelpers', read: false}))
+        .pipe($.inject(gulp.src(config.specs), {name: 'inject:specs', read: false}))
+        .pipe($.inject(gulp.src(templateCache, {name: 'inject:templates', read: false}), {
+            starttag: '<!-- inject:templates:js -->'
+        }))
         .pipe(gulp.dest(config.client));
 });
 
