@@ -11,7 +11,7 @@ You've built your JavaScript application but how do you automate testing, code a
         - open command prompt as administrator
             - type `choco install nodejs`
             - type `choco install nodejs.install`
-    - On OSX you can alleviate the need to run as sudo by [following these instructions](https://github.com/sindresorhus/guides/blob/master/npm-global-without-sudo.md). I highly recommend this step on OSX
+    - On OSX you can alleviate the need to run as sudo by [following these instructions](http://jpapa.me/nomoresudo). I highly recommend this step on OSX
 - Open terminal
 - Type `npm install -g node-inspector bower gulp`
 
