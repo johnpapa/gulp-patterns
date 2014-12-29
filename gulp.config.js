@@ -5,6 +5,13 @@ module.exports = function() {
     var root = './';
     var specRunnerFile = 'specs.html';
     var temp = './.tmp/';
+    var jsWithSpecs = [
+        clientApp + '/**/*.module.js',
+        clientApp + '/**/*.js'
+    ];
+    var wiredep = require('wiredep');
+
+    var bowerFiles = wiredep({devDependencies: true})['js'];
 
     var config = {
         /**
@@ -19,11 +26,8 @@ module.exports = function() {
         less: client + '/styles/styles.less',
         html: client + '/**/*.html',
         index: client + '/index.html',
-        js: [
-            clientApp + '/**/*.module.js',
-            clientApp + '/**/*.js',
-            '!' + clientApp + '/**/*.spec.js'
-        ],
+        jsWithSpecs: jsWithSpecs,
+        js: [].concat(jsWithSpecs, '!' + clientApp + '/**/*..js'),
         alljs: [
             './src/**/*.js',
             './*.js'
@@ -87,6 +91,7 @@ module.exports = function() {
         ],
         specHelpers: [client + '/test-helpers/*.js'],
         specs: [clientApp + '/**/*.spec.js'],
+        serverIntegrationSpecs: [],
 
         /**
          * Node settings
@@ -94,6 +99,20 @@ module.exports = function() {
         nodeServer: './src/server/app.js',
         defaultPort: '7203'
     };
+
+    /**
+     * karma settings
+     */
+    config.karma = {
+        files: [].concat(
+            bowerFiles,
+            config.specHelpers,
+            config.jsWithSpecs,
+            config.templateCache.path + config.templateCache.file),
+        preprocessors: {}
+    };
+    config.karma.preprocessors['{' + clientApp + ',' +
+                               clientApp + '/**/!(*.spec).js}'] = 'coverage';
 
     return config;
 };

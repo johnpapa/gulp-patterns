@@ -503,6 +503,7 @@ function startTests(singleRun, done) {
     var excludeFiles = [];
     var fork = require('child_process').fork;
     var karma = require('karma').server;
+    var serverSpecs = config.serverIntegrationSpecs;
 
     if (args.startServers) {
         log('Starting servers');
@@ -511,7 +512,9 @@ function startTests(singleRun, done) {
         savedEnv.PORT = 8888;
         child = fork(config.nodeServer);
     } else {
-        excludeFiles.push(config.midwaySpecs);
+        if (serverSpecs && serverSpecs.length) {
+            excludeFiles.push(serverSpecs);
+        }
     }
 
     karma.start({
