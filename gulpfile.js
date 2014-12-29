@@ -167,10 +167,14 @@ gulp.task('build-specs', ['templatecache'], function(done) {
         .src(config.specRunner)
         .pipe(wiredep(options))
         .pipe($.inject(gulp.src(config.js)))
-        .pipe($.inject(gulp.src(config.testlibraries), {name: 'inject:testlibraries', read: false}))
-        .pipe($.inject(gulp.src(config.specHelpers), {name: 'inject:spechelpers', read: false}))
-        .pipe($.inject(gulp.src(config.specs), {name: 'inject:specs', read: false}))
-        .pipe($.inject(gulp.src(templateCache, {name: 'inject:templates', read: false}), {
+        .pipe($.inject(gulp.src(config.testlibraries),
+            {name: 'inject:testlibraries', read: false}))
+        .pipe($.inject(gulp.src(config.specHelpers),
+            {name: 'inject:spechelpers', read: false}))
+        .pipe($.inject(gulp.src(config.specs),
+            {name: 'inject:specs', read: false}))
+        .pipe($.inject(gulp.src(templateCache,
+            {name: 'inject:templates', read: false}), {
             starttag: '<!-- inject:templates:js -->'
         }))
         .pipe(gulp.dest(config.client));
@@ -513,7 +517,8 @@ function startTests(singleRun, done) {
         child = fork(config.nodeServer);
     } else {
         if (serverSpecs && serverSpecs.length) {
-            excludeFiles.push(serverSpecs);
+            log('excluding server-integration tests: ' + serverSpecs);
+            excludeFiles = serverSpecs;
         }
     }
 

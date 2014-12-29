@@ -5,12 +5,7 @@ module.exports = function() {
     var root = './';
     var specRunnerFile = 'specs.html';
     var temp = './.tmp/';
-    var jsWithSpecs = [
-        clientApp + '/**/*.module.js',
-        clientApp + '/**/*.js'
-    ];
     var wiredep = require('wiredep');
-
     var bowerFiles = wiredep({devDependencies: true})['js'];
 
     var config = {
@@ -26,12 +21,20 @@ module.exports = function() {
         less: client + '/styles/styles.less',
         html: client + '/**/*.html',
         index: client + '/index.html',
-        jsWithSpecs: jsWithSpecs,
-        js: [].concat(jsWithSpecs, '!' + clientApp + '/**/*..js'),
+
+        // app js, with no specs
+        js: [
+            clientApp + '/**/*.module.js',
+            clientApp + '/**/*.js',
+            '!' + clientApp + '/**/*.spec.js'
+        ],
+
+        // all javascript that we want to vet
         alljs: [
             './src/**/*.js',
             './*.js'
         ],
+
         plato: {js: clientApp + '/**/*.js'},
         fonts: './bower_components/font-awesome/fonts/**/*.*',
         images: client + '/images/**/*.*',
@@ -107,7 +110,8 @@ module.exports = function() {
         files: [].concat(
             bowerFiles,
             config.specHelpers,
-            config.jsWithSpecs,
+            clientApp + '/**/*.module.js',
+            clientApp + '/**/*.js',
             config.templateCache.path + config.templateCache.file),
         preprocessors: {}
     };
