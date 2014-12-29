@@ -3,6 +3,8 @@ You've built your JavaScript application but how do you automate testing, code a
 
 [![Build Status](https://travis-ci.org/johnpapa/gulp-patterns.svg?branch=master)](https://travis-ci.org/johnpapa/gulp-patterns)
 
+[![Codeship Status for johnpapa/gulp-patterns](https://codeship.io/projects/46913320-7139-0132-3214-62f5102d8589/status)](https://codeship.io/projects/54583)
+
 ## Requirements
 
 - Install Node
@@ -33,13 +35,17 @@ $ gulp serve-dev
 
 ### Code Analysis
 
-- `gulp analyze`
+- `gulp vet`
 
-    Performs static code analysis on all javascript files. Runs jshint, jscs, and plato.
+    Performs static code analysis on all javascript files. Runs jshint and jscs.
 
-- `gulp analyze --verbose`
+- `gulp vet --verbose`
  
     Displays all files affected and extended information about the code analysis.
+
+- `gulp plato`
+
+    Performs code analysis using plato on all javascript files. Plato generates a report in the reports folder.
 
 ### Testing
 
@@ -49,7 +55,7 @@ $ gulp serve-dev
 
 - `gulp test`
 
-    Runs all unit tests using karma runner, mocha, chai and sinon with phantomjs.
+    Runs all unit tests using karma runner, mocha, chai and sinon with phantomjs. Depends on vet task, for code analysis.
 
 - `gulp test --startServers`
 
