@@ -72,7 +72,7 @@ gulp.task('templatecache', ['clean-code'], function() {
             standalone: config.templateCache.standAlone,
             root: config.templateCache.root
         }))
-        .pipe(gulp.dest(config.temp));
+        .pipe(gulp.dest(config.templateCache.path));
 });
 
 /**
@@ -159,7 +159,7 @@ gulp.task('build-specs', ['templatecache'], function(done) {
     log('building the spec runner');
 
     var wiredep = require('wiredep').stream;
-    var templateCache = config.temp + config.templateCache.file;
+    var templateCache = config.templateCache.path + config.templateCache.file;
     var options = getWiredepDefaultOptions();
     options.devDependencies = true;
 

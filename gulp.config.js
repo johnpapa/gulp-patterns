@@ -47,7 +47,8 @@ module.exports = function() {
             module: 'app.core',
             file: 'templates.js',
             root: 'app/',
-            standAlone: false
+            standAlone: false,
+            path: temp
         },
 
         /**
