@@ -92,7 +92,7 @@ gulp.task('wiredep', function() {
         .pipe(gulp.dest(config.client));
 });
 
-gulp.task('inject', ['wiredep', 'styles', 'templatecache'], function() {
+gulp.task('inject', ['test', 'wiredep', 'styles', 'templatecache'], function() {
     log('Wire up css css into the html, after files are ready');
 
     return gulp
@@ -201,7 +201,7 @@ gulp.task('build', ['html', 'images', 'fonts'], function() {
  * and inject them into the new index.html
  * @return {Stream}
  */
-gulp.task('html', ['test', 'inject'], function() {
+gulp.task('html', ['inject'], function() {
     log('Optimizing the js, css, and html');
 
     var assets = $.useref.assets({searchPath: './'});
@@ -530,12 +530,17 @@ function startTests(singleRun, done) {
 
     ////////////////
 
-    function karmaCompleted() {
+    function karmaCompleted(karmaResult) {
+        log('Karma completed');
         if (child) {
             log('shutting down the child process');
             child.kill();
         }
-        done();
+        if (karmaResult === 1) {
+            done('karma: tests failed with code ' + karmaResult);
+        } else {
+            done();
+        }
     }
 }
 
