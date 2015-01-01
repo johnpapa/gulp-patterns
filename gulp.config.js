@@ -16,17 +16,17 @@ module.exports = function() {
         client: client,
         server: server,
         source: 'src/',
-        htmltemplates: clientApp + '/**/*.html',
-        css: temp + '/styles.css',
-        less: client + '/styles/styles.less',
-        html: client + '/**/*.html',
-        index: client + '/index.html',
+        htmltemplates: clientApp + '**/*.html',
+        css: temp + 'styles.css',
+        less: client + 'styles/styles.less',
+        html: client + '**/*.html',
+        index: client + 'index.html',
 
         // app js, with no specs
         js: [
-            clientApp + '/**/*.module.js',
-            clientApp + '/**/*.js',
-            '!' + clientApp + '/**/*.spec.js'
+            clientApp + '**/*.module.js',
+            clientApp + '**/*.js',
+            '!' + clientApp + '**/*.spec.js'
         ],
 
         // all javascript that we want to vet
@@ -35,9 +35,9 @@ module.exports = function() {
             './*.js'
         ],
 
-        plato: {js: clientApp + '/**/*.js'},
+        plato: {js: clientApp + '**/*.js'},
         fonts: './bower_components/font-awesome/fonts/**/*.*',
-        images: client + '/images/**/*.*',
+        images: client + 'images/**/*.*',
         build: './build/',
         temp: temp,
         report: './report/',
@@ -62,6 +62,7 @@ module.exports = function() {
          * Bower and NPM locations
          */
         bower: {
+            json: require('./bower.json'),
             directory: './bower_components/',
             ignorePath: '../..'
         },
@@ -92,8 +93,8 @@ module.exports = function() {
             'node_modules/mocha-clean/index.js',
             'node_modules/sinon-chai/lib/sinon-chai.js'
         ],
-        specHelpers: [client + '/test-helpers/*.js'],
-        specs: [clientApp + '/**/*.spec.js'],
+        specHelpers: [client + 'test-helpers/*.js'],
+        specs: [clientApp + '**/*.spec.js'],
         serverIntegrationSpecs: [],
 
         /**
@@ -108,7 +109,7 @@ module.exports = function() {
      */
     config.getWiredepDefaultOptions = function() {
         var options = {
-            bowerJson: require('./bower.json'),
+            bowerJson: config.bower.json,
             directory: config.bower.directory,
             ignorePath: config.bower.ignorePath
         };
@@ -122,13 +123,13 @@ module.exports = function() {
         files: [].concat(
             bowerFiles,
             config.specHelpers,
-            clientApp + '/**/*.module.js',
-            clientApp + '/**/*.js',
+            clientApp + '**/*.module.js',
+            clientApp + '**/*.js',
             config.templateCache.path + config.templateCache.file),
         preprocessors: {}
     };
     config.karma.preprocessors['{' + clientApp + ',' +
-                               clientApp + '/**/!(*.spec).js}'] = 'coverage';
+                               clientApp + '**/!(*.spec).js}'] = 'coverage';
 
     return config;
 };

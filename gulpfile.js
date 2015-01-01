@@ -93,7 +93,7 @@ gulp.task('wiredep', function() {
 });
 
 gulp.task('inject', ['test', 'wiredep', 'styles', 'templatecache'], function() {
-    log('Wire up css css into the html, after files are ready');
+    log('Wire up css into the html, after files are ready');
 
     return gulp
         .src(config.index)
