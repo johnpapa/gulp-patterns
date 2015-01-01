@@ -83,7 +83,7 @@ gulp.task('wiredep', function() {
     log('Wiring the bower dependencies into the html');
 
     var wiredep = require('wiredep').stream;
-    var options = getWiredepDefaultOptions();
+    var options = config.getWiredepDefaultOptions();
 
     return gulp
         .src(config.index)
@@ -160,7 +160,7 @@ gulp.task('build-specs', ['templatecache'], function(done) {
 
     var wiredep = require('wiredep').stream;
     var templateCache = config.templateCache.path + config.templateCache.file;
-    var options = getWiredepDefaultOptions();
+    var options = config.getWiredepDefaultOptions();
     options.devDependencies = true;
 
     return gulp
@@ -595,18 +595,6 @@ function getHeader() {
     return $.header(template, {
         pkg: pkg
     });
-}
-
-/**
- * Get the default options for wiredep
- */
-function getWiredepDefaultOptions() {
-    var options = {
-        bowerJson: require('./bower.json'),
-        directory: config.bower.directory,
-        ignorePath: config.bower.ignorePath
-    };
-    return options;
 }
 
 /**

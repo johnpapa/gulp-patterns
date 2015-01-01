@@ -104,6 +104,18 @@ module.exports = function() {
     };
 
     /**
+     * wiredep and bower settings
+     */
+    config.getWiredepDefaultOptions = function() {
+        var options = {
+            bowerJson: require('./bower.json'),
+            directory: config.bower.directory,
+            ignorePath: config.bower.ignorePath
+        };
+        return options;
+    };
+
+    /**
      * karma settings
      */
     config.karma = {
