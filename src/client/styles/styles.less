@@ -5,36 +5,28 @@
 @color_important: #fa3031;
 @color_violet: #932ab6;
 
+test {
+    transform-origin: center bottom;
+}
+
 * {
-    /*-webkit-box-shadow: none !important;
-    -ms-box-shadow: none !important;
-    box-shadow: none !important;
-    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false) !important;
-    -webkit-text-shadow: none !important;
-    -ms-text-shadow: none !important;
-    text-shadow: none !important;*/
     font-family: "Segoe UI", Arial, Helvetica, sans-serif;
     -webkit-font-smoothing: antialiased;
-    /*font-weight: 400;*/
 }
 
 .btn, .badge, .modal, .modal-dialog, .modal-content,
 input, select {
-    -ms-border-radius: 0 !important;
     border-radius: 0 !important;
 }
 
 input, select {
     padding: 4px !important;
-    /*width: 65% !important;*/
     display: inline-block !important;
 }
 
 
 .navbar * {
     background-image: none !important;
-    -webkit-text-shadow: none !important;
-    -ms-text-shadow: none !important;
     text-shadow: none !important;
 }
 
@@ -440,10 +432,6 @@ form {
 /* Dropdown menu */
 
 .dropdown-big .dropdown-menu {
-    -moz-min-width: 250px;
-    -ms-min-width: 250px;
-    -o-min-width: 250px;
-    -webkit-min-width: 250px;
     min-width: 250px;
     padding: 8px 10px;
     background: #fff;
@@ -494,7 +482,6 @@ form {
 
 .dropdown-menu {
     background: #fff;
-    -ms-border-radius: 0;
     border-radius: 0;
     border: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
@@ -654,9 +641,6 @@ form {
     .sidebar .navi > li.open.nlightblue > a,
     .sidebar .navi > li.current.nlightblue > a {
         background: @color_lightblue !important;
-        -webkit-transition: background 0.5s ease;
-        -moz-transition: background 0.5s ease;
-        -o-transition: background 0.5s ease;
         transition: background 0.5s ease;
     }
 
@@ -664,9 +648,6 @@ form {
     .sidebar .navi > li.open.nblue > a,
     .sidebar .navi > li.current.nblue > a {
         background: @color_blue !important;
-        -webkit-transition: background 0.5s ease;
-        -moz-transition: background 0.5s ease;
-        -o-transition: background 0.5s ease;
         transition: background 0.5s ease;
     }
 
@@ -674,9 +655,6 @@ form {
     .sidebar .navi > li.open.ngreen > a,
     .sidebar .navi > li.current.ngreen > a {
         background: @color_success !important;
-        -webkit-transition: background 0.5s ease;
-        -moz-transition: background 0.5s ease;
-        -o-transition: background 0.5s ease;
         transition: background 0.5s ease;
     }
 
@@ -684,9 +662,6 @@ form {
     .sidebar .navi > li.open.norange > a,
     .sidebar .navi > li.current.norange > a {
         background: @color_warning !important;
-        -webkit-transition: background 0.5s ease;
-        -moz-transition: background 0.5s ease;
-        -o-transition: background 0.5s ease;
         transition: background 0.5s ease;
     }
 
@@ -694,9 +669,6 @@ form {
     .sidebar .navi > li.open.nred > a,
     .sidebar .navi > li.current.nred > a {
         background: @color_important !important;
-        -webkit-transition: background 0.5s ease;
-        -moz-transition: background 0.5s ease;
-        -o-transition: background 0.5s ease;
         transition: background 0.5s ease;
     }
 
@@ -704,9 +676,6 @@ form {
     .sidebar .navi > li.open.nviolet > a,
     .sidebar .navi > li.current.nviolet > a {
         background: @color_violet !important;
-        -webkit-transition: background 0.5s ease;
-        -moz-transition: background 0.5s ease;
-        -o-transition: background 0.5s ease;
         transition: background 0.5s ease;
     }
 
@@ -1555,14 +1524,7 @@ small {
     background-color: #333;
     opacity: .9;
     pointer-events: auto;
-    -webkit-backface-visibility: hidden;
-    -moz-backface-visibility: hidden;
-    -ms-backface-visibility: hidden;
-    -o-backface-visibility: hidden;
     backface-visibility: hidden;
-    -webkit-transition: opacity 0.3s linear;
-    -moz-transition: opacity 0.3s linear;
-    -o-transition: opacity 0.3s linear;
     transition: opacity 0.3s linear;
 }
 
@@ -1572,7 +1534,6 @@ small {
     font-size: 400%;
     font-family: "Segoe UI", Arial, Helvetica, sans-serif;
     font-weight: normal;
-    -webkit-text-shadow: 2px 2px #000000;
     text-shadow: 2px 2px #000000;
     text-shadow: 2px 2px rgba(0, 0, 0, 0.15);
     text-transform: uppercase;
@@ -1641,7 +1602,6 @@ small {
     font-size: 400%;
     font-family: "Segoe UI", Arial, Helvetica, sans-serif;
     font-weight: normal;
-    -webkit-text-shadow: 2px 2px #000000;
     text-shadow: 2px 2px #000000;
     text-shadow: 2px 2px rgba(0, 0, 0, 0.15);
     text-transform: uppercase;
@@ -1716,9 +1676,6 @@ a {
 }
 
 .shuffle-animation.ng-enter {
-    -moz-transition: ease-out all 0.3s 0.4s;
-    -o-transition: ease-out all 0.3s 0.4s;
-    -webkit-transition: ease-out all 0.3s 0.4s;
     transition: ease-out all 0.3s 0.4s;
     left: 2em;
     opacity: 0;
@@ -1730,9 +1687,6 @@ a {
     }
 
 .shuffle-animation.ng-leave {
-    -moz-transition: 0.3s ease-out all;
-    -o-transition: 0.3s ease-out all;
-    -webkit-transition: 0.3s ease-out all;
     transition: 0.3s ease-out all;
     left: 0;
     opacity: 1;
@@ -1753,9 +1707,6 @@ a {
 
 .fader-animation.ng-enter,
 .fader-animation.ng-leave {
-    -webkit-transition: cubic-bezier(0.250, 0.460, 0.450, 0.940) all 0.5s;
-    -moz-transition: cubic-bezier(0.250, 0.460, 0.450, 0.940) all 0.5s;
-    -o-transition: cubic-bezier(0.250, 0.460, 0.450, 0.940) all 0.5s;
     transition: cubic-bezier(0.250, 0.460, 0.450, 0.940) all 0.5s;
     opacity: 1;
 }
@@ -1783,9 +1734,6 @@ a {
 .dissolve-animation.ng-hide-add {
     position: fixed !important;
     display: inline !important;
-    -webkit-transition: 0.5s linear all;
-    -moz-transition: 0.5s linear all;
-    -o-transition: 0.5s linear all;
     transition: 0.5s linear all;
 }
 
