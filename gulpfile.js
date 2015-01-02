@@ -183,7 +183,8 @@ gulp.task('build-specs', ['templatecache'], function(done) {
 /**
  * Build everything
  */
-gulp.task('build', ['html', 'images', 'fonts'], function() {
+
+gulp.task('build', ['optimize', 'images', 'fonts'], function() {
     log('Building everything');
 
     var msg = {
@@ -201,7 +202,7 @@ gulp.task('build', ['html', 'images', 'fonts'], function() {
  * and inject them into the new index.html
  * @return {Stream}
  */
-gulp.task('html', ['inject'], function() {
+gulp.task('optimize', ['inject'], function() {
     log('Optimizing the js, css, and html');
 
     var assets = $.useref.assets({searchPath: './'});
@@ -372,7 +373,7 @@ function addWatchForFileReload(isDev) {
             .on('change', function(event) { changeEvent(event); });
     }
     else {
-        gulp.watch([config.less, config.js, config.html], ['html', browserSync.reload])
+        gulp.watch([config.less, config.js, config.html], ['optimize', browserSync.reload])
             .on('change', function(event) { changeEvent(event); });
     }
 }
