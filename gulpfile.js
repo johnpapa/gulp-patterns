@@ -319,7 +319,7 @@ gulp.task('autotest', function(done) {
  * --debug-brk or --debug
  * --nosync
  */
-gulp.task('serve-dev', ['styles', 'wiredep'], function() {
+gulp.task('serve-dev', ['inject'], function() {
     serve(true /*isDev*/);
 });
 
