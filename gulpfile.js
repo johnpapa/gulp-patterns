@@ -427,15 +427,23 @@ function serve(isDev, specRunner) {
     addWatchForFileReload(isDev);
 
     return $.nodemon(nodeOptions)
-        .on('start', function() {
-            startBrowserSync(specRunner);
-        })
-        .on('restart', function() {
-            log('restarted!');
+        .on('restart', function(ev) {
+            log('*** nodemon restarted!');
+            log('files changed:\n' + ev);
             setTimeout(function() {
                 browserSync.notify('reloading now ...');
                 browserSync.reload({stream: false});
             }, config.browserReloadDelay);
+        })
+        .on('start', function () {
+            log('*** nodemon started');
+            startBrowserSync(specRunner);
+        })
+        .on('crash', function () {
+            log('*** nodemon crashed: script crashed for some reason');
+        })
+        .on('exit', function () {
+            log('*** nodemon exited cleanly');
         });
 }
 
