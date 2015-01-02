@@ -427,8 +427,8 @@ function serve(isDev, specRunner) {
     addWatchForFileReload(isDev);
 
     return $.nodemon(nodeOptions)
-        .on('restart', function(ev) {
-            log('*** nodemon restarted!');
+        .on('restart', ['vet'], function(ev) {
+            log('*** nodemon restarted');
             log('files changed:\n' + ev);
             setTimeout(function() {
                 browserSync.notify('reloading now ...');
