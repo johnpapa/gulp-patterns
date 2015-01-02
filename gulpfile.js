@@ -83,7 +83,7 @@ gulp.task('wiredep', function() {
     log('Wiring the bower dependencies into the html');
 
     var wiredep = require('wiredep').stream;
-    var options = getWiredepDefaultOptions();
+    var options = config.getWiredepDefaultOptions();
 
     return gulp
         .src(config.index)
@@ -92,8 +92,8 @@ gulp.task('wiredep', function() {
         .pipe(gulp.dest(config.client));
 });
 
-gulp.task('inject', ['test', 'wiredep', 'styles', 'templatecache'], function() {
-    log('Wire up css css into the html, after files are ready');
+gulp.task('inject', ['wiredep', 'styles', 'templatecache'], function() {
+    log('Wire up css into the html, after files are ready');
 
     return gulp
         .src(config.index)
@@ -160,7 +160,7 @@ gulp.task('build-specs', ['templatecache'], function(done) {
 
     var wiredep = require('wiredep').stream;
     var templateCache = config.templateCache.path + config.templateCache.file;
-    var options = getWiredepDefaultOptions();
+    var options = config.getWiredepDefaultOptions();
     options.devDependencies = true;
 
     return gulp
@@ -183,7 +183,8 @@ gulp.task('build-specs', ['templatecache'], function(done) {
 /**
  * Build everything
  */
-gulp.task('build', ['html', 'images', 'fonts'], function() {
+
+gulp.task('build', ['optimize', 'images', 'fonts'], function() {
     log('Building everything');
 
     var msg = {
@@ -201,7 +202,7 @@ gulp.task('build', ['html', 'images', 'fonts'], function() {
  * and inject them into the new index.html
  * @return {Stream}
  */
-gulp.task('html', ['inject'], function() {
+gulp.task('optimize', ['inject', 'test'], function() {
     log('Optimizing the js, css, and html');
 
     var assets = $.useref.assets({searchPath: './'});
@@ -319,7 +320,7 @@ gulp.task('autotest', function(done) {
  * --debug-brk or --debug
  * --nosync
  */
-gulp.task('serve-dev', ['styles', 'wiredep'], function() {
+gulp.task('serve-dev', ['inject'], function() {
     serve(true /*isDev*/);
 });
 
@@ -372,7 +373,7 @@ function addWatchForFileReload(isDev) {
             .on('change', function(event) { changeEvent(event); });
     }
     else {
-        gulp.watch([config.less, config.js, config.html], ['html', browserSync.reload])
+        gulp.watch([config.less, config.js, config.html], ['optimize', browserSync.reload])
             .on('change', function(event) { changeEvent(event); });
     }
 }
@@ -595,18 +596,6 @@ function getHeader() {
     return $.header(template, {
         pkg: pkg
     });
-}
-
-/**
- * Get the default options for wiredep
- */
-function getWiredepDefaultOptions() {
-    var options = {
-        bowerJson: require('./bower.json'),
-        directory: config.bower.directory,
-        ignorePath: config.bower.ignorePath
-    };
-    return options;
 }
 
 /**
