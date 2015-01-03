@@ -367,17 +367,17 @@ gulp.task('bump', function() {
  * Use this XOR the browser-sync option.files, not both.
  * @param  {Boolean} isDev - dev or build mode
  */
-function addWatchForFileReload(isDev) {
-    if (isDev) {
-        gulp.watch([config.less], ['styles', browserSync.reload]);
-        gulp.watch([config.client + '**/*', '!' + config.less], browserSync.reload)
-            .on('change', function(event) { changeEvent(event); });
-    }
-    else {
-        gulp.watch([config.less, config.js, config.html], ['optimize', browserSync.reload])
-            .on('change', function(event) { changeEvent(event); });
-    }
-}
+//function addWatchForFileReload(isDev) {
+//    if (isDev) {
+//        gulp.watch([config.less], ['styles', browserSync.reload]);
+//        gulp.watch([config.client + '**/*', '!' + config.less], browserSync.reload)
+//            .on('change', function(event) { changeEvent(event); });
+//    }
+//    else {
+//        gulp.watch([config.less, config.js, config.html], ['build', browserSync.reload])
+//            .on('change', function(event) { changeEvent(event); });
+//    }
+//}
 
 /**
  * When files change, log it
