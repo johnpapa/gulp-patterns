@@ -363,20 +363,21 @@ gulp.task('bump', function() {
 ////////////////
 
 /**
- * Add watches to build and reload using browserSync
+ * Add watches to build and reload using browser-sync.
+ * Use this XOR the browser-sync option.files, not both.
  * @param  {Boolean} isDev - dev or build mode
  */
-function addWatchForFileReload(isDev) {
-    if (isDev) {
-        gulp.watch([config.less], ['styles', browserSync.reload]);
-        gulp.watch([config.client + '**/*', '!' + config.less], browserSync.reload)
-            .on('change', function(event) { changeEvent(event); });
-    }
-    else {
-        gulp.watch([config.less, config.js, config.html], ['optimize', browserSync.reload])
-            .on('change', function(event) { changeEvent(event); });
-    }
-}
+//function addWatchForFileReload(isDev) {
+//    if (isDev) {
+//        gulp.watch([config.less], ['styles', browserSync.reload]);
+//        gulp.watch([config.client + '**/*', '!' + config.less], browserSync.reload)
+//            .on('change', function(event) { changeEvent(event); });
+//    }
+//    else {
+//        gulp.watch([config.less, config.js, config.html], ['build', browserSync.reload])
+//            .on('change', function(event) { changeEvent(event); });
+//    }
+//}
 
 /**
  * When files change, log it
@@ -424,8 +425,6 @@ function serve(isDev, specRunner) {
         nodeOptions.nodeArgs = [debug + '=5858'];
     }
 
-    addWatchForFileReload(isDev);
-
     return $.nodemon(nodeOptions)
         .on('restart', ['vet'], function(ev) {
             log('*** nodemon restarted');
@@ -437,7 +436,7 @@ function serve(isDev, specRunner) {
         })
         .on('start', function () {
             log('*** nodemon started');
-            startBrowserSync(specRunner);
+            startBrowserSync(isDev, specRunner);
         })
         .on('crash', function () {
             log('*** nodemon crashed: script crashed for some reason');
@@ -451,16 +450,29 @@ function serve(isDev, specRunner) {
  * Start BrowserSync
  * --nosync will avoid browserSync
  */
-function startBrowserSync(specRunner) {
+function startBrowserSync(isDev, specRunner) {
     if (args.nosync || browserSync.active) {
         return;
     }
 
     log('Starting BrowserSync on port ' + port);
 
+    // If build: watches the files, builds, and restarts browser-sync.
+    // If dev: watches less, compiles it to css, browser-sync handles reload
+    if (isDev) {
+        gulp.watch([config.less], ['styles'])
+            .on('change', function(event) { changeEvent(event); });
+    } else {
+        gulp.watch([config.less, config.js, config.html], ['build', browserSync.reload])
+            .on('change', function(event) { changeEvent(event); });
+    }
+
     var options = {
         proxy: 'localhost:' + port,
         port: 3000,
+        files: isDev ? [config.client + '**/*.*',
+                '!' + config.less,
+                config.temp + '**/*.css'] : [],
         ghostMode: { // these are the defaults t,f,t,t
             clicks: true,
             location: false,
@@ -472,7 +484,7 @@ function startBrowserSync(specRunner) {
         logLevel: 'debug',
         logPrefix: 'gulp-patterns',
         notify: true,
-        reloadDelay: 1000
+        reloadDelay: 0 //1000
     } ;
     if (specRunner) { options.startPath = config.specRunnerFile; }
     browserSync(options);
