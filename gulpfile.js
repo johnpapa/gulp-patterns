@@ -461,10 +461,10 @@ function startBrowserSync(isDev, specRunner) {
     // If dev: watches less, compiles it to css, browser-sync handles reload
     if (isDev) {
         gulp.watch([config.less], ['styles'])
-        .on('change', function(event) { changeEvent(event); });
+            .on('change', function(event) { changeEvent(event); });
     } else {
         gulp.watch([config.less, config.js, config.html], ['build', browserSync.reload])
-        .on('change', function(event) { changeEvent(event); });
+            .on('change', function(event) { changeEvent(event); });
     }
 
     var options = {
