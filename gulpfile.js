@@ -64,7 +64,7 @@ gulp.task('templatecache', ['clean-code'], function() {
 
     return gulp
         .src(config.htmltemplates)
-        .pipe($.bytediff.start())
+        .pipe($.if(args.verbose, $.bytediff.start()))
         .pipe($.minifyHtml({empty: true}))
         .pipe($.if(args.verbose, $.bytediff.stop(bytediffFormatter)))
         .pipe($.angularTemplatecache(config.templateCache.file, {
