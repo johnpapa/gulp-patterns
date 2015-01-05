@@ -12,35 +12,36 @@ module.exports = function() {
         /**
          * File paths
          */
-        root: root,
+        // all javascript that we want to vet
+        alljs: [
+            './src/**/*.js',
+            './*.js'
+        ],
+        build: './build/',
         client: client,
-        server: server,
-        source: 'src/',
-        htmltemplates: clientApp + '**/*.html',
         css: temp + 'styles.css',
-        less: client + 'styles/styles.less',
+        fonts: './bower_components/font-awesome/fonts/**/*.*',
         html: client + '**/*.html',
+        htmltemplates: clientApp + '**/*.html',
+        images: client + 'images/**/*.*',
         index: client + 'index.html',
-
         // app js, with no specs
         js: [
             clientApp + '**/*.module.js',
             clientApp + '**/*.js',
             '!' + clientApp + '**/*.spec.js'
         ],
-
-        // all javascript that we want to vet
-        alljs: [
-            './src/**/*.js',
-            './*.js'
-        ],
-
-        plato: {js: clientApp + '**/*.js'},
-        fonts: './bower_components/font-awesome/fonts/**/*.*',
-        images: client + 'images/**/*.*',
-        build: './build/',
-        temp: temp,
+        less: client + 'styles/styles.less',
         report: './report/',
+        root: root,
+        server: server,
+        source: 'src/',
+        temp: temp,
+
+        /**
+         * plato
+         */
+        plato: {js: clientApp + '**/*.js'},
 
         /**
          * browser sync
@@ -51,11 +52,12 @@ module.exports = function() {
          * Template Cache settings
          */
         templateCache: {
-            module: 'app.core',
             file: 'templates.js',
-            root: 'app/',
-            standAlone: false,
-            path: temp
+            options: {
+                module: 'app.core',
+                root: 'app/',
+                standAlone: false,
+            }
         },
 
         /**
@@ -125,7 +127,7 @@ module.exports = function() {
             config.specHelpers,
             clientApp + '**/*.module.js',
             clientApp + '**/*.js',
-            config.templateCache.path + config.templateCache.file),
+            temp + config.templateCache.file),
         preprocessors: {}
     };
     config.karma.preprocessors['{' + clientApp + ',' +

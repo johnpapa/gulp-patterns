@@ -67,12 +67,8 @@ gulp.task('templatecache', ['clean-code'], function() {
         .pipe($.if(args.verbose, $.bytediff.start()))
         .pipe($.minifyHtml({empty: true}))
         .pipe($.if(args.verbose, $.bytediff.stop(bytediffFormatter)))
-        .pipe($.angularTemplatecache(config.templateCache.file, {
-            module: config.templateCache.module,
-            standalone: config.templateCache.standAlone,
-            root: config.templateCache.root
-        }))
-        .pipe(gulp.dest(config.templateCache.path));
+        .pipe($.angularTemplatecache(config.templateCache.file, config.templateCache.options))
+        .pipe(gulp.dest(config.temp));
 });
 
 /**
@@ -160,7 +156,7 @@ gulp.task('build-specs', ['templatecache'], function(done) {
     log('building the spec runner');
 
     var wiredep = require('wiredep').stream;
-    var templateCache = config.templateCache.path + config.templateCache.file;
+    var templateCache = config.temp + config.templateCache.file;
     var options = config.getWiredepDefaultOptions();
     options.devDependencies = true;
 
@@ -183,8 +179,9 @@ gulp.task('build-specs', ['templatecache'], function(done) {
 
 /**
  * Build everything
+ * This is separate so we can run tests on
+ * optimize before handling image or fonts
  */
-
 gulp.task('build', ['optimize', 'images', 'fonts'], function() {
     log('Building everything');
 
