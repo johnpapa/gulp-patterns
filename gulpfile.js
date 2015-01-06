@@ -206,8 +206,8 @@ gulp.task('optimize', ['inject', 'test'], function() {
     var assets = $.useref.assets({searchPath: './'});
     // Filters are named for the gulp-useref path
     var cssAllFilter = $.filter('**/*.css');
-    var jsFilter = $.filter('**/app.js');
-    var jslibFilter = $.filter('**/lib.js');
+    var jsFilter = $.filter('**/' + config.optimized.app);
+    var jslibFilter = $.filter('**/' + config.optimized.lib);
 
     var templateCache = config.temp + config.templateCache.file;
 

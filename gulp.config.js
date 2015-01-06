@@ -39,6 +39,14 @@ module.exports = function() {
         temp: temp,
 
         /**
+         * optimized files
+         */
+        optimized: {
+            app: 'app.js',
+            lib: 'lib.js'
+        },
+
+        /**
          * plato
          */
         plato: {js: clientApp + '**/*.js'},
