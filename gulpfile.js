@@ -354,6 +354,7 @@ gulp.task('bump', function() {
     log(msg);
     return gulp
         .src(config.packages)
+        .pipe($.print())
         .pipe($.bump(options))
         .pipe(gulp.dest(config.root));
 });

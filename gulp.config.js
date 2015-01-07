@@ -57,7 +57,7 @@ module.exports = function() {
         browserReloadDelay: 1000,
 
         /**
-         * Template Cache settings
+         * template cache
          */
         templateCache: {
             file: 'templates.js',
