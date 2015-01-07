@@ -39,6 +39,14 @@ module.exports = function() {
         temp: temp,
 
         /**
+         * optimized files
+         */
+        optimized: {
+            app: 'app.js',
+            lib: 'lib.js'
+        },
+
+        /**
          * plato
          */
         plato: {js: clientApp + '**/*.js'},
@@ -49,7 +57,7 @@ module.exports = function() {
         browserReloadDelay: 1000,
 
         /**
-         * Template Cache settings
+         * template cache
          */
         templateCache: {
             file: 'templates.js',
