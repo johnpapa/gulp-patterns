@@ -421,7 +421,7 @@ function serve(isDev, specRunner) {
         log('Running node-inspector. Browse to http://localhost:8080/debug?port=5858');
         exec = require('child_process').exec;
         exec('node-inspector');
-        nodeOptions.nodeArgs = [debug + '=5858'];
+        nodeOptions.nodeArgs = ['--debug=5858'];
     }
 
     return $.nodemon(nodeOptions)
