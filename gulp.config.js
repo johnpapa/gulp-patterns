@@ -2,6 +2,7 @@ module.exports = function() {
     var client = './src/client/';
     var server = './src/server/';
     var clientApp = client + 'app/';
+    var report = './report/';
     var root = './';
     var specRunnerFile = 'specs.html';
     var temp = './.tmp/';
@@ -32,7 +33,7 @@ module.exports = function() {
             '!' + clientApp + '**/*.spec.js'
         ],
         less: client + 'styles/styles.less',
-        report: './report/',
+        report: report,
         root: root,
         server: server,
         source: 'src/',
@@ -129,17 +130,40 @@ module.exports = function() {
     /**
      * karma settings
      */
-    config.karma = {
-        files: [].concat(
-            bowerFiles,
-            config.specHelpers,
-            clientApp + '**/*.module.js',
-            clientApp + '**/*.js',
-            temp + config.templateCache.file),
-        preprocessors: {}
-    };
-    config.karma.preprocessors['{' + clientApp + ',' +
-                               clientApp + '**/!(*.spec).js}'] = 'coverage';
+    config.karma = getKarmaOptions();
 
     return config;
+
+    ////////////////
+
+    function getKarmaOptions() {
+        var options = {
+            files: [].concat(
+                bowerFiles,
+                config.specHelpers,
+                clientApp + '**/*.module.js',
+                clientApp + '**/*.js',
+                temp + config.templateCache.file),
+            exclude: [],
+            coverage: {
+                dir: report + 'coverage',
+                reporters: [
+                    // reporters not supporting the `file` property
+                    {type: 'html', subdir: 'report-html'},
+                    {type: 'lcov', subdir: 'report-lcov'},
+                    // reporters supporting the `file` property, use `subdir` to directly
+                    // output them in the `dir` directory.
+                    // omit `file` to output to the console.
+                    // {type: 'cobertura', subdir: '.', file: 'cobertura.txt'},
+                    // {type: 'lcovonly', subdir: '.', file: 'report-lcovonly.txt'},
+                    // {type: 'teamcity', subdir: '.', file: 'teamcity.txt'},
+                    //{type: 'text'}, //, subdir: '.', file: 'text.txt'},
+                    {type: 'text-summary'} //, subdir: '.', file: 'text-summary.txt'}
+                ]
+            },
+            preprocessors: {}
+        };
+        options.preprocessors[clientApp + '**/!(*.spec)+(.js)'] = ['coverage'];
+        return options;
+    }
 };
