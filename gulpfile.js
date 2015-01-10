@@ -159,6 +159,7 @@ gulp.task('build-specs', ['templatecache'], function(done) {
     var templateCache = config.temp + config.templateCache.file;
     var options = config.getWiredepDefaultOptions();
     var specs = config.specs;
+
     if (args.startServers) {
         specs = [].concat(specs, config.serverIntegrationSpecs);
     }
@@ -174,10 +175,8 @@ gulp.task('build-specs', ['templatecache'], function(done) {
             {name: 'inject:spechelpers', read: false}))
         .pipe($.inject(gulp.src(specs),
             {name: 'inject:specs', read: false}))
-        .pipe($.inject(gulp.src(templateCache,
-            {name: 'inject:templates', read: false}), {
-            starttag: '<!-- inject:templates:js -->'
-        }))
+        .pipe($.inject(gulp.src(templateCache),
+            {name: 'inject:templates', read: false}))
         .pipe(gulp.dest(config.client));
 });
 
@@ -466,7 +465,7 @@ function startBrowserSync(isDev, specRunner) {
         gulp.watch([config.less], ['styles'])
             .on('change', function(event) { changeEvent(event); });
     } else {
-        gulp.watch([config.less, config.js, config.html], ['build', browserSync.reload])
+        gulp.watch([config.less, config.js, config.html], ['optimize', browserSync.reload])
             .on('change', function(event) { changeEvent(event); });
     }
 
