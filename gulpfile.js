@@ -384,8 +384,6 @@ function serve(isDev, specRunner) {
     }
 
     return $.nodemon(nodeOptions)
-    //TODO - this works?
-//        .on('restart', ['vet'], function(ev) {
         .on('restart', vet, function(ev) {
             log('*** nodemon restarted');
             log('files changed:\n' + ev);
