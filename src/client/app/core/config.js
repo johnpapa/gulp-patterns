@@ -22,9 +22,13 @@
 
     core.config(configure);
 
+    configure.$inject = ['$compileProvider', '$logProvider',
+         'diagnostics', 'exceptionHandlerProvider', 'routerHelperProvider'];
     /* @ngInject */
     function configure ($compileProvider, $logProvider,
-                         routerHelperProvider, exceptionHandlerProvider) {
+         diagnostics, exceptionHandlerProvider, routerHelperProvider) {
+
+        diagnostics.enable = true;
 
         $compileProvider.debugInfoEnabled(false);
 
