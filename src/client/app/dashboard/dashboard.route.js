@@ -7,8 +7,7 @@
 
     /* @ngInject */
     function appRun(routerHelper) {
-        var otherwise = '/404';
-        routerHelper.configureStates(getStates(), otherwise);
+        routerHelper.configureStates(getStates());
     }
 
     function getStates() {
@@ -25,14 +24,6 @@
                         nav: 1,
                         content: '<i class="fa fa-dashboard"></i> Dashboard'
                     }
-                }
-            },
-            {
-                state: '404',
-                config: {
-                    url: '/404',
-                    templateUrl: 'app/core/404.html',
-                    title: '404'
                 }
             }
         ];

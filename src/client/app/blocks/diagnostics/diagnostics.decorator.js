@@ -25,7 +25,6 @@
     extendInterpolater.$inject = ['$delegate', '$log', 'diagnostics'];
 
     function extendInterpolater($delegate, $log, diagnostics) {
-        console.log(diagnostics);
         if (diagnostics.enable) {
             angular.extend(interpolatorWrapper, $delegate);
             return interpolatorWrapper;
