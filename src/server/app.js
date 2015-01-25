@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var compress = require('compression');
 var cors = require('cors');
 var errorHandler = require('./routes/utils/errorHandler')();
+var four0four = require('./routes/utils/404')();
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var port = process.env.PORT || 7203;
@@ -46,6 +47,12 @@ switch (environment) {
         app.use(express.static('./src/client/'));
         app.use(express.static('./'));
         app.use(express.static('./tmp'));
+        // All the assets are served at this point.
+        // Any invalid calls for templateUrls are under app/* and should return 404
+        app.use('/app/*', function(req, res, next) {
+            four0four.send404(req, res);
+        });
+        // Any deep link calls should return index.html
         app.use('/*', express.static('./src/client/index.html'));
         break;
 }
