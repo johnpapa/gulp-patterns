@@ -1,3 +1,4 @@
+
 /* jshint -W117, -W030 */
 describe('app.customers', function() {
     var controller;
