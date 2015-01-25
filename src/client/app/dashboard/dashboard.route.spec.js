@@ -3,8 +3,7 @@ describe('dashboard', function() {
     describe('state', function() {
         var controller;
         var views = {
-            dashboard: 'app/dashboard/dashboard.html',
-            four0four: 'app/core/404.html'
+            dashboard: 'app/dashboard/dashboard.html'
         };
 
         beforeEach(function() {
@@ -25,12 +24,6 @@ describe('dashboard', function() {
             $state.go('dashboard');
             $rootScope.$apply();
             expect($state.is('dashboard'));
-        });
-
-        it('should route /invalid to the otherwise (dashboard) route', function() {
-            $location.path('/invalid');
-            $rootScope.$apply();
-            expect($state.current.templateUrl).to.equal(views.four0four);
         });
     });
 });
