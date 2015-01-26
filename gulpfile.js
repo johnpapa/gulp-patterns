@@ -435,6 +435,10 @@ function serve(isDev, specRunner) {
         nodeOptions.nodeArgs = [debugMode + '=5858'];
     }
 
+    if (args.verbose) {
+        console.log(nodeOptions);
+    }
+
     return $.nodemon(nodeOptions)
         .on('restart', ['vet'], function(ev) {
             log('*** nodemon restarted');
