@@ -2,16 +2,18 @@
 describe('dashboard', function() {
     describe('state', function() {
         var controller;
-        var view = 'app/dashboard/dashboard.html';
+        var views = {
+            dashboard: 'app/dashboard/dashboard.html'
+        };
 
         beforeEach(function() {
             module('app.dashboard', bard.fakeToastr);
             bard.inject('$location', '$rootScope', '$state', '$templateCache');
-            $templateCache.put(view, '');
+            $templateCache.put(views.dashboard, '');
         });
 
         it('should map / route to dashboard View template', function() {
-            expect($state.get('dashboard').templateUrl).to.equal(view);
+            expect($state.get('dashboard').templateUrl).to.equal(views.dashboard);
         });
 
         it('should map state dashboard to url / ', function() {
@@ -22,12 +24,6 @@ describe('dashboard', function() {
             $state.go('dashboard');
             $rootScope.$apply();
             expect($state.is('dashboard'));
-        });
-
-        it('should route /invalid to the otherwise (dashboard) route', function() {
-            $location.path('/invalid');
-            $rootScope.$apply();
-            expect($state.current.templateUrl).to.equal(view);
         });
     });
 });

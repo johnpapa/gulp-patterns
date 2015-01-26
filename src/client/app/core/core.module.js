@@ -7,6 +7,7 @@
             'ngAnimate',
             'ngSanitize',
             /* Cross-app modules */
+            'blocks.diagnostics',
             'blocks.exception',
             'blocks.logger',
             'blocks.router',
