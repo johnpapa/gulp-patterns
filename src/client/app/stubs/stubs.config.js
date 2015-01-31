@@ -1,6 +1,6 @@
 (function () {
 
-    if (!document.URL.match(/\?stubs/)) {
+    if (!document.URL.match(/\?stubs$/)) {
         return;
     }
 
