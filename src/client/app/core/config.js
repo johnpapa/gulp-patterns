@@ -28,7 +28,7 @@
     function configure ($compileProvider, $logProvider,
          diagnostics, exceptionHandlerProvider, routerHelperProvider) {
 
-        diagnostics.enable = true;
+        diagnostics.enable = false;
 
         $compileProvider.debugInfoEnabled(false);
 
