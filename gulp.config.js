@@ -8,6 +8,12 @@ module.exports = function() {
     var temp = './.tmp/';
     var wiredep = require('wiredep');
     var bowerFiles = wiredep({devDependencies: true})['js'];
+    var bower = {
+        json: require('./bower.json'),
+        directory: './bower_components/',
+        ignorePath: '../..'
+    };
+    var nodeModules = 'node_modules';
 
     var config = {
         /**
@@ -21,7 +27,7 @@ module.exports = function() {
         build: './build/',
         client: client,
         css: temp + 'styles.css',
-        fonts: './bower_components/font-awesome/fonts/**/*.*',
+        fonts: bower.directory + 'font-awesome/fonts/**/*.*',
         html: client + '**/*.html',
         htmltemplates: clientApp + '**/*.html',
         images: client + 'images/**/*.*',
@@ -37,6 +43,10 @@ module.exports = function() {
         root: root,
         server: server,
         source: 'src/',
+        stubsjs: [
+            bower.directory + 'angular-mocks/angular-mocks.js',
+            client + 'stubs/**/*.js'
+        ],
         temp: temp,
 
         /**
@@ -70,13 +80,9 @@ module.exports = function() {
         },
 
         /**
-         * Bower and NPM locations
+         * Bower and NPM files
          */
-        bower: {
-            json: require('./bower.json'),
-            directory: './bower_components/',
-            ignorePath: '../..'
-        },
+        bower: bower,
         packages: [
             './package.json',
             './bower.json'
@@ -99,10 +105,10 @@ module.exports = function() {
          *  6 templates
          */
         testlibraries: [
-            'node_modules/mocha/mocha.js',
-            'node_modules/chai/chai.js',
-            'node_modules/mocha-clean/index.js',
-            'node_modules/sinon-chai/lib/sinon-chai.js'
+            nodeModules + '/mocha/mocha.js',
+            nodeModules + '/chai/chai.js',
+            nodeModules + '/mocha-clean/index.js',
+            nodeModules + '/sinon-chai/lib/sinon-chai.js'
         ],
         specHelpers: [client + 'test-helpers/*.js'],
         specs: [clientApp + '**/*.spec.js'],
