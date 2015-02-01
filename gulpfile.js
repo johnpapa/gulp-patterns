@@ -129,10 +129,13 @@ gulp.task('wiredep', function() {
     var wiredep = require('wiredep').stream;
     var options = config.getWiredepDefaultOptions();
 
+    // Only include stubs if flag is enabled
+    var js = args.stubs ? [].concat(config.js, config.stubsjs) : config.js;
+
     return gulp
         .src(config.index)
         .pipe(wiredep(options))
-        .pipe($.inject(gulp.src(config.js)))
+        .pipe($.inject(gulp.src(js)))
         .pipe(gulp.dest(config.client));
 });
 
