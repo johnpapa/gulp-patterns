@@ -8,8 +8,8 @@ You've built your JavaScript application but how do you automate testing, code a
 ## Requirements
 
 - Install Node
-	- on OSX install [home brew](http://brew.sh/) and type `brew install node`
-	- on Windows install [chocolatey](https://chocolatey.org/)
+    - on OSX install [home brew](http://brew.sh/) and type `brew install node`
+    - on Windows install [chocolatey](https://chocolatey.org/)
         - More tips on [Windows with node](http://jpapa.me/winnode)
         - open command prompt as administrator
             - type `choco install nodejs`
@@ -41,7 +41,7 @@ $ gulp serve-dev
     Performs static code analysis on all javascript files. Runs jshint and jscs.
 
 - `gulp vet --verbose`
- 
+
     Displays all files affected and extended information about the code analysis.
 
 - `gulp plato`
@@ -95,7 +95,7 @@ $ gulp serve-dev
 ### Fonts and Images
 
 - `gulp fonts`
- 
+
     Copy all fonts from source to the build folder
 
 - `gulp images`
@@ -113,13 +113,13 @@ $ gulp serve-dev
 - `gulp wiredep`
 
     Looks up all bower components' main files and JavaScript source code, then adds them to the `index.html`.
-    
+
     The `.bowerrc` file also runs this as a postinstall task whenever `bower install` is run.
 
 ### Angular HTML Templates
 
 - `gulp templatecache`
- 
+
     Create an Angular module that adds all HTML templates to Angular's $templateCache. This pre-fetches all HTML templates saving XHR calls for the HTML.
 
 - `gulp templatecache --verbose`
@@ -129,25 +129,29 @@ $ gulp serve-dev
 ### Serving Development Code
 
 - `gulp serve-dev`
- 
-    Serves the development code and launches it in a browser. The goal of building for development is to do it as fast as possible, to keep development moving efficiently. This task serves all code from the source folders and compiles less to css in a temp folder. 
-    
+
+    Serves the development code and launches it in a browser. The goal of building for development is to do it as fast as possible, to keep development moving efficiently. This task serves all code from the source folders and compiles less to css in a temp folder.
+
 - `gulp serve-dev --nosync`
- 
+
     Serves the development code without launching the browser.
 
 - `gulp serve-dev --debug`
- 
+
     Launch debugger with node-inspector.
-    
+
 - `gulp serve-dev --debug-brk`
- 
+
     Launch debugger and break on 1st line with node-inspector.
+
+- `gulp serve-dev --stubs`
+
+    Serves the development code with the stubs to avoid hitting a real backend
 
 ### Building Production Code
 
 - `gulp html`
- 
+
     Optimize all javascript and styles, move to a build folder, and inject them into the new index.html
 
 - `gulp build`
@@ -157,7 +161,7 @@ $ gulp serve-dev
 ### Serving Production Code
 
 - `gulp serve-build`
- 
+
     Serve the optimized code from the build folder and launch it in a browser.
 
 - `gulp serve-build --nosync`
