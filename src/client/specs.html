@@ -32,9 +32,9 @@
 <div id="mocha"></div>
 
     <!-- inject:testlibraries:js -->
-    <script src="/node_modules/mocha/mocha.js"></script>
     <script src="/node_modules/chai/chai.js"></script>
     <script src="/node_modules/mocha-clean/index.js"></script>
+    <script src="/node_modules/mocha/mocha.js"></script>
     <script src="/node_modules/sinon-chai/lib/sinon-chai.js"></script>
     <!-- endinject -->
 
@@ -63,16 +63,23 @@
 
     <!-- inject:js -->
     <script src="/src/client/app/app.module.js"></script>
+    <script src="/src/client/app/blocks/diagnostics/diagnostics.module.js"></script>
+    <script src="/src/client/app/blocks/exception/exception.module.js"></script>
+    <script src="/src/client/app/blocks/logger/logger.module.js"></script>
+    <script src="/src/client/app/blocks/router/router.module.js"></script>
     <script src="/src/client/app/core/core.module.js"></script>
     <script src="/src/client/app/customers/customers.module.js"></script>
     <script src="/src/client/app/dashboard/dashboard.module.js"></script>
     <script src="/src/client/app/layout/layout.module.js"></script>
     <script src="/src/client/app/widgets/widgets.module.js"></script>
-    <script src="/src/client/app/blocks/exception/exception.module.js"></script>
-    <script src="/src/client/app/blocks/logger/logger.module.js"></script>
-    <script src="/src/client/app/blocks/router/router.module.js"></script>
+    <script src="/src/client/app/blocks/diagnostics/diagnostics.decorator.js"></script>
+    <script src="/src/client/app/blocks/exception/exception-handler.provider.js"></script>
+    <script src="/src/client/app/blocks/exception/exception.js"></script>
+    <script src="/src/client/app/blocks/logger/logger.js"></script>
+    <script src="/src/client/app/blocks/router/router-helper.provider.js"></script>
     <script src="/src/client/app/core/config.js"></script>
     <script src="/src/client/app/core/constants.js"></script>
+    <script src="/src/client/app/core/core.route.js"></script>
     <script src="/src/client/app/core/dataservice.js"></script>
     <script src="/src/client/app/customers/customer-detail.controller.js"></script>
     <script src="/src/client/app/customers/customers.controller.js"></script>
@@ -85,10 +92,6 @@
     <script src="/src/client/app/layout/sidebar.controller.js"></script>
     <script src="/src/client/app/widgets/ht-img-person.directive.js"></script>
     <script src="/src/client/app/widgets/ht-widget-header.directive.js"></script>
-    <script src="/src/client/app/blocks/exception/exception-handler.provider.js"></script>
-    <script src="/src/client/app/blocks/exception/exception.js"></script>
-    <script src="/src/client/app/blocks/logger/logger.js"></script>
-    <script src="/src/client/app/blocks/router/router-helper.provider.js"></script>
     <!-- endinject -->
 
     <!-- inject:spechelpers:js -->
@@ -97,6 +100,8 @@
     <!-- endinject -->
 
     <!-- inject:specs:js -->
+    <script src="/src/client/app/blocks/exception/exception-handler.provider.spec.js"></script>
+    <script src="/src/client/app/core/core.route.spec.js"></script>
     <script src="/src/client/app/core/dataservice.spec.js"></script>
     <script src="/src/client/app/customers/customer-detail.controller.spec.js"></script>
     <script src="/src/client/app/customers/customers.controller.spec.js"></script>
@@ -106,7 +111,6 @@
     <script src="/src/client/app/layout/ht-sidebar.directive.spec.js"></script>
     <script src="/src/client/app/layout/shell.controller.spec.js"></script>
     <script src="/src/client/app/layout/sidebar.controller.spec.js"></script>
-    <script src="/src/client/app/blocks/exception/exception-handler.provider.spec.js"></script>
     <!-- endinject -->
 
     <!-- inject:templates:js -->
