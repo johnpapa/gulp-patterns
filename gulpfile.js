@@ -179,14 +179,14 @@ gulp.task('build-specs', ['templatecache'], function(done) {
     return gulp
         .src(config.specRunner)
         .pipe(wiredep(options))
-        .pipe($.inject(gulp.src(config.js)))
-        .pipe($.inject(gulp.src(config.testlibraries),
+        .pipe($.inject(orderSrc(config.js, config.jsOrder)))
+        .pipe($.inject(orderSrc(config.testlibraries),
             {name: 'inject:testlibraries', read: false}))
-        .pipe($.inject(gulp.src(config.specHelpers),
+        .pipe($.inject(orderSrc(config.specHelpers),
             {name: 'inject:spechelpers', read: false}))
-        .pipe($.inject(gulp.src(specs),
+        .pipe($.inject(orderSrc(specs),
             {name: 'inject:specs', read: false}))
-        .pipe($.inject(gulp.src(templateCache),
+        .pipe($.inject(orderSrc(templateCache),
             {name: 'inject:templates', read: false}))
         .pipe(gulp.dest(config.client));
 });
@@ -418,8 +418,10 @@ function clean(path, done) {
  * @returns {Stream} The ordered stream
  */
 function orderSrc (src, order) {
-    order = order || ['**/*.js'];
-    return gulp.src(src).pipe($.order(order));
+    order = order || ['**/*'];
+    return gulp
+        .src(src)
+        .pipe($.order(order));
 }
 
 /**
