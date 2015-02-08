@@ -136,6 +136,7 @@ gulp.task('wiredep', function() {
         .src(config.index)
         .pipe(wiredep(options))
         .pipe($.inject(gulp.src(js)))
+        .pipe($.inject(orderSrc(config.js, config.jsOrder)))
         .pipe(gulp.dest(config.client));
 });
 
@@ -408,6 +409,17 @@ function changeEvent(event) {
 function clean(path, done) {
     log('Cleaning: ' + $.util.colors.blue(path));
     del(path, done);
+}
+
+/**
+ * Order the stream
+ * @param   {Stream} src   The gulp.src stream
+ * @param   {Array} order Glob array pattern
+ * @returns {Stream} The ordered stream
+ */
+function orderSrc (src, order) {
+    order = order || ['**/*.js'];
+    return gulp.src(src).pipe($.order(order));
 }
 
 /**
