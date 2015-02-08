@@ -32,6 +32,10 @@
 <div id="mocha"></div>
 
     <!-- inject:testlibraries:js -->
+    <script src="/node_modules/chai/chai.js"></script>
+    <script src="/node_modules/mocha-clean/index.js"></script>
+    <script src="/node_modules/mocha/mocha.js"></script>
+    <script src="/node_modules/sinon-chai/lib/sinon-chai.js"></script>
     <!-- endinject -->
 
     <script>
@@ -42,18 +46,75 @@
     </script>
 
     <!-- bower:js -->
+    <script src="/bower_components/jquery/dist/jquery.js"></script>
+    <script src="/bower_components/angular/angular.js"></script>
+    <script src="/bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="/bower_components/extras.angular.plus/ngplus-overlay.js"></script>
+    <script src="/bower_components/moment/moment.js"></script>
+    <script src="/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="/bower_components/toastr/toastr.js"></script>
+    <script src="/bower_components/angular-animate/angular-animate.js"></script>
+    <script src="/bower_components/angular-mocks/angular-mocks.js"></script>
+    <script src="/bower_components/sinon/index.js"></script>
+    <script src="/bower_components/bardjs/dist/bard.js"></script>
+    <script src="/bower_components/bardjs/dist/bard-ngRouteTester.js"></script>
     <!-- endbower -->
 
     <!-- inject:js -->
+    <script src="/src/client/app/app.module.js"></script>
+    <script src="/src/client/app/blocks/diagnostics/diagnostics.module.js"></script>
+    <script src="/src/client/app/blocks/exception/exception.module.js"></script>
+    <script src="/src/client/app/blocks/logger/logger.module.js"></script>
+    <script src="/src/client/app/blocks/router/router.module.js"></script>
+    <script src="/src/client/app/core/core.module.js"></script>
+    <script src="/src/client/app/customers/customers.module.js"></script>
+    <script src="/src/client/app/dashboard/dashboard.module.js"></script>
+    <script src="/src/client/app/layout/layout.module.js"></script>
+    <script src="/src/client/app/widgets/widgets.module.js"></script>
+    <script src="/src/client/app/blocks/diagnostics/diagnostics.decorator.js"></script>
+    <script src="/src/client/app/blocks/exception/exception-handler.provider.js"></script>
+    <script src="/src/client/app/blocks/exception/exception.js"></script>
+    <script src="/src/client/app/blocks/logger/logger.js"></script>
+    <script src="/src/client/app/blocks/router/router-helper.provider.js"></script>
+    <script src="/src/client/app/core/config.js"></script>
+    <script src="/src/client/app/core/constants.js"></script>
+    <script src="/src/client/app/core/core.route.js"></script>
+    <script src="/src/client/app/core/dataservice.js"></script>
+    <script src="/src/client/app/customers/customer-detail.controller.js"></script>
+    <script src="/src/client/app/customers/customers.controller.js"></script>
+    <script src="/src/client/app/customers/customers.route.js"></script>
+    <script src="/src/client/app/dashboard/dashboard.controller.js"></script>
+    <script src="/src/client/app/dashboard/dashboard.route.js"></script>
+    <script src="/src/client/app/layout/ht-sidebar.directive.js"></script>
+    <script src="/src/client/app/layout/ht-top-nav.directive.js"></script>
+    <script src="/src/client/app/layout/shell.controller.js"></script>
+    <script src="/src/client/app/layout/sidebar.controller.js"></script>
+    <script src="/src/client/app/widgets/ht-img-person.directive.js"></script>
+    <script src="/src/client/app/widgets/ht-widget-header.directive.js"></script>
     <!-- endinject -->
 
     <!-- inject:spechelpers:js -->
+    <script src="/src/client/test-helpers/bind-polyfill.js"></script>
+    <script src="/src/client/test-helpers/mock-data.js"></script>
     <!-- endinject -->
 
     <!-- inject:specs:js -->
+    <script src="/src/client/app/blocks/exception/exception-handler.provider.spec.js"></script>
+    <script src="/src/client/app/core/core.route.spec.js"></script>
+    <script src="/src/client/app/core/dataservice.spec.js"></script>
+    <script src="/src/client/app/customers/customer-detail.controller.spec.js"></script>
+    <script src="/src/client/app/customers/customers.controller.spec.js"></script>
+    <script src="/src/client/app/customers/customers.route.spec.js"></script>
+    <script src="/src/client/app/dashboard/dashboard.controller.spec.js"></script>
+    <script src="/src/client/app/dashboard/dashboard.route.spec.js"></script>
+    <script src="/src/client/app/layout/ht-sidebar.directive.spec.js"></script>
+    <script src="/src/client/app/layout/shell.controller.spec.js"></script>
+    <script src="/src/client/app/layout/sidebar.controller.spec.js"></script>
     <!-- endinject -->
 
     <!-- inject:templates:js -->
+    <script src="/.tmp/templates.js"></script>
     <!-- endinject -->
 
     <script>
