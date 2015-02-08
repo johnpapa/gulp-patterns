@@ -135,7 +135,7 @@ gulp.task('wiredep', function() {
     return gulp
         .src(config.index)
         .pipe(wiredep(options))
-        .pipe(inject(js, null, config.jsOrder))
+        .pipe(inject(js, '', config.jsOrder))
         .pipe(gulp.dest(config.client));
 });
 
@@ -178,7 +178,7 @@ gulp.task('build-specs', ['templatecache'], function(done) {
     return gulp
         .src(config.specRunner)
         .pipe(wiredep(options))
-        .pipe(inject(config.js, null, config.jsOrder))
+        .pipe(inject(config.js, '', config.jsOrder))
         .pipe(inject(config.testlibraries, 'testlibraries'))
         .pipe(inject(config.specHelpers, 'spechelpers'))
         .pipe(inject(specs, 'specs'))
