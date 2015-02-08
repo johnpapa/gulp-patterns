@@ -135,8 +135,7 @@ gulp.task('wiredep', function() {
     return gulp
         .src(config.index)
         .pipe(wiredep(options))
-        .pipe($.inject(gulp.src(js)))
-        .pipe($.inject(orderSrc(config.js, config.jsOrder)))
+        .pipe(inject(js, null, config.jsOrder))
         .pipe(gulp.dest(config.client));
 });
 
@@ -145,7 +144,7 @@ gulp.task('inject', ['wiredep', 'styles', 'templatecache'], function() {
 
     return gulp
         .src(config.index)
-        .pipe($.inject(gulp.src(config.css)))
+        .pipe(inject(config.css))
         .pipe(gulp.dest(config.client));
 });
 
@@ -179,15 +178,11 @@ gulp.task('build-specs', ['templatecache'], function(done) {
     return gulp
         .src(config.specRunner)
         .pipe(wiredep(options))
-        .pipe($.inject(orderSrc(config.js, config.jsOrder)))
-        .pipe($.inject(orderSrc(config.testlibraries),
-            {name: 'inject:testlibraries', read: false}))
-        .pipe($.inject(orderSrc(config.specHelpers),
-            {name: 'inject:spechelpers', read: false}))
-        .pipe($.inject(orderSrc(specs),
-            {name: 'inject:specs', read: false}))
-        .pipe($.inject(orderSrc(templateCache),
-            {name: 'inject:templates', read: false}))
+        .pipe(inject(config.js, null, config.jsOrder))
+        .pipe(inject(config.testlibraries, 'testlibraries'))
+        .pipe(inject(config.specHelpers, 'spechelpers'))
+        .pipe(inject(specs, 'specs'))
+        .pipe(inject(templateCache, 'templates'))
         .pipe(gulp.dest(config.client));
 });
 
@@ -228,8 +223,7 @@ gulp.task('optimize', ['inject', 'test'], function() {
     return gulp
         .src(config.index)
         .pipe($.plumber())
-        .pipe($.inject(gulp.src(templateCache),
-            {name: 'inject:templates', read: false}))
+        .pipe(inject(templateCache, 'templates'))
         .pipe(assets) // Gather all assets from the html with useref
         // Get the css
         .pipe(cssFilter)
@@ -412,7 +406,23 @@ function clean(path, done) {
 }
 
 /**
- * Order the stream
+ * Inject files in a sorted sequence at a specified inject label
+ * @param   {Array} src   glob pattern for source files
+ * @param   {String} label   The label name
+ * @param   {Array} order   glob pattern for sort order of the files
+ * @returns {Stream}   The stream
+ */
+function inject(src, label, order) {
+    var options = {read: false};
+    if (label) {
+        options.name = 'inject:' + label;
+    }
+
+    return $.inject(orderSrc(src, order), options);
+}
+
+/**
+ * Order a stream
  * @param   {Stream} src   The gulp.src stream
  * @param   {Array} order Glob array pattern
  * @returns {Stream} The ordered stream
