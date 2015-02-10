@@ -118,6 +118,7 @@
     <!-- endinject -->
 
     <script>
+        mocha.checkLeaks();
         var runner = mocha.run();
         bard.mochaRunnerListener(runner);
     </script>
