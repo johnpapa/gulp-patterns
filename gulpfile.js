@@ -181,7 +181,7 @@ gulp.task('build-specs', ['templatecache'], function(done) {
         .pipe(inject(config.js, '', config.jsOrder))
         .pipe(inject(config.testlibraries, 'testlibraries'))
         .pipe(inject(config.specHelpers, 'spechelpers'))
-        .pipe(inject(specs, 'specs'))
+        .pipe(inject(specs, 'specs', ['**/*']))
         .pipe(inject(templateCache, 'templates'))
         .pipe(gulp.dest(config.client));
 });
