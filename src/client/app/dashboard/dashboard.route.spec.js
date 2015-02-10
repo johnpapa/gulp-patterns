@@ -8,7 +8,7 @@ describe('dashboard', function() {
 
         beforeEach(function() {
             module('app.dashboard', bard.fakeToastr);
-            bard.inject('$location', '$rootScope', '$state', '$templateCache');
+            bard.inject(this, '$location', '$rootScope', '$state', '$templateCache');
             $templateCache.put(views.dashboard, '');
         });
 

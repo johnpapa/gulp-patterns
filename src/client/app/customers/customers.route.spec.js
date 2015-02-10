@@ -9,7 +9,7 @@ describe('customers', function() {
 
         beforeEach(function() {
             module('app.customers', bard.fakeToastr);
-            bard.inject('$location', '$rootScope', '$state', '$templateCache');
+            bard.inject(this, '$location', '$rootScope', '$state', '$templateCache');
         });
 
         beforeEach(function() {

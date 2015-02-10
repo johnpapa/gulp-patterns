@@ -5,7 +5,7 @@ describe('app.customers', function() {
 
     beforeEach(function() {
         bard.appModule('app.customers');
-        bard.inject('$controller', '$log',  '$q', '$rootScope', 'dataservice');
+        bard.inject(this, '$controller', '$log',  '$q', '$rootScope', 'dataservice');
     });
 
     beforeEach(function() {

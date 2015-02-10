@@ -10,7 +10,7 @@ describe('blocks.exception', function() {
         bard.appModule('blocks.exception', function(_exceptionHandlerProvider_) {
             exceptionHandlerProvider = _exceptionHandlerProvider_;
         });
-        bard.inject('$rootScope');
+        bard.inject(this, '$rootScope');
     });
 
     bard.verifyNoOutstandingHttpRequests();
