@@ -428,10 +428,10 @@ function inject(src, label, order) {
  * @returns {Stream} The ordered stream
  */
 function orderSrc (src, order) {
-    order = order || ['**/*'];
+    //order = order || ['**/*'];
     return gulp
         .src(src)
-        .pipe($.order(order));
+        .pipe($.if(order, $.order(order)));
 }
 
 /**
