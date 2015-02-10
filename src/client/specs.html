@@ -118,7 +118,9 @@
     <!-- endinject -->
 
     <script>
-        mocha.checkLeaks();
+//        mocha.checkLeaks();
+//        mocha.globals(['___browserSync___oldSocketIo', 'io', '___browserSync___']);
+        bard.debugging(false);
         var runner = mocha.run();
         bard.mochaRunnerListener(runner);
     </script>
