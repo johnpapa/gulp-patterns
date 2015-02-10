@@ -118,7 +118,8 @@
     <!-- endinject -->
 
     <script>
-        mocha.run();
+        var runner = mocha.run();
+        bard.mochaRunnerListener(runner);
     </script>
 
 </body>
