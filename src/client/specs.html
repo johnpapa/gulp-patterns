@@ -32,9 +32,9 @@
 <div id="mocha"></div>
 
     <!-- inject:testlibraries:js -->
+    <script src="/node_modules/mocha/mocha.js"></script>
     <script src="/node_modules/chai/chai.js"></script>
     <script src="/node_modules/mocha-clean/index.js"></script>
-    <script src="/node_modules/mocha/mocha.js"></script>
     <script src="/node_modules/sinon-chai/lib/sinon-chai.js"></script>
     <!-- endinject -->
 
@@ -118,7 +118,11 @@
     <!-- endinject -->
 
     <script>
-        mocha.run();
+//        mocha.checkLeaks();
+//        mocha.globals(['___browserSync___oldSocketIo', 'io', '___browserSync___']);
+        bard.debugging(false);
+        var runner = mocha.run();
+        bard.mochaRunnerListener(runner);
     </script>
 
 </body>

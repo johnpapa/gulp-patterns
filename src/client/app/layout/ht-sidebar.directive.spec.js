@@ -10,7 +10,7 @@ describe('htSidebar directive: ', function () {
     beforeEach(module('app.layout'));
 
     beforeEach(function() {
-        bard.inject('$compile', '$rootScope');
+        bard.inject(this, '$compile', '$rootScope');
         // The minimum necessary template HTML for this spec.
         // Simulates a menu link that opens and closes a dropdown of menu items
         // The `when-done-animating` attribute is optional (as is the vm's implementation)
