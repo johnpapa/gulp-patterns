@@ -227,17 +227,23 @@ gulp.task('optimize', ['inject', 'test'], function() {
         .pipe(assets) // Gather all assets from the html with useref
         // Get the css
         .pipe(cssFilter)
-        .pipe($.csso())
+        .pipe($.sourcemaps.init())
+        .pipe($.minifyCss())
+        .pipe($.sourcemaps.write('./'))
         .pipe(cssFilter.restore())
         // Get the custom javascript
         .pipe(jsAppFilter)
         .pipe($.ngAnnotate({add: true}))
+        .pipe($.sourcemaps.init())
         .pipe($.uglify())
+        .pipe($.sourcemaps.write('./'))
         .pipe(getHeader())
         .pipe(jsAppFilter.restore())
         // Get the vendor javascript
         .pipe(jslibFilter)
+        .pipe($.sourcemaps.init())
         .pipe($.uglify()) // another option is to override wiredep to use min files
+        .pipe($.sourcemaps.write('./'))
         .pipe(jslibFilter.restore())
         // Take inventory of the file names for future rev numbers
         .pipe($.rev())
