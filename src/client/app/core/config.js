@@ -14,8 +14,13 @@
     var config = {
         appErrorPrefix: '[GulpPatterns Error] ', //Configure the exceptionHandler decorator
         appTitle: 'Gulp Patterns Demo',
-        imageBasePath: '/images/photos/',
-        unknownPersonImageSource: 'unknown_person.jpg'
+        imageBasePath: getValue('@@imageBasePath', '/images/photos/'),
+        unknownPersonImageSource: 'unknown_person.jpg',
+        baseAppPath: getValue('@@rootAppPath', ''),
+        services : {
+            customerApiUrl : getValue('@@customerApiUrl', '/api/customer/'),
+            customersApiUrl : getValue('@@customersApiUrl', '/api/customers')
+        }
     };
 
     core.value('config', config);
@@ -52,6 +57,15 @@
                 docTitle: 'Gulp: ',
                 resolveAlways: resolveAlways
             });
+        }
+    }
+
+    /*gets a value from a replace tag. if the tag is not a value, it uses the default value*/
+    function getValue(tag, defaultvalue) {
+        if (tag.indexOf('@@') === 0) {
+            return defaultvalue;
+        } else {
+            return tag;
         }
     }
 })();

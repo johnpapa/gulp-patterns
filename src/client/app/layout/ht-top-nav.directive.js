@@ -20,8 +20,10 @@
         };
 
         /* @ngInject */
-        function TopNavController() {
+        function TopNavController(config) {
             var vm = this;
+
+            vm.baseAppPath = config.baseAppPath;
         }
 
         return directive;

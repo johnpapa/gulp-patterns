@@ -65,6 +65,7 @@ gulp.task('styles', ['clean-styles'], function() {
     return gulp
         .src(config.less)
         .pipe($.plumber()) // exit gracefully if something fails after this
+        .pipe($.replaceTask(config.cssMatcherPatterns)) //replaces css constants
         .pipe($.less())
 //        .on('error', errorLogger) // more verbose and dupe output. requires emit.
         .pipe($.autoprefixer({browsers: ['last 2 version', '> 5%']}))
@@ -214,6 +215,7 @@ gulp.task('optimize', ['inject', 'test'], function() {
 
     var assets = $.useref.assets({searchPath: './'});
     // Filters are named for the gulp-useref path
+    var htmlFilter = $.filter('**/*.html');
     var cssFilter = $.filter('**/*.css');
     var jsAppFilter = $.filter('**/' + config.optimized.app);
     var jslibFilter = $.filter('**/' + config.optimized.lib);
@@ -223,21 +225,27 @@ gulp.task('optimize', ['inject', 'test'], function() {
     return gulp
         .src(config.index)
         .pipe($.plumber())
+        // Get the html
+        .pipe(htmlFilter)
+        .pipe($.replaceTask(config.htmlMatcherPatterns)) //replaces html constants
+        .pipe(htmlFilter.restore())
         .pipe(inject(templateCache, 'templates'))
         .pipe(assets) // Gather all assets from the html with useref
         // Get the css
         .pipe(cssFilter)
         .pipe($.sourcemaps.init())
+        .pipe($.replaceTask(config.cssMatcherPatterns)) //replaces css constants
         .pipe($.minifyCss())
         .pipe($.sourcemaps.write('./'))
         .pipe(cssFilter.restore())
         // Get the custom javascript
         .pipe(jsAppFilter)
+        .pipe($.replaceTask(config.jsMatcherPatterns)) //replaces js constants
         .pipe($.ngAnnotate({add: true}))
         .pipe($.sourcemaps.init())
         .pipe($.uglify())
-        .pipe($.sourcemaps.write('./'))
         .pipe(getHeader())
+        .pipe($.sourcemaps.write('./'))
         .pipe(jsAppFilter.restore())
         // Get the vendor javascript
         .pipe(jslibFilter)
@@ -246,12 +254,12 @@ gulp.task('optimize', ['inject', 'test'], function() {
         .pipe($.sourcemaps.write('./'))
         .pipe(jslibFilter.restore())
         // Take inventory of the file names for future rev numbers
-        .pipe($.rev())
+        .pipe($.rev()) //TODO sourcemap bug
         // Apply the concat and file replacement with useref
         .pipe(assets.restore())
         .pipe($.useref())
         // Replace the file names in the html with rev numbers
-        .pipe($.revReplace())
+        .pipe($.revReplace()) //TODO sourcemap bug
         .pipe(gulp.dest(config.build));
 });
 
@@ -288,7 +296,8 @@ gulp.task('clean-images', function(done) {
 gulp.task('clean-styles', function(done) {
     var files = [].concat(
         config.temp + '**/*.css',
-        config.build + 'styles/**/*.css'
+        config.build + 'styles/**/*.css',
+        config.build + 'styles/**/*.map'
     );
     clean(files, done);
 });
@@ -301,6 +310,7 @@ gulp.task('clean-code', function(done) {
     var files = [].concat(
         config.temp + '**/*.js',
         config.build + 'js/**/*.js',
+        config.build + 'js/**/*.map',
         config.build + '**/*.html'
     );
     clean(files, done);

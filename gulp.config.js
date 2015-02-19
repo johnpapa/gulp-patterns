@@ -15,6 +15,16 @@ module.exports = function() {
     };
     var nodeModules = 'node_modules';
 
+    var fs = require('fs');
+    var _ = require('lodash');
+    var args = require('yargs').argv;
+    // Get the environment from the command line, default is localdev
+    var env = args.env || 'localdev';
+
+    // Read the settings from the right file
+    var filename = env + '.json';
+    var profile = JSON.parse(fs.readFileSync('./config_profiles/' + filename, 'utf8'));
+
     var config = {
         /**
          * File paths
@@ -53,6 +63,12 @@ module.exports = function() {
             client + 'stubs/**/*.js'
         ],
         temp: temp,
+        /**
+         * Environment configuration
+         */
+        cssMatcherPatterns: generatePatterns('css', profile),
+        jsMatcherPatterns: generatePatterns('js', profile),
+        htmlMatcherPatterns: generatePatterns('html', profile),
 
         /**
          * optimized files
@@ -146,6 +162,43 @@ module.exports = function() {
     return config;
 
     ////////////////
+
+    /*Generates all the matches from the profile settings object*/
+    function generatePatterns(type, profile) {
+        var matchers = [];
+
+        if (type === 'js') {
+            //JavaScript constants
+            _.forOwn(profile.runtime['js-constants'], function (value, key, object) {
+                matchers.push({
+                    match: key,
+                    replacement: value
+                });
+            });
+        } else if (type === 'css') {
+            //CSS constants
+            _.forOwn(profile.runtime['css-constants'], function (value, key, object) {
+                matchers.push({
+                    match: new RegExp(_.escapeRegExp(key), 'g'),
+                    replacement: value
+                });
+            });
+
+        } else if (type === 'html') {
+            //HTML constants
+            _.forOwn(profile.runtime['html-constants'], function (value, key, object) {
+                matchers.push({
+                    match: new RegExp(_.escapeRegExp(key), 'g'),
+                    replacement: value
+                });
+            });
+        }
+
+        //return a gulp-replace patterns structure
+        return {
+            patterns: matchers
+        };
+    }
 
     function getKarmaOptions() {
         var options = {
