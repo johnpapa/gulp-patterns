@@ -69,6 +69,14 @@ module.exports = function() {
         cssMatcherPatterns: generatePatterns('css', profile),
         jsMatcherPatterns: generatePatterns('js', profile),
         htmlMatcherPatterns: generatePatterns('html', profile),
+        /**
+         * Translations
+         */
+        translationtemplate: 'template.pot',
+        allpo: [
+            './po/**/*.po'
+        ],
+        po: './po/',
 
         /**
          * optimized files

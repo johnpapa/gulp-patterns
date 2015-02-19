@@ -10,11 +10,25 @@
     <div class="navbar-collapse collapse">
         <div class="pull-right navbar-logo">
             <ul class="nav navbar-nav pull-right">
+                <li class="dropdown">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <span class="flag-icon us"></span>
+                        <span>{{vm.currentLocale}}</span>
+                    </a>
+                    <span class="dropdown-arrow dropdown-arrow-inverse"></span>
+                    <ul class="dropdown-menu dropdown-inverse pull-right">
+                        <li><a ng-click="vm.switchLanguage ('es')"><span class="flag-icon flag-icon-mx"></span><span>{{vm.locale.es}}</span></a></li>
+                        <li><a ng-click="vm.switchLanguage ('us')"><span class="flag-icon flag-icon-us"></span><span>{{vm.locale.us}}</span></a></li>
+                    </ul>
+                </li>
+
                 <li>
                     <a ng-href="{{vm.tagline.link}}" target="_blank">
                         {{vm.tagline.text}}
                     </a>
                 </li>
+
+
                 <li class="dropdown dropdown-big">
                     <a href="http://www.angularjs.org" target="_blank">
                         <img ng-src="{{vm.baseAppPath}}/images/AngularJS-small.png" />

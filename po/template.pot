@@ -1,0 +1,126 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Project-Id-Version: \n"
+
+#: customers\customer-detail.controller.js:23
+msgid "Activated Customer Detail View"
+msgstr ""
+
+#: customers\customers.controller.js:19
+msgid "Activated Customers View"
+msgstr ""
+
+#: dashboard\dashboard.controller.js:20
+msgid "Activated Dashboard View"
+msgstr ""
+
+#: app\customers\customer-detail.html:7
+msgid "Back"
+msgstr ""
+
+#: app\customers\customer-detail.html:12
+msgid "Cancel"
+msgstr ""
+
+#: app\customers\customer-detail.html:49
+#: app\customers\customer-detail.html:53
+#: app\customers\customers.html:13
+msgid "City"
+msgstr ""
+
+#: layout\shell.controller.js:17
+msgid "Created by"
+msgstr ""
+
+#: app\customers\customers.html:12
+msgid "Customer"
+msgstr ""
+
+#: customers\customer-detail.controller.js:17
+#: customers\customers.route.js:46
+msgid "Customer Detail"
+msgstr ""
+
+#: app\dashboard\dashboard.html:18
+#: customers\customers.controller.js:13
+#: customers\customers.route.js:31
+#: customers\customers.route.js:35
+msgid "Customers"
+msgstr ""
+
+#: dashboard\dashboard.controller.js:14
+#: dashboard\dashboard.route.js:23
+#: dashboard\dashboard.route.js:27
+msgid "Dashboard"
+msgstr ""
+
+#: app\customers\customer-detail.html:26
+msgid "Edit"
+msgstr ""
+
+#: layout\ht-top-nav.directive.js:28
+msgid "English"
+msgstr ""
+
+#: app\customers\customers.html:8
+msgid "Find customers"
+msgstr ""
+
+#: app\customers\customer-detail.html:33
+#: app\customers\customer-detail.html:37
+msgid "First Name"
+msgstr ""
+
+#: app\dashboard\dashboard.html:36
+msgid "Go to speaker details"
+msgstr ""
+
+#: app\customers\customer-detail.html:41
+#: app\customers\customer-detail.html:45
+msgid "Last Name"
+msgstr ""
+
+#: layout\shell.controller.js:24
+msgid "loaded"
+msgstr ""
+
+#: app\layout\sidebar.html:4
+msgid "Menu"
+msgstr ""
+
+#: layout\shell.controller.js:13
+msgid "Please wait"
+msgstr ""
+
+#: app\customers\customer-detail.html:65
+#: app\customers\customer-detail.html:69
+msgid "Postal Code"
+msgstr ""
+
+#: app\dashboard\dashboard.html:28
+msgid "Recent Customers"
+msgstr ""
+
+#: app\customers\customer-detail.html:17
+msgid "Save"
+msgstr ""
+
+#: customers\customer-detail.controller.js:53
+msgid "Saving Customer (not really)"
+msgstr ""
+
+#: layout\ht-top-nav.directive.js:29
+msgid "Spanish"
+msgstr ""
+
+#: app\customers\customer-detail.html:57
+#: app\customers\customer-detail.html:61
+#: app\customers\customers.html:14
+msgid "State"
+msgstr ""
+
+#: app\customers\customer-detail.html:22
+msgid "You have changes"
+msgstr ""

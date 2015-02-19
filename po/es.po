@@ -1,0 +1,138 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2015-02-20 00:43+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.4\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: customers\customer-detail.controller.js:23
+msgid "Activated Customer Detail View"
+msgstr "Activada Vista Detalles del Cliente"
+
+#: customers\customers.controller.js:19
+msgid "Activated Customers View"
+msgstr "Activada Vista de los Clientes"
+
+#: dashboard\dashboard.controller.js:20
+msgid "Activated Dashboard View"
+msgstr "Activada Vista del Panel de Control"
+
+#: app\customers\customer-detail.html:7
+msgid "Back"
+msgstr "Atrás"
+
+#: app\customers\customer-detail.html:12
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: app\customers\customer-detail.html:49 app\customers\customer-detail.html:53
+#: app\customers\customers.html:13
+msgid "City"
+msgstr "Ciudad"
+
+#: layout\shell.controller.js:17
+msgid "Created by"
+msgstr "Creado por"
+
+#: app\customers\customers.html:12
+msgid "Customer"
+msgstr "Cliente"
+
+#: customers\customer-detail.controller.js:17 customers\customers.route.js:46
+msgid "Customer Detail"
+msgstr "Detalle del cliente"
+
+#: app\dashboard\dashboard.html:18 customers\customers.controller.js:13
+#: customers\customers.route.js:31 customers\customers.route.js:35
+msgid "Customers"
+msgstr "Clientes"
+
+#: dashboard\dashboard.controller.js:14 dashboard\dashboard.route.js:23
+#: dashboard\dashboard.route.js:27
+msgid "Dashboard"
+msgstr "Escritorio"
+
+#: app\customers\customer-detail.html:26
+msgid "Edit"
+msgstr "Editár"
+
+#: layout\ht-top-nav.directive.js:28
+msgid "English"
+msgstr "Inglés"
+
+#: app\customers\customers.html:8
+msgid "Find customers"
+msgstr "Encontrar clientes"
+
+#: app\customers\customer-detail.html:33 app\customers\customer-detail.html:37
+msgid "First Name"
+msgstr "Nombre"
+
+#: app\dashboard\dashboard.html:36
+msgid "Go to speaker details"
+msgstr "Ir a los detalles de altavoz"
+
+#: app\customers\customer-detail.html:41 app\customers\customer-detail.html:45
+msgid "Last Name"
+msgstr "Apellido"
+
+#: layout\shell.controller.js:24
+msgid "loaded"
+msgstr "cargado"
+
+#: app\layout\sidebar.html:4
+msgid "Menu"
+msgstr "Menú"
+
+#: layout\shell.controller.js:13
+msgid "Please wait"
+msgstr "Por favor espera"
+
+#: app\customers\customer-detail.html:65 app\customers\customer-detail.html:69
+msgid "Postal Code"
+msgstr "Código Postal"
+
+#: app\dashboard\dashboard.html:28
+msgid "Recent Customers"
+msgstr "Clientes Recientes"
+
+#: app\customers\customer-detail.html:17
+msgid "Save"
+msgstr "Salvar"
+
+#: customers\customer-detail.controller.js:53
+msgid "Saving Customer (not really)"
+msgstr "Salvando el cliente (no realmente)"
+
+#: layout\ht-top-nav.directive.js:29
+msgid "Spanish"
+msgstr "Español"
+
+#: app\customers\customer-detail.html:57 app\customers\customer-detail.html:61
+#: app\customers\customers.html:14
+msgid "State"
+msgstr "Estado"
+
+#: app\customers\customer-detail.html:22
+msgid "You have changes"
+msgstr "Tiene cambios"
+
+#~ msgid "Error"
+#~ msgstr "Error"
+
+#~ msgid "Info"
+#~ msgstr "Info"
+
+#~ msgid "Success"
+#~ msgstr "Exitó"
+
+#~ msgid "Warning"
+#~ msgstr "Advertencia"

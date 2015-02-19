@@ -140,7 +140,7 @@ gulp.task('wiredep', function() {
         .pipe(gulp.dest(config.client));
 });
 
-gulp.task('inject', ['wiredep', 'styles', 'templatecache'], function() {
+gulp.task('inject', ['wiredep', 'styles', 'translations', 'templatecache'], function() {
     log('Wire up css into the html, after files are ready');
 
     return gulp
@@ -381,6 +381,44 @@ gulp.task('bump', function() {
         .pipe($.print())
         .pipe($.bump(options))
         .pipe(gulp.dest(config.root));
+});
+
+/**
+ * Extracting angular-gettext strings
+ *
+ * @return {Stream}
+ */
+gulp.task('pot', function () {
+    return gulp.src([].concat(config.js, config.html))
+        .pipe($.angularGettext.extract(config.translationtemplate, {
+            // options to pass to angular-gettext-tools...
+        }))
+        .pipe(gulp.dest(config.po));
+});
+
+/**
+ * Remove all translations from the build and temp folders
+ * @param  {Function} done - callback when complete
+ */
+gulp.task('clean-translations', function(done) {
+    var files = [].concat(
+        config.build + 'languages/**/*.json'
+    );
+    clean(files, done);
+});
+
+/**
+ * Compiling angular-gettext strings
+ *
+ * @return {Stream}
+ */
+gulp.task('translations', ['clean-translations'], function () {
+    return gulp.src(config.allpo)
+        .pipe($.angularGettext.compile({
+            // options to pass to angular-gettext-tools...
+            format: 'json'
+        }))
+        .pipe(gulp.dest(config.build + 'languages/'));
 });
 
 ////////////////

@@ -6,17 +6,17 @@
         .controller('Customers', Customers);
 
     /* @ngInject */
-    function Customers($state, dataservice, logger) {
+    function Customers($state, dataservice, logger, gettextCatalog) {
         var vm = this;
         vm.customers = [];
         vm.gotoCustomer = gotoCustomer;
-        vm.title = 'Customers';
+        vm.title = gettextCatalog.getString('Customers');
 
         activate();
 
         function activate() {
             return getCustomers().then(function () {
-                logger.info('Activated Customers View');
+                logger.info(gettextCatalog.getString('Activated Customers View'));
             });
         }
 
