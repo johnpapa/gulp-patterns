@@ -6,22 +6,22 @@
         .controller('Shell', Shell);
 
     /* @ngInject */
-    function Shell($timeout, config, logger) {
+    function Shell($timeout, config, logger, gettextCatalog) {
         var vm = this;
 
         vm.title = config.appTitle;
-        vm.busyMessage = 'Please wait ...';
+        vm.busyMessage = gettextCatalog.getString('Please wait') + ' ...';
         vm.isBusy = true;
         vm.showSplash = true;
         vm.tagline = {
-            text: 'Created by John Papa',
+            text: gettextCatalog.getString('Created by') + ' John Papa',
             link: 'http://twitter.com/john_papa'
         };
 
         activate();
 
         function activate() {
-            logger.success(config.appTitle + ' loaded!', null);
+            logger.success(config.appTitle + ' ' + gettextCatalog.getString('loaded') + '!', null);
             hideSplash();
         }
 

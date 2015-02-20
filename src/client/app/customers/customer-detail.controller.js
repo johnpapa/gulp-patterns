@@ -6,7 +6,7 @@
         .controller('CustomerDetail', CustomerDetail);
 
     /* @ngInject */
-    function CustomerDetail($stateParams, $window, dataservice, logger) {
+    function CustomerDetail($stateParams, $window, dataservice, logger, gettextCatalog) {
         var vm = this;
         vm.cancel = cancel;
         vm.customer = undefined;
@@ -14,13 +14,13 @@
         vm.isUnchanged = isUnchanged;
         vm.getFullName = getFullName;
         vm.save = save;
-        vm.title = 'Customer Detail';
+        vm.title = gettextCatalog.getString('Customer Detail');
 
         activate();
 
         function activate() {
             return getCustomer($stateParams.id).then(function() {
-                logger.info('Activated Customer Detail View');
+                logger.info(gettextCatalog.getString('Activated Customer Detail View'));
             });
         }
 
@@ -50,7 +50,7 @@
 
         function save() {
             vm.original = angular.copy(vm.customer);
-            logger.success('Saving Customer (not really)');
+            logger.success(gettextCatalog.getString('Saving Customer (not really)'));
         }
     }
 })();

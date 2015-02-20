@@ -1,0 +1,20 @@
+{
+    "runtime": {
+        "js-constants": {
+            "customerApiUrl": "/api/customer/",
+            "customersApiUrl": "/api/customers",
+            "appErrorPrefix": "[GulpPatterns Error] ",
+            "appTitle": "Gulp Patterns Demo",
+            "imageBasePath": "/images/photos/",
+            "rootAppPath": ""
+        },
+        "html-constants": {
+            "<base href='/'>": "<base href='/'>"
+        },
+        "css-constants": {
+            "base-url: ''": "base-url: ''"
+        }
+    },
+    "build": {
+    }
+}

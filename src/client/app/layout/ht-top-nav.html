@@ -1,6 +1,6 @@
 <nav class="navbar navbar-fixed-top navbar-inverse">
     <div class="navbar-header">
-        <a href="/" class="navbar-brand"><span class="brand-title">{{vm.title}}</span></a>
+        <a href="{{vm.baseAppPath}}/" class="navbar-brand"><span class="brand-title">{{vm.title}}</span></a>
         <a class="btn navbar-btn navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -10,19 +10,33 @@
     <div class="navbar-collapse collapse">
         <div class="pull-right navbar-logo">
             <ul class="nav navbar-nav pull-right">
+                <li class="dropdown">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <span class="flag-icon us"></span>
+                        <span>{{vm.currentLocale}}</span>
+                    </a>
+                    <span class="dropdown-arrow dropdown-arrow-inverse"></span>
+                    <ul class="dropdown-menu dropdown-inverse pull-right">
+                        <li><a ng-click="vm.switchLanguage ('es')"><span class="flag-icon flag-icon-mx"></span><span>{{vm.locale.es}}</span></a></li>
+                        <li><a ng-click="vm.switchLanguage ('us')"><span class="flag-icon flag-icon-us"></span><span>{{vm.locale.us}}</span></a></li>
+                    </ul>
+                </li>
+
                 <li>
                     <a ng-href="{{vm.tagline.link}}" target="_blank">
                         {{vm.tagline.text}}
                     </a>
                 </li>
+
+
                 <li class="dropdown dropdown-big">
                     <a href="http://www.angularjs.org" target="_blank">
-                        <img src="images/AngularJS-small.png" />
+                        <img ng-src="{{vm.baseAppPath}}/images/AngularJS-small.png" />
                     </a>
                 </li>
                 <li>
                     <a href="http://www.gulpjs.com/" target="_blank">
-                        <img src="images/gulp-tiny.png" />
+                        <img ng-src="{{vm.baseAppPath}}/images/gulp-tiny.png" />
                     </a>
                 </li>
             </ul>

@@ -15,7 +15,7 @@
                         <li class="bviolet">
                             <div class="pull-left"><i class="fa fa-users"></i></div>
                             <div class="datas-text pull-right">
-                                <span class="bold">{{vm.customers.length}}</span> Customers
+                                <span class="bold">{{vm.customers.length}}</span> <span translate>Customers</span>
                             </div>
                             <div class="clearfix"></div>
                         </li>
@@ -25,7 +25,7 @@
             </div>
             <div class="row">
                     <div class="widget wblue">
-                        <div ht-widget-header title="Recent Customers"
+                        <div ht-widget-header title="{{'Recent Customers'|translate}}"
                              allow-collapse="true"></div>
                         <div class="widget-content text-center text-info">
                             <div class="container">
@@ -33,7 +33,7 @@
                                       <li ng-repeat="c in vm.customers | limitTo:12 | orderBy:'name'"
                                         ng-click="vm.gotoCustomer(c)"
                                         class="col-lg-2 col-md-2 col-sm-3 col-xs-4">
-                                        <div class="user" title="Go to speaker details">
+                                        <div class="user" title="{{'Go to speaker details'|translate}}">
                                             <img ht-img-person="{{c.thumbnail}}"
                                                 class="img-thumbnail stacked">
                                             <div>

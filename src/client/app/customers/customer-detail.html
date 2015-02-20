@@ -4,69 +4,69 @@
             <div>
                 <button class="btn btn-info btn-form-md"
                         ng-click="vm.goBack()">
-                    <i class="fa fa-hand-o-left"></i>Back
+                    <i class="fa fa-hand-o-left"></i><span translate>Back</span>
                 </button>
                 <button class="btn btn-info btn-form-md"
                         ng-click="vm.cancel()"
                         ng-disabled="vm.isUnchanged()">
-                    <i class="fa fa-undo"></i>Cancel
+                    <i class="fa fa-undo"></i><span translate>Cancel</span>
                 </button>
                 <button class="btn btn-info btn-form-md"
                         ng-click="vm.save()"
                         ng-disabled="form.$invalid || vm.isUnchanged()">
-                    <i class="fa fa-save"></i>Save
+                    <i class="fa fa-save"></i><span translate>Save</span>
                 </button>
 
                 <!--Need ng-hide for show/hide animations-->
                 <span ng-hide="vm.isUnchanged()" class="dissolve-animation ng-hide flag-haschanges">
-                    <i class="fa fa-asterisk fa fa-asterisk-large" rel="tooltip" title="You have changes"></i>
+                    <i class="fa fa-asterisk fa fa-asterisk-large" rel="tooltip" title="{{'You have changes'|translate}}"></i>
                 </span>
             </div>
             <div class="widget wblue">
-                <div ht-widget-header title="Edit {{vm.getFullName() || 'New Customer'}}"></div>
+                <div ht-widget-header title="{{'Edit'|translate}} {{vm.getFullName() || 'New Customer'}}"></div>
                 <div class="widget-content user">
                     <div class="form-group">
                       <label class="control-label">ID: </label>
                       <label class="control-label">{{vm.customer.id}}</label>
                     </div>
                     <div class="form-group">
-                      <label class="control-label">First Name</label>
+                      <label class="control-label" translate>First Name</label>
                       <div>
                           <input class="form-control"
                                  ng-model="vm.customer.firstName"
-                                 placeholder="First Name"/>
+                                 placeholder="{{'First Name'|translate}}"/>
                       </div>
                     </div>
                     <div class="form-group">
-                      <label class="control-label">Last Name</label>
+                      <label class="control-label" translate>Last Name</label>
                       <div>
                           <input class="form-control"
                                  ng-model="vm.customer.lastName"
-                                 placeholder="Last Name"/>
+                                 placeholder="{{'Last Name'|translate}}"/>
                       </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label">City</label>
+                        <label class="control-label" translate>City</label>
                         <div>
                             <input class="form-control"
                                    ng-model="vm.customer.city"
-                                   placeholder="City"/>
+                                   placeholder="{{'City'|translate}}"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label">State</label>
+                        <label class="control-label" translate>State</label>
                         <div>
                             <input class="form-control"
                                    ng-model="vm.customer.state"
-                                   placeholder="State"/>
+                                   placeholder="{{'State'|translate}}"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label">Postal Code</label>
+                        <label class="control-label" translate>Postal Code</label>
                         <div>
                             <input class="form-control"
                                    ng-model="vm.customer.zip"
-                                   placeholder="Postal Code"/>
+                                   placeholder="{{'Postal Code'|translate}}"/>
                         </div>
                     </div>
                     <div class="form-group">
