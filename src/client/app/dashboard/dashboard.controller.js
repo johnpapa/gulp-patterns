@@ -5,17 +5,19 @@
         .module('app.dashboard')
         .controller('Dashboard', Dashboard);
 
-    function Dashboard($state, dataservice, logger) {
+    /* @ngInject */
+    function Dashboard($state, dataservice, logger, gettextCatalog) {
+        /* jshint validthis:true */
         var vm = this;
         vm.customers = [];
         vm.gotoCustomer = gotoCustomer;
-        vm.title = 'Dashboard';
+        vm.title = gettextCatalog.getString('Dashboard');
 
         activate();
 
         function activate() {
             return getCustomers().then(function() {
-                logger.info('Activated Dashboard View');
+                logger.info(gettextCatalog.getString('Activated Dashboard View'));
             });
         }
 

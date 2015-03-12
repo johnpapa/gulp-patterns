@@ -13,7 +13,8 @@
             'blocks.router',
             /* 3rd-party modules */
             'ui.router',
-            'ngplus'
+            'ngplus',
+            'gettext'
         ]);
 
 })();

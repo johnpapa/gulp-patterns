@@ -1,9 +1,12 @@
+@base-url: '';
+
 @color_lightblue: #52b9e9;
 @color_blue: #1171a3;
 @color_success: #43c83c;
 @color_warning: #f88529;
 @color_important: #fa3031;
 @color_violet: #932ab6;
+
 
 * {
     font-family: "Segoe UI", Arial, Helvetica, sans-serif;
@@ -1591,6 +1594,14 @@ small {
     width: 20em;
     z-index: 10000;
     text-align: center;
+}
+
+.spinner-loader {
+    background: url("@{base-url}/images/busy.gif");
+    height: 128px;
+    width: 128px;
+    /*TODO this is a workaround till its centered cleanly*/
+    margin-left: 76px;
 }
 
 .page-spinner-message {

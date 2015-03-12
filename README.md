@@ -157,6 +157,10 @@ $ gulp serve-dev
 - `gulp build`
 
     Copies all fonts, copies images and runs `gulp html` to build the production code to the build folder.
+    
+- `gulp build --env <profile-name>`
+
+    Same as the `build` target, but applies an specific runtime profile. Existent profiles (localdev, integration, production) are located  under `./config_profiles/`
 
 ### Serving Production Code
 

@@ -5,13 +5,13 @@
                 <div class="widget wblue">
                     <div ht-widget-header title="{{vm.title}}"></div>
                     <div class="widget-content user">
-                        <input ng-model="vm.filter" placeholder="Find customers" type="search"/>
+                        <input ng-model="vm.filter" placeholder="{{'Find customers'|translate}}" type="search"/>
                         <table class="table table-condensed table-hover">
                             <thead>
                             <tr>
-                                <th>Customer</th>
-                                <th>City</th>
-                                <th>State</th>
+                                <th translate>Customer</th>
+                                <th translate>City</th>
+                                <th translate>State</th>
                             </tr>
                             </thead>
                             <tbody>
