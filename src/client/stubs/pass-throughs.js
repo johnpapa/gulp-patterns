@@ -26,7 +26,7 @@
         }
 
         function registerAPIs() {
-//            $httpBackend.whenGET(apiUrl).passThrough();
+            //$httpBackend.whenGET(apiUrl).passThrough();
             var url = new RegExp(apiUrl.source + /.*/);
             $httpBackend.whenGET(url).passThrough();
             $httpBackend.whenPOST(url).passThrough();
