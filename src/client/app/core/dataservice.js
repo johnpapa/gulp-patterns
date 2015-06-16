@@ -21,9 +21,9 @@
         function getCustomer(id) {
             return $http.get('/api/customer/' + id)
                 .then(getCustomerComplete)
-                .catch(function(message) {
-                    exception.catcher('XHR Failed for getCustomer')(message);
+                .catch(function(e) {
                     $location.url('/');
+                    return exception.catcher('XHR Failed for getCustomer')(e);
                 });
 
             function getCustomerComplete(data, status, headers, config) {
@@ -34,9 +34,9 @@
         function getCustomers() {
             return $http.get('/api/customers')
                 .then(getCustomersComplete)
-                .catch(function(message) {
-                    exception.catcher('XHR Failed for getCustomers')(message);
+                .catch(function(e) {
                     $location.url('/');
+                    return exception.catcher('XHR Failed for getCustomers')(e);
                 });
 
             function getCustomersComplete(data, status, headers, config) {
