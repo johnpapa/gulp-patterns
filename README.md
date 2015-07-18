@@ -150,13 +150,13 @@ $ gulp serve-dev
 
 ### Building Production Code
 
-- `gulp html`
+- `gulp optimize`
 
     Optimize all javascript and styles, move to a build folder, and inject them into the new index.html
 
 - `gulp build`
 
-    Copies all fonts, copies images and runs `gulp html` to build the production code to the build folder.
+    Copies all fonts, copies images and runs `gulp optimize` to build the production code to the build folder.
 
 ### Serving Production Code
 
