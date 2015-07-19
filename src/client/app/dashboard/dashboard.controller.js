@@ -27,7 +27,7 @@
         }
 
         function gotoCustomer(c) {
-            $state.go('customer.detail', { id: c.id });
+            $state.go('customer.detail', {id: c.id});
         }
     }
 })();
