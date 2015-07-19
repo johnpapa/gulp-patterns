@@ -367,6 +367,11 @@ gulp.task('bump', function() {
         .pipe(gulp.dest(config.root));
 });
 
+/**
+ * Optimize the code and re-load browserSync
+ */
+gulp.task('browserSyncReload', ['optimize'], browserSync.reload);
+
 ////////////////
 
 /**
@@ -512,7 +517,7 @@ function startBrowserSync(isDev, specRunner) {
         gulp.watch([config.less], ['styles'])
             .on('change', changeEvent);
     } else {
-        gulp.watch([config.less, config.js, config.html], ['optimize', browserSync.reload])
+        gulp.watch([config.less, config.js, config.html], ['browserSyncReload'])
             .on('change', changeEvent);
     }
 

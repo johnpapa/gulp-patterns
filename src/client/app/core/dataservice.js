@@ -26,7 +26,7 @@
             function getCustomerComplete(data, status, headers, config) {
                 return data.data;
             }
-            
+
             function getCustomerFailed(e) {
                 $location.url('/');
                 return exception.catcher('XHR Failed for getCustomer')(e);
@@ -41,7 +41,7 @@
             function getCustomersComplete(data, status, headers, config) {
                 return data.data;
             }
-            
+
             function getCustomersFailed(e) {
                 $location.url('/');
                 return exception.catcher('XHR Failed for getCustomers')(e);
