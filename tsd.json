@@ -1,0 +1,51 @@
+{
+  "version": "v4",
+  "repo": "borisyankov/DefinitelyTyped",
+  "ref": "master",
+  "path": "typings",
+  "bundle": "typings/tsd.d.ts",
+  "installed": {
+    "bardjs/bardjs.d.ts": {
+      "commit": "99942cab1446292c79c4328218abd37621505112"
+    },
+    "angularjs/angular.d.ts": {
+      "commit": "99942cab1446292c79c4328218abd37621505112"
+    },
+    "jquery/jquery.d.ts": {
+      "commit": "99942cab1446292c79c4328218abd37621505112"
+    },
+    "chai/chai.d.ts": {
+      "commit": "99942cab1446292c79c4328218abd37621505112"
+    },
+    "mocha/mocha.d.ts": {
+      "commit": "99942cab1446292c79c4328218abd37621505112"
+    },
+    "angular-ui-router/angular-ui-router.d.ts": {
+      "commit": "99942cab1446292c79c4328218abd37621505112"
+    },
+    "angularjs/angular-sanitize.d.ts": {
+      "commit": "99942cab1446292c79c4328218abd37621505112"
+    },
+    "angularjs/angular-mocks.d.ts": {
+      "commit": "99942cab1446292c79c4328218abd37621505112"
+    },
+    "angularjs/angular-animate.d.ts": {
+      "commit": "99942cab1446292c79c4328218abd37621505112"
+    },
+    "bootstrap/bootstrap.d.ts": {
+      "commit": "99942cab1446292c79c4328218abd37621505112"
+    },
+    "moment/moment-node.d.ts": {
+      "commit": "99942cab1446292c79c4328218abd37621505112"
+    },
+    "moment/moment.d.ts": {
+      "commit": "99942cab1446292c79c4328218abd37621505112"
+    },
+    "sinon/sinon.d.ts": {
+      "commit": "99942cab1446292c79c4328218abd37621505112"
+    },
+    "toastr/toastr.d.ts": {
+      "commit": "99942cab1446292c79c4328218abd37621505112"
+    }
+  }
+}
