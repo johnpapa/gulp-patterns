@@ -469,7 +469,7 @@ function serve(isDev, specRunner) {
                 browserSync.reload({stream: false});
             }, config.browserReloadDelay);
         })
-        .on('start', function () {
+        .once('start', function () {
             log('*** nodemon started');
             startBrowserSync(isDev, specRunner);
         })
