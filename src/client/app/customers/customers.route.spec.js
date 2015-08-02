@@ -1,7 +1,6 @@
 /* jshint -W117, -W030 */
 describe('customers', function() {
     describe('state', function() {
-        var controller;
         var views = {
             customers: 'app/customers/customers.html',
             customerdetail: 'app/customers/customer-detail.html'

@@ -1,7 +1,6 @@
 /* jshint -W117, -W030 */
 describe('dashboard', function() {
     describe('state', function() {
-        var controller;
         var views = {
             dashboard: 'app/dashboard/dashboard.html'
         };
