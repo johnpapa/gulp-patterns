@@ -13,8 +13,8 @@
     /**
      * Add binding diaganostics to the console
      * @param  {Object} $provide
-     * @ngInject
      */
+    /* @ngInject */
     bindingDecorator.$inject = ['$provide'];
 
     function bindingDecorator($provide) {
