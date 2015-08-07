@@ -16,13 +16,12 @@ You've built your JavaScript application but how do you automate testing, code a
             - type `choco install nodejs.install`
     - On OSX you can alleviate the need to run as sudo by [following these instructions](http://jpapa.me/nomoresudo). I highly recommend this step on OSX
 - Open terminal
-- Type `npm install -g node-inspector bower gulp`
+- Type `npm install -g node-inspector bower gulp tsd`
 
 ## Quick Start
 Clone this repo and run the content locally
 ```bash
-$ npm install
-$ bower install
+$ npm install && bower install && tsd install
 $ gulp serve-dev
 ```
 

@@ -7,10 +7,11 @@ bin
 obj
 /packages
 
-# Ignore Node & Bower
-###################
+# Ignore Node, Bower & TSD
+##########################
 node_modules
 bower_components
+typings
 build
 .tmp
 
