@@ -6,7 +6,6 @@
 /// <reference path="bardjs/bardjs.d.ts" />
 /// <reference path="bootstrap/bootstrap.d.ts" />
 /// <reference path="chai/chai.d.ts" />
-/// <reference path="chai-shim.d.ts" />
 /// <reference path="jquery/jquery.d.ts" />
 /// <reference path="mocha/mocha.d.ts" />
 /// <reference path="moment/moment-node.d.ts" />
