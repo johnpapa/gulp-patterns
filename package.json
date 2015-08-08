@@ -13,7 +13,7 @@
   },
   "scripts": {
     "init": "npm install",
-    "install": "bower install && tsd reinstall -r -o --save-dev",
+    "install": "bower install && tsd install -r -o --save-dev",
     "start": "node src/server/app.js",
     "test": "gulp test"
   },
