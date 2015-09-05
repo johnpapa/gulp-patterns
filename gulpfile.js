@@ -11,6 +11,7 @@ var $ = require('gulp-load-plugins')({lazy: true});
 var colors = $.util.colors;
 var envenv = $.util.env;
 var port = process.env.PORT || config.defaultPort;
+var syncing = false;
 
 /**
  * yargs variables can be passed in to alter the behavior, when present.
@@ -370,7 +371,16 @@ gulp.task('bump', function() {
 /**
  * Optimize the code and re-load browserSync
  */
-gulp.task('browserSyncReload', ['optimize'], browserSync.reload);
+gulp.task('browserSyncReload', function() {
+    if (syncing) {
+        return;
+    }
+    syncing = true;
+    gulp.start('optimize', function() {
+        browserSync.reload();
+        syncing = false;
+    });
+});
 
 ////////////////
 
