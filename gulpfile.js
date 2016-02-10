@@ -135,7 +135,7 @@ gulp.task('wiredep', function() {
     return gulp
         .src(config.index)
         .pipe(wiredep(options))
-        .pipe(inject(js, '', config.jsOrder))
+        .pipe(inject(gulp.src(config.js), '', config.jsOrder))
         .pipe(gulp.dest(config.client));
 });
 
