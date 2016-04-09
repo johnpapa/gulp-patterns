@@ -58,11 +58,11 @@ module.exports = function () {
 
     ],
     tests: [
-      'src/client/app/**/*.spec.js',
-      '!src/client/app/layout/ht-sidebar.directive.spec.js',
-      '!src/client/app/layout/sidebar.controller.spec.js',
-      '!src/client/app/core/core.route.spec.js',
-      '!src/client/app/customers/customer-detail.controller.spec.js'
+      'src/client/app/**/*.spec.js'
+      // '!src/client/app/layout/ht-sidebar.directive.spec.js',
+      // '!src/client/app/layout/sidebar.controller.spec.js',
+      // '!src/client/app/core/core.route.spec.js',
+      // '!src/client/app/customers/customer-detail.controller.spec.js'
     ],
     env: {
       type: 'browser'
@@ -72,6 +72,9 @@ module.exports = function () {
     testFramework: 'mocha',
     setup: function () {
       window.expect = chai.expect;
+      window.AssertionError = chai.AssertionError;
+      mocha.setup('bdd');
+      mocha.traceIgnores = ['mocha.js', 'chai.js', 'angular.js'];
     },
     debug: true
   };
