@@ -22,6 +22,7 @@
     "compression": "^1.1.0",
     "cors": "^2.2.0",
     "express": "^4.9.3",
+    "gulp-di": "0.0.1",
     "morgan": "^1.1.1",
     "serve-favicon": "^2.0.1"
   },
