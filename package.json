@@ -85,6 +85,7 @@
     "q": "^1.2.0",
     "sinon": "^1.14.1",
     "sinon-chai": "^2.7.0",
+    "wallaby-ng-html2js-preprocessor": "^0.1.0",
     "wiredep": "^2.2.2",
     "yargs": "^3.6.0"
   }
