@@ -23,7 +23,9 @@
     "cors": "^2.2.0",
     "express": "^4.9.3",
     "morgan": "^1.1.1",
-    "serve-favicon": "^2.0.1"
+    "mssql": "^4.1.0",
+    "serve-favicon": "^2.0.1",
+    "tsd": "^0.6.5"
   },
   "devDependencies": {
     "browser-sync": "^2.5.0",
