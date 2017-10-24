@@ -30,7 +30,7 @@
 
         function getCustomer(id) {
             return dataservice.getCustomer(id).then(function(data) {
-                vm.customer = data;
+                vm.customer = data[0];
                 vm.original = angular.copy(vm.customer);
                 return vm.customer;
             });
