@@ -1,5 +1,5 @@
 # gulp-patterns
-You've built your JavaScript application but how do you automate testing, code analysis, running it locally or deploying it? These redundant tasks can consume valuable time and resources. Stop working so hard and take advantage of JavaScript task automation using Gulp to streamline these tasks and give you back more time in the day. Studying this repo can help clarify how Gulp works, jump-start task automation with Gulp, find and resolve issues faster, and be a more productive.
+You've built your JavaScript application, but how do you automate testing, code analysis, running it locally or deploying it? These redundant tasks can consume valuable time and resources. Stop working so hard and take advantage of JavaScript task automation using Gulp to streamline these tasks and give you back more time in the day. Studying this repo can help clarify how Gulp works, jump-start task automation with Gulp, find and resolve issues faster, and be more productive.
 
 [![Build Status](https://travis-ci.org/johnpapa/gulp-patterns.svg?branch=master)](https://travis-ci.org/johnpapa/gulp-patterns)
 
@@ -8,13 +8,13 @@ You've built your JavaScript application but how do you automate testing, code a
 ## Requirements
 
 - Install Node
-    - on OSX install [home brew](http://brew.sh/) and type `brew install node`
-    - on Windows install [chocolatey](https://chocolatey.org/)
-        - More tips on [Windows with node](http://jpapa.me/winnode)
+    - on OSX, install [Homebrew](http://brew.sh/) and type `brew install node`
+        - You can alleviate the need to run as sudo by [following these instructions](http://jpapa.me/nomoresudo). I highly recommend this step.
+    - on Windows, install [Chocolatey](https://chocolatey.org/)
         - open command prompt as administrator
             - type `choco install nodejs`
             - type `choco install nodejs.install`
-    - On OSX you can alleviate the need to run as sudo by [following these instructions](http://jpapa.me/nomoresudo). I highly recommend this step on OSX
+        - More tips on [Windows with node](http://jpapa.me/winnode)
 - Open terminal
 - Type `npm install -g node-inspector bower gulp tsd`
 
@@ -39,7 +39,7 @@ $ gulp serve-dev
 
 - `gulp vet`
 
-    Performs static code analysis on all javascript files. Runs jshint and jscs.
+    Performs static code analysis on all JavaScript files. Runs jshint and jscs.
 
 - `gulp vet --verbose`
 
@@ -47,21 +47,21 @@ $ gulp serve-dev
 
 - `gulp plato`
 
-    Performs code analysis using plato on all javascript files. Plato generates a report in the reports folder.
+    Performs code analysis using plato on all JavaScript files. Plato generates a report in the reports folder.
 
 ### Testing
 
 - `gulp serve-specs`
 
-    Serves and browses to the spec runner html page and runs the unit tests in it. Injects any changes on the fly and re runs the tests. Quick and easy view of tests as an alternative to terminal via `gulp test`.
+    Serves and browses to the spec runner HTML page and runs the unit tests in it. Injects any changes on the fly and reruns the tests. Quick and easy view of tests as an alternative to terminal via `gulp test`.
 
 - `gulp test`
 
-    Runs all unit tests using karma runner, mocha, chai and sinon with phantomjs. Depends on vet task, for code analysis.
+    Runs all unit tests using karma runner, mocha, chai and sinon with phantomjs. Depends on `vet` task for code analysis.
 
 - `gulp test --startServers`
 
-    Runs all unit tests and midway tests. Cranks up a second node process to run a server for the midway tests to hit a web api.
+    Runs all unit tests and midway tests. Cranks up a second node process to run a server for the midway tests to hit a web API.
 
 - `gulp autotest`
 
@@ -69,7 +69,7 @@ $ gulp serve-dev
 
 - `gulp autotest --startServers`
 
-    Runs a watch to run all unit tests and midway tests. Cranks up a second node process to run a server for the midway tests to hit a web api.
+    Runs a watch to run all unit tests and midway tests. Cranks up a second node process to run a server for the midway tests to hit a web API.
 
 ### Cleaning Up
 
@@ -83,7 +83,7 @@ $ gulp serve-dev
 
 - `gulp clean-code`
 
-    Remove all javascript and html from the build folder
+    Remove all JavaScript and HTML from the build folder
 
 - `gulp clean-fonts`
 
@@ -121,7 +121,7 @@ $ gulp serve-dev
 
 - `gulp templatecache`
 
-    Create an Angular module that adds all HTML templates to Angular's $templateCache. This pre-fetches all HTML templates saving XHR calls for the HTML.
+    Create an Angular module that adds all HTML templates to Angular's `$templateCache`. This pre-fetches all HTML templates saving XHR calls for the HTML.
 
 - `gulp templatecache --verbose`
 
@@ -131,7 +131,7 @@ $ gulp serve-dev
 
 - `gulp serve-dev`
 
-    Serves the development code and launches it in a browser. The goal of building for development is to do it as fast as possible, to keep development moving efficiently. This task serves all code from the source folders and compiles less to css in a temp folder.
+    Serves the development code and launches it in a browser. The goal of building for development is to do it as fast as possible, to keep development moving efficiently. This task serves all code from the source folders and compiles less to CSS in a temp folder.
 
 - `gulp serve-dev --nosync`
 
@@ -143,7 +143,7 @@ $ gulp serve-dev
 
 - `gulp serve-dev --debug-brk`
 
-    Launch debugger and break on 1st line with node-inspector.
+    Launch debugger and break on first line with node-inspector.
 
 - `gulp serve-dev --stubs`
 
@@ -153,7 +153,7 @@ $ gulp serve-dev
 
 - `gulp optimize`
 
-    Optimize all javascript and styles, move to a build folder, and inject them into the new index.html
+    Optimize all JavaScript and styles, move to a build folder, and inject them into the new `index.html`
 
 - `gulp build`
 
@@ -175,4 +175,4 @@ $ gulp serve-dev
 
 - `gulp serve-build --debug-brk`
 
-    Launch debugger and break on 1st line with node-inspector.
+    Launch debugger and break on first line with node-inspector.
